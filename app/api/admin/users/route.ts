@@ -25,7 +25,9 @@ export async function GET(request: NextRequest) {
     if (search) {
       const searchPattern = `%${search.toLowerCase()}%`;
       users = await sql`
-        SELECT id, email, first_name, last_name, phone, is_active, email_verified, account_locked, account_type, created_at
+        SELECT id, email, first_name, last_name, phone, is_active, email_verified, account_locked, account_type,
+               created_at, created_at AS customer_since, last_login_at,
+               false AS account_suspended, 'standard' AS tier, 0 AS total_orders, 0::numeric AS total_spent
         FROM users
         WHERE LOWER(email) LIKE ${searchPattern} OR LOWER(first_name) LIKE ${searchPattern} OR LOWER(last_name) LIKE ${searchPattern}
         ORDER BY created_at DESC
@@ -35,7 +37,9 @@ export async function GET(request: NextRequest) {
         WHERE LOWER(email) LIKE ${searchPattern} OR LOWER(first_name) LIKE ${searchPattern} OR LOWER(last_name) LIKE ${searchPattern}`;
     } else {
       users = await sql`
-        SELECT id, email, first_name, last_name, phone, is_active, email_verified, account_locked, account_type, created_at
+        SELECT id, email, first_name, last_name, phone, is_active, email_verified, account_locked, account_type,
+               created_at, created_at AS customer_since, last_login_at,
+               false AS account_suspended, 'standard' AS tier, 0 AS total_orders, 0::numeric AS total_spent
         FROM users
         ORDER BY created_at DESC
         LIMIT ${limit} OFFSET ${offset}`;

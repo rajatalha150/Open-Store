@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Search, Package, Truck, CheckCircle, Clock, AlertCircle, Star } from 'lucide-react'
 import ReviewModal from '@/components/ReviewModal'
+import { formatDate, formatDateTime } from '@/lib/format-date'
 
 interface Order {
   id: number
@@ -197,7 +198,7 @@ export default function TrackOrderPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div>
                     <p className="text-sm text-gray-300">Order Date</p>
-                    <p className="font-medium text-white">{new Date(order.created_at).toLocaleDateString()}</p>
+                    <p className="font-medium text-white">{formatDate(order.created_at)}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-300">Total Amount</p>
@@ -266,7 +267,7 @@ export default function TrackOrderPage() {
                         <div className="flex items-center justify-between">
                           <p className="font-medium text-gray-100 capitalize">{status.status}</p>
                           <p className="text-sm text-gray-400">
-                            {new Date(status.created_at).toLocaleString()}
+                            {formatDateTime(status.created_at)}
                           </p>
                         </div>
                         {status.notes && (

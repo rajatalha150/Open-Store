@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import AdminLayout from '@/components/AdminLayout';
 import UserEditModal from '@/components/admin/UserEditModal';
+import { formatDate, formatDateTime } from '@/lib/format-date';
 import {
   User,
   Mail,
@@ -174,16 +175,6 @@ export default function UserDetail() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
   };
 
   const formatCurrency = (amount: number) => {
@@ -477,7 +468,7 @@ export default function UserDetail() {
                     <label className="block text-sm font-medium text-secondary-400">Joined Date</label>
                     <div className="mt-1 flex items-center">
                       <Calendar className="h-4 w-4 text-secondary-400 mr-2" />
-                      <p className="text-secondary-200">{formatDate(user.customer_since)}</p>
+                      <p className="text-secondary-200">{formatDateTime(user.customer_since || user.created_at)}</p>
                     </div>
                   </div>
 
@@ -486,7 +477,7 @@ export default function UserDetail() {
                     <div className="mt-1 flex items-center">
                       <Activity className="h-4 w-4 text-secondary-400 mr-2" />
                       <p className="text-secondary-200">
-                        {user.last_login_at ? formatDate(user.last_login_at) : 'Never'}
+                        {user.last_login_at ? formatDateTime(user.last_login_at) : 'Never'}
                       </p>
                     </div>
                   </div>
@@ -532,7 +523,7 @@ export default function UserDetail() {
                           {order.order_number}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
-                          {formatDate(order.created_at)}
+                          {formatDateTime(order.created_at)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-900/30 text-green-400">
@@ -636,7 +627,7 @@ export default function UserDetail() {
                           {log.activity_description}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
-                          {formatDate(log.created_at)}
+                          {formatDateTime(log.created_at)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
                           {log.ip_address}
@@ -679,7 +670,7 @@ export default function UserDetail() {
                         />
                       ))}
                       <span className="ml-2 text-sm text-secondary-400">
-                        {formatDate(review.created_at)}
+                        {formatDateTime(review.created_at)}
                       </span>
                     </div>
 

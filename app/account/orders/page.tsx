@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Package, ArrowLeft, Calendar, DollarSign } from 'lucide-react'
+import { formatDate } from '@/lib/format-date'
 
 interface Order {
   id: number
@@ -118,7 +119,7 @@ export default function OrdersPage() {
                     <div className="text-right">
                       <div className="flex items-center text-sm text-gray-400 mb-1">
                         <Calendar className="h-4 w-4 mr-1" />
-                        {new Date(order.created_at).toLocaleDateString()}
+                        {formatDate(order.created_at)}
                       </div>
                       <div className="flex items-center text-lg font-semibold text-white">
                         <DollarSign className="h-4 w-4 mr-1" />

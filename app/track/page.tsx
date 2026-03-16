@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Package, MapPin, Clock, CheckCircle } from 'lucide-react'
+import { formatDate, formatTime } from '@/lib/format-date'
 
 interface TrackingEvent {
   id: number
@@ -152,9 +153,9 @@ export default function TrackingPage() {
                             </p>
                           </div>
                           <div className="text-right text-sm text-gray-500">
-                            {new Date(event.event_time).toLocaleDateString()}
+                            {formatDate(event.event_time)}
                             <br />
-                            {new Date(event.event_time).toLocaleTimeString()}
+                            {formatTime(event.event_time)}
                           </div>
                         </div>
                       </div>

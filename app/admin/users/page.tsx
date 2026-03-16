@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import AdminLayout from '@/components/AdminLayout';
 import { Search, User, Filter, Eye, Edit, Trash2, Activity, Calendar, DollarSign, Package, Users, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { formatDateTime } from '@/lib/format-date';
 
 interface User {
   id: string;
@@ -107,16 +108,6 @@ export default function UserManagement() {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
   };
 
   // Get user status badge
@@ -357,10 +348,10 @@ export default function UserManagement() {
                         ${Number(user.total_spent || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
-                        {user.last_login_at ? formatDate(user.last_login_at) : 'Never'}
+                        {user.last_login_at ? formatDateTime(user.last_login_at) : 'Never'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
-                        {formatDate(user.customer_since)}
+                        {formatDateTime(user.customer_since || user.created_at)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex justify-end space-x-2">

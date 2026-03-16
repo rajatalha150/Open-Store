@@ -44,6 +44,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     return Response.json({
       user: {
         ...userData,
+        customer_since: userData.customer_since || userData.created_at,
+        tier: userData.tier || 'standard',
+        account_suspended: userData.account_suspended || false,
         password_hash: undefined,
         verification_token: undefined,
         password_reset_token: undefined

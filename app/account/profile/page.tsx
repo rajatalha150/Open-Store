@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { ArrowLeft, User, Mail, Phone, MapPin, Save, LogOut } from 'lucide-react'
+import { formatDate } from '@/lib/format-date'
 
 interface UserProfile {
   id: number
@@ -308,7 +309,7 @@ export default function ProfilePage() {
 
             <div className="mt-6 pt-6 border-t border-gray-200">
               <p className="text-sm text-gray-300">
-                Member since {new Date(profile.createdAt).toLocaleDateString()}
+                Member since {formatDate(profile.createdAt)}
               </p>
             </div>
           </div>

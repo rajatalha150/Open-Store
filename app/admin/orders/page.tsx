@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import AdminLayout from '@/components/AdminLayout'
+import { formatDate } from '@/lib/format-date'
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([])
@@ -180,7 +181,7 @@ export default function AdminOrders() {
                     )}
                   </td>
                   <td className="px-6 py-4 text-sm text-secondary-400">
-                    {new Date(order.created_at).toLocaleDateString()}
+                    {formatDate(order.created_at)}
                   </td>
                   <td className="px-6 py-4">
                     <select
