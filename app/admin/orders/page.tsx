@@ -94,44 +94,44 @@ export default function AdminOrders() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800'
-      case 'processing': return 'bg-blue-100 text-blue-800'
-      case 'shipped': return 'bg-purple-100 text-purple-800'
-      case 'delivered': return 'bg-green-100 text-green-800'
-      case 'cancelled': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'pending': return 'bg-yellow-900/30 text-yellow-400'
+      case 'processing': return 'bg-primary-900/30 text-primary-400'
+      case 'shipped': return 'bg-purple-900/30 text-purple-400'
+      case 'delivered': return 'bg-green-900/30 text-green-400'
+      case 'cancelled': return 'bg-red-900/30 text-red-400'
+      default: return 'bg-secondary-800 text-secondary-300'
     }
   }
 
   return (
     <AdminLayout>
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Orders</h1>
+        <h1 className="text-2xl font-bold text-white mb-6">Orders</h1>
 
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="bg-secondary-900 rounded-lg shadow overflow-hidden">
+          <table className="min-w-full divide-y divide-secondary-800">
+            <thead className="bg-secondary-950">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Order ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Items</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tracking</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Order ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Customer</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Items</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Total</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Tracking</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-secondary-800">
               {orders.map((order: any) => (
                 <tr key={order.id}>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">#{order.id}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-white">#{order.id}</td>
                   <td className="px-6 py-4">
-                    <div className="text-sm font-medium text-gray-900">{order.customer_name}</div>
-                    <div className="text-sm text-gray-500">{order.customer_email}</div>
+                    <div className="text-sm font-medium text-white">{order.customer_name}</div>
+                    <div className="text-sm text-secondary-400">{order.customer_email}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{order.item_count} items</td>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">${order.total_amount}</td>
+                  <td className="px-6 py-4 text-sm text-white">{order.item_count} items</td>
+                  <td className="px-6 py-4 text-sm font-medium text-white">${order.total_amount}</td>
                   <td className="px-6 py-4">
                     <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(order.status)}`}>
                       {order.status}
@@ -159,7 +159,7 @@ export default function AdminOrders() {
                           </button>
                           <button
                             onClick={() => toggleTrackingEdit(order.id)}
-                            className="text-xs bg-gray-500 text-white px-2 py-1 rounded"
+                            className="text-xs bg-secondary-600 text-white px-2 py-1 rounded"
                           >
                             Cancel
                           </button>
@@ -167,19 +167,19 @@ export default function AdminOrders() {
                       </div>
                     ) : (
                       <div className="flex flex-col">
-                        <div className="text-sm text-gray-900">
+                        <div className="text-sm text-white">
                           {order.tracking_number || 'No tracking'}
                         </div>
                         <button
                           onClick={() => toggleTrackingEdit(order.id)}
-                          className="text-xs text-blue-600 hover:text-blue-800 mt-1"
+                          className="text-xs text-primary-500 hover:text-primary-400 mt-1"
                         >
                           {order.tracking_number ? 'Edit' : 'Add Tracking'}
                         </button>
                       </div>
                     )}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
+                  <td className="px-6 py-4 text-sm text-secondary-400">
                     {new Date(order.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4">

@@ -54,45 +54,45 @@ export default function AnalyticsTrend({ initialData, initialMetric }: Analytics
   }).filter(p => !isNaN(p.x) && !isNaN(p.y))
 
   return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow">
+    <div className="bg-secondary-900 p-6 rounded-lg shadow">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold text-white">Analytics Trend</h2>
         <div className="flex space-x-4">
           <select
             value={metric}
             onChange={(e) => setMetric(e.target.value)}
-            className="border border-gray-600 rounded-md px-3 py-1 bg-gray-700 text-white"
+            className="border border-secondary-700 rounded-md px-3 py-1 bg-secondary-800 text-white"
           >
-            <option value="revenue" className="bg-gray-700 text-white">Revenue</option>
-            <option value="orders" className="bg-gray-700 text-white">Orders</option>
-            <option value="customers" className="bg-gray-700 text-white">Customers</option>
-            <option value="products" className="bg-gray-700 text-white">Products Sold</option>
+            <option value="revenue" className="bg-secondary-800 text-white">Revenue</option>
+            <option value="orders" className="bg-secondary-800 text-white">Orders</option>
+            <option value="customers" className="bg-secondary-800 text-white">Customers</option>
+            <option value="products" className="bg-secondary-800 text-white">Products Sold</option>
           </select>
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
-            className="border border-gray-600 rounded-md px-3 py-1 bg-gray-700 text-white"
+            className="border border-secondary-700 rounded-md px-3 py-1 bg-secondary-800 text-white"
           >
-            <option value="7d" className="bg-gray-700 text-white">Last 7 Days</option>
-            <option value="30d" className="bg-gray-700 text-white">Last 30 Days</option>
-            <option value="90d" className="bg-gray-700 text-white">Last 90 Days</option>
-            <option value="1y" className="bg-gray-700 text-white">Last Year</option>
+            <option value="7d" className="bg-secondary-800 text-white">Last 7 Days</option>
+            <option value="30d" className="bg-secondary-800 text-white">Last 30 Days</option>
+            <option value="90d" className="bg-secondary-800 text-white">Last 90 Days</option>
+            <option value="1y" className="bg-secondary-800 text-white">Last Year</option>
           </select>
         </div>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
         </div>
       ) : data.length === 0 ? (
-        <div className="flex items-center justify-center h-64 text-gray-400">
+        <div className="flex items-center justify-center h-64 text-secondary-400">
           No data available for the selected period
         </div>
       ) : (
-        <div className="relative h-64 border-b border-l border-gray-700">
+        <div className="relative h-64 border-b border-l border-secondary-800">
           {/* Y-axis labels */}
-          <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-gray-400 py-2">
+          <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-secondary-400 py-2">
             <span>${maxVal.toFixed(2)}</span>
             <span>${(maxVal * 0.75).toFixed(2)}</span>
             <span>${(maxVal * 0.5).toFixed(2)}</span>
@@ -103,10 +103,10 @@ export default function AnalyticsTrend({ initialData, initialMetric }: Analytics
           {/* Chart area */}
           <div className="absolute left-8 right-0 top-0 bottom-0">
             {/* Grid lines */}
-            <div className="w-full h-1/4 border-t border-gray-700"></div>
-            <div className="w-full h-1/4 border-t border-gray-700"></div>
-            <div className="w-full h-1/4 border-t border-gray-700"></div>
-            <div className="w-full h-1/4 border-t border-gray-700"></div>
+            <div className="w-full h-1/4 border-t border-secondary-800"></div>
+            <div className="w-full h-1/4 border-t border-secondary-800"></div>
+            <div className="w-full h-1/4 border-t border-secondary-800"></div>
+            <div className="w-full h-1/4 border-t border-secondary-800"></div>
 
             {/* Chart line */}
             <svg

@@ -23,10 +23,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `${settings.storeName} - Online Store`,
     description: `Shop quality products at ${settings.storeName}.`,
-    icons: {
-      icon: '/images/logo.png',
-      apple: '/images/logo.png',
-    },
+    ...(settings.logoUrl ? {
+      icons: {
+        icon: settings.logoUrl,
+        apple: settings.logoUrl,
+      },
+    } : {}),
     appleWebApp: {
       capable: true,
       statusBarStyle: 'black-translucent',

@@ -22,13 +22,17 @@ DATABASE_URL="postgresql://username:password@ep-cool-darkness-123456.us-east-2.a
 
 ## Initialize the Schema
 
-Run the setup script to create all tables:
+**Option A: Automatic via Web Setup**
+
+Visit `/setup` in your browser. If no database tables exist, the setup page creates them automatically when you submit the admin account form. This is the recommended approach for Vercel deployments where terminal access is not available.
+
+**Option B: CLI**
 
 ```bash
 npm run db:setup
 ```
 
-This executes `lib/schema.sql` which creates the following tables:
+Both methods execute the same `CREATE TABLE IF NOT EXISTS` statements and are safe to run multiple times.
 
 ## Database Schema
 
@@ -132,9 +136,12 @@ You can connect to your Neon database using any Postgres client:
 
 ## Migrations
 
-The schema is managed via `lib/schema.sql`. All tables use `CREATE TABLE IF NOT EXISTS` so the setup script is safe to run multiple times.
+The schema is managed via `lib/schema.sql`. All tables use `CREATE TABLE IF NOT EXISTS` so migrations are safe to run multiple times (idempotent).
+
+For serverless deployments (Vercel), the schema is also available as a TypeScript array in `lib/schema-statements.ts`, which avoids `fs.readFileSync` at runtime. The `/setup` page uses this to run migrations without terminal access.
 
 To add a new table:
 1. Add the `CREATE TABLE IF NOT EXISTS` statement to `lib/schema.sql`
-2. Run `npm run db:setup`
-3. Add the corresponding query functions to `lib/db.ts`
+2. Add the same statement to the `schemaStatements` array in `lib/schema-statements.ts`
+3. Run `npm run db:setup` (or visit `/setup` if no admin exists yet)
+4. Add the corresponding query functions to `lib/db.ts`

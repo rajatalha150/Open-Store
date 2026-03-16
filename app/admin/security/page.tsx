@@ -50,8 +50,8 @@ export default function SecurityLogs() {
     switch (eventType) {
       case 'login_success': return <Shield className="h-4 w-4 text-green-400" />
       case 'login_failed': return <AlertTriangle className="h-4 w-4 text-red-400" />
-      case 'password_change': return <Eye className="h-4 w-4 text-blue-400" />
-      default: return <Clock className="h-4 w-4 text-gray-400" />
+      case 'password_change': return <Eye className="h-4 w-4 text-primary-400" />
+      default: return <Clock className="h-4 w-4 text-secondary-400" />
     }
   }
 
@@ -73,7 +73,7 @@ export default function SecurityLogs() {
         <h1 className="text-2xl font-bold mb-6">Security & Access Logs</h1>
 
         {/* Security Settings */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-6">
+        <div className="bg-secondary-900 rounded-lg p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Security Settings</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-3">
@@ -82,7 +82,7 @@ export default function SecurityLogs() {
                   type="checkbox"
                   checked={securitySettings.enableLoginLogging}
                   onChange={(e) => setSecuritySettings({...securitySettings, enableLoginLogging: e.target.checked})}
-                  className="h-4 w-4 text-blue-600 rounded mr-2"
+                  className="h-4 w-4 text-primary-500 rounded mr-2"
                 />
                 Enable Login Logging
               </label>
@@ -91,7 +91,7 @@ export default function SecurityLogs() {
                   type="checkbox"
                   checked={securitySettings.enableFailedLoginAlerts}
                   onChange={(e) => setSecuritySettings({...securitySettings, enableFailedLoginAlerts: e.target.checked})}
-                  className="h-4 w-4 text-blue-600 rounded mr-2"
+                  className="h-4 w-4 text-primary-500 rounded mr-2"
                 />
                 Failed Login Alerts
               </label>
@@ -100,7 +100,7 @@ export default function SecurityLogs() {
                   type="checkbox"
                   checked={securitySettings.enableIPBlocking}
                   onChange={(e) => setSecuritySettings({...securitySettings, enableIPBlocking: e.target.checked})}
-                  className="h-4 w-4 text-blue-600 rounded mr-2"
+                  className="h-4 w-4 text-primary-500 rounded mr-2"
                 />
                 Enable IP Blocking
               </label>
@@ -112,7 +112,7 @@ export default function SecurityLogs() {
                   type="number"
                   value={securitySettings.maxFailedAttempts}
                   onChange={(e) => setSecuritySettings({...securitySettings, maxFailedAttempts: parseInt(e.target.value)})}
-                  className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                  className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                 />
               </div>
               <div>
@@ -121,27 +121,27 @@ export default function SecurityLogs() {
                   type="number"
                   value={securitySettings.lockoutDuration}
                   onChange={(e) => setSecuritySettings({...securitySettings, lockoutDuration: parseInt(e.target.value)})}
-                  className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                  className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                 />
               </div>
             </div>
           </div>
           <button
             onClick={updateSettings}
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            className="mt-4 bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600"
           >
             Save Settings
           </button>
         </div>
 
         {/* Logs Filter */}
-        <div className="bg-gray-800 rounded-lg p-6">
+        <div className="bg-secondary-900 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold">Access Logs</h2>
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+              className="px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
             >
               <option value="all">All Events</option>
               <option value="login_success">Successful Logins</option>
@@ -151,17 +151,17 @@ export default function SecurityLogs() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-700">
+            <table className="min-w-full divide-y divide-secondary-800">
               <thead>
                 <tr>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase">Event</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase">User</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase">IP Address</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase">Time</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase">Details</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-secondary-300 uppercase">Event</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-secondary-300 uppercase">User</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-secondary-300 uppercase">IP Address</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-secondary-300 uppercase">Time</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-secondary-300 uppercase">Details</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-700">
+              <tbody className="divide-y divide-secondary-800">
                 {logs.map((log) => (
                   <tr key={log.id}>
                     <td className="px-4 py-2 text-sm">

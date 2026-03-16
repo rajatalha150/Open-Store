@@ -130,7 +130,7 @@ export default function AdminCategories() {
           <h1 className="text-2xl font-bold text-white">Categories</h1>
           <button
             onClick={() => setShowModal(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
+            className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 flex items-center space-x-2"
           >
             <Plus className="h-4 w-4" />
             <span>Add Category</span>
@@ -139,18 +139,18 @@ export default function AdminCategories() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category: any) => (
-            <div key={category.id} className="bg-gray-800 rounded-lg shadow p-6">
+            <div key={category.id} className="bg-secondary-900 rounded-lg shadow p-6">
               <img
                 src={category.image_url}
                 alt={category.name}
                 className="w-full h-32 object-cover rounded mb-4"
               />
               <h3 className="text-lg font-semibold text-white mb-2">{category.name}</h3>
-              <p className="text-sm text-gray-400 mb-4">Slug: {category.slug}</p>
+              <p className="text-sm text-secondary-400 mb-4">Slug: {category.slug}</p>
               <div className="flex space-x-2">
                 <button
                   onClick={() => { setEditingCategory(category); setShowModal(true) }}
-                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+                  className="flex-1 bg-primary-500 text-white py-2 px-4 rounded hover:bg-primary-600"
                 >
                   <Edit className="h-4 w-4 mx-auto" />
                 </button>
@@ -166,8 +166,8 @@ export default function AdminCategories() {
         </div>
 
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-gray-800 rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div className="bg-secondary-900 rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
               <h2 className="text-lg font-semibold text-white mb-4">
                 {editingCategory ? 'Edit Category' : 'Add New Category'}
               </h2>
@@ -176,29 +176,29 @@ export default function AdminCategories() {
                   name="name"
                   placeholder="Category Name"
                   defaultValue={editingCategory?.name || ''}
-                  className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                  className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
                   required
                 />
                 <input
                   name="slug"
                   placeholder="Slug (e.g., home-essentials)"
                   defaultValue={editingCategory?.slug || ''}
-                  className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                  className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
                   required
                 />
                 <input
                   name="icon"
                   placeholder="Icon Name (e.g., Home)"
                   defaultValue={editingCategory?.icon || ''}
-                  className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                  className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
                 />
 
                 <div className="space-y-2">
-                  <label className="block text-sm text-gray-400">Category Image</label>
+                  <label className="block text-sm text-secondary-400">Category Image</label>
 
                   {/* Image Preview */}
                   {(previewUrl || editingCategory?.image_url) && (
-                    <div className="relative w-full h-40 bg-gray-700 rounded-lg overflow-hidden border border-gray-600">
+                    <div className="relative w-full h-40 bg-secondary-800 rounded-lg overflow-hidden border border-secondary-700">
                       <img
                         src={previewUrl || editingCategory?.image_url}
                         alt="Preview"
@@ -226,11 +226,11 @@ export default function AdminCategories() {
                       type="file"
                       accept="image/*"
                       onChange={handleImageUpload}
-                      className="flex-1 p-2 border border-gray-600 rounded bg-gray-700 text-white text-sm"
+                      className="flex-1 p-2 border border-secondary-700 rounded bg-secondary-800 text-white text-sm"
                       disabled={uploading}
                     />
                   </div>
-                  {uploading && <p className="text-blue-400 text-sm">Uploading...</p>}
+                  {uploading && <p className="text-primary-400 text-sm">Uploading...</p>}
 
                   {/* URL Input Fallback */}
                   <input
@@ -239,18 +239,18 @@ export default function AdminCategories() {
                     defaultValue={editingCategory?.image_url || ''}
                     value={previewUrl || undefined}
                     onChange={(e) => setPreviewUrl(e.target.value)}
-                    className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                    className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
                   />
                 </div>
 
                 <div className="flex space-x-2">
-                  <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex-1" disabled={uploading}>
+                  <button type="submit" className="bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 flex-1" disabled={uploading}>
                     {editingCategory ? 'Update' : 'Create'}
                   </button>
                   <button
                     type="button"
                     onClick={() => { setShowModal(false); setEditingCategory(null); setPreviewUrl(''); }}
-                    className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 flex-1"
+                    className="bg-secondary-700 text-white px-4 py-2 rounded hover:bg-secondary-800 flex-1"
                   >
                     Cancel
                   </button>

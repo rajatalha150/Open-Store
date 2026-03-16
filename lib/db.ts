@@ -237,7 +237,12 @@ export async function getSettings(key: string = 'general') {
       return { success: true, settings: rows[0].value };
     }
     return { success: true, settings: {} };
-  } catch (error) {
+  } catch (error: any) {
+    // If the settings table doesn't exist yet (before first setup), return empty defaults
+    if (error?.code === '42P01') {
+      console.warn('Settings table not found; returning empty settings');
+      return { success: true, settings: {} };
+    }
     console.error('Error fetching settings:', error);
     return { success: false, error };
   }

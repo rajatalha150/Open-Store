@@ -209,7 +209,7 @@ export default function ShippingManagementPage() {
     return (
       <AdminLayout>
         <div className="flex justify-center items-center h-full">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
         </div>
       </AdminLayout>
     )
@@ -225,7 +225,7 @@ export default function ShippingManagementPage() {
           </div>
           <Button
             onClick={() => setShowAddModal(true)}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-primary-500 hover:bg-primary-600"
           >
             <Plus className="h-4 w-4 mr-2" />
             Add Carrier
@@ -239,10 +239,10 @@ export default function ShippingManagementPage() {
         )}
 
         {/* Simple Shipping Mode Configuration */}
-        <Card className="bg-gray-800 border-gray-700">
+        <Card className="bg-secondary-900 border-secondary-800">
           <CardHeader>
             <CardTitle className="text-white">Shipping Mode</CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-secondary-400">
               Configure how shipping is calculated. You can use carrier APIs or a simple flat message.
             </CardDescription>
           </CardHeader>
@@ -250,7 +250,7 @@ export default function ShippingManagementPage() {
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <Label className="text-white text-base">Enable Simple Shipping (Free Shipping)</Label>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-secondary-400">
                   When enabled, all carrier rates are ignored. Customers will see the message defined below.
                 </p>
               </div>
@@ -262,18 +262,18 @@ export default function ShippingManagementPage() {
 
             {simpleShippingEnabled && (
               <div className="space-y-2">
-                <Label className="text-gray-300">Shipping Statement</Label>
+                <Label className="text-secondary-300">Shipping Statement</Label>
                 <div className="flex gap-4">
                   <Input
                     value={simpleShippingText}
                     onChange={(e) => setSimpleShippingText(e.target.value)}
                     placeholder="Free shipping, normally shipped within 3-5 days"
-                    className="bg-gray-700 border-gray-600 text-white"
+                    className="bg-secondary-800 border-secondary-700 text-white"
                   />
                   <Button
                     onClick={saveSimpleShipping}
                     disabled={saving}
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-primary-500 hover:bg-primary-600"
                   >
                     Save Changes
                   </Button>
@@ -286,7 +286,7 @@ export default function ShippingManagementPage() {
                 <Button
                   onClick={saveSimpleShipping}
                   disabled={saving}
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-primary-500 hover:bg-primary-600"
                 >
                   Save Mode Selection
                 </Button>
@@ -303,13 +303,13 @@ export default function ShippingManagementPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {carriers.map((carrier) => (
-            <Card key={carrier.id} className="bg-gray-800 border-gray-700">
+            <Card key={carrier.id} className="bg-secondary-900 border-secondary-800">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
                   <Package className="h-5 w-5" />
                   {carrier.name}
                 </CardTitle>
-                <CardDescription className="text-gray-400">
+                <CardDescription className="text-secondary-400">
                   Configure {carrier.name} shipping settings
                 </CardDescription>
               </CardHeader>
@@ -322,59 +322,59 @@ export default function ShippingManagementPage() {
                       updateCarrier(carrier.id, { active: checked })
                     }}
                   />
-                  <Label className="text-gray-300">Active</Label>
+                  <Label className="text-secondary-300">Active</Label>
                 </div>
 
                 {carrier.code !== 'standard' && (
                   <>
                     <div className="space-y-2">
-                      <Label className="text-gray-300">Service Name</Label>
+                      <Label className="text-secondary-300">Service Name</Label>
                       <Input
                         value={carrier.service_name || ''}
                         onChange={(e) => handleCarrierChange(carrier.id, 'service_name', e.target.value)}
                         placeholder="Standard Shipping"
-                        className="bg-gray-700 border-gray-600 text-white"
+                        className="bg-secondary-800 border-secondary-700 text-white"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-gray-300">Base Delivery Days</Label>
+                      <Label className="text-secondary-300">Base Delivery Days</Label>
                       <Input
                         type="number"
                         value={carrier.base_delivery_days || 5}
                         onChange={(e) => handleCarrierChange(carrier.id, 'base_delivery_days', parseInt(e.target.value))}
-                        className="bg-gray-700 border-gray-600 text-white"
+                        className="bg-secondary-800 border-secondary-700 text-white"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-gray-300">API Endpoint</Label>
+                      <Label className="text-secondary-300">API Endpoint</Label>
                       <Input
                         value={carrier.api_endpoint || ''}
                         onChange={(e) => handleCarrierChange(carrier.id, 'api_endpoint', e.target.value)}
                         placeholder="https://api.carrier.com"
-                        className="bg-gray-700 border-gray-600 text-white"
+                        className="bg-secondary-800 border-secondary-700 text-white"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-gray-300">API Key</Label>
+                      <Label className="text-secondary-300">API Key</Label>
                       <Input
                         value={carrier.api_key || ''}
                         onChange={(e) => handleCarrierChange(carrier.id, 'api_key', e.target.value)}
                         placeholder="Your API key"
-                        className="bg-gray-700 border-gray-600 text-white"
+                        className="bg-secondary-800 border-secondary-700 text-white"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-gray-300">API Secret</Label>
+                      <Label className="text-secondary-300">API Secret</Label>
                       <Input
                         type="password"
                         value={carrier.api_secret || ''}
                         onChange={(e) => handleCarrierChange(carrier.id, 'api_secret', e.target.value)}
                         placeholder="Your API secret"
-                        className="bg-gray-700 border-gray-600 text-white"
+                        className="bg-secondary-800 border-secondary-700 text-white"
                       />
                     </div>
 
@@ -383,7 +383,7 @@ export default function ShippingManagementPage() {
                         checked={carrier.test_mode}
                         onCheckedChange={(checked) => handleCarrierChange(carrier.id, 'test_mode', checked)}
                       />
-                      <Label className="text-gray-300">Test Mode</Label>
+                      <Label className="text-secondary-300">Test Mode</Label>
                     </div>
 
                     <Button
@@ -396,7 +396,7 @@ export default function ShippingManagementPage() {
                         test_mode: carrier.test_mode
                       })}
                       disabled={saving}
-                      className="w-full bg-blue-600 hover:bg-blue-700"
+                      className="w-full bg-primary-500 hover:bg-primary-600"
                     >
                       <Settings className="h-4 w-4 mr-2" />
                       {saving ? 'Saving...' : 'Save Configuration'}
@@ -433,10 +433,10 @@ export default function ShippingManagementPage() {
           ))}
         </div>
 
-        <Card className="bg-gray-800 border-gray-700">
+        <Card className="bg-secondary-900 border-secondary-800">
           <CardHeader>
             <CardTitle className="text-white">Shipping Information</CardTitle>
-            <CardDescription className="text-gray-400">Current shipping configuration status</CardDescription>
+            <CardDescription className="text-secondary-400">Current shipping configuration status</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -446,11 +446,11 @@ export default function ShippingManagementPage() {
                 </div>
                 <div className="text-sm text-green-300">Active Carriers</div>
               </div>
-              <div className="text-center p-4 bg-blue-900/30 rounded-lg">
-                <div className="text-2xl font-bold text-blue-400">
+              <div className="text-center p-4 bg-primary-900/30 rounded-lg">
+                <div className="text-2xl font-bold text-primary-400">
                   {carriers.filter(c => c.api_key).length}
                 </div>
-                <div className="text-sm text-blue-300">Configured APIs</div>
+                <div className="text-sm text-primary-300">Configured APIs</div>
               </div>
               <div className="text-center p-4 bg-purple-900/30 rounded-lg">
                 <div className="text-2xl font-bold text-purple-400">
@@ -464,53 +464,53 @@ export default function ShippingManagementPage() {
 
         {/* Add Carrier Modal */}
         {showAddModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-gray-800 rounded-lg max-w-md w-full p-6">
+          <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div className="bg-secondary-900 rounded-lg max-w-md w-full p-6">
               <h2 className="text-lg font-semibold text-white mb-4">Add New Carrier</h2>
               <form onSubmit={addCarrier} className="space-y-4">
                 <div className="space-y-2">
-                  <Label className="text-gray-300">Carrier Name</Label>
+                  <Label className="text-secondary-300">Carrier Name</Label>
                   <Input
                     name="name"
                     placeholder="FedEx"
                     required
-                    className="bg-gray-700 border-gray-600 text-white"
+                    className="bg-secondary-800 border-secondary-700 text-white"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-gray-300">Carrier Code</Label>
+                  <Label className="text-secondary-300">Carrier Code</Label>
                   <Input
                     name="code"
                     placeholder="fedex"
                     required
-                    className="bg-gray-700 border-gray-600 text-white"
+                    className="bg-secondary-800 border-secondary-700 text-white"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-gray-300">Service Name</Label>
+                  <Label className="text-secondary-300">Service Name</Label>
                   <Input
                     name="service_name"
                     placeholder="Standard Shipping"
-                    className="bg-gray-700 border-gray-600 text-white"
+                    className="bg-secondary-800 border-secondary-700 text-white"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-gray-300">Base Delivery Days</Label>
+                  <Label className="text-secondary-300">Base Delivery Days</Label>
                   <Input
                     name="base_delivery_days"
                     type="number"
                     defaultValue="5"
-                    className="bg-gray-700 border-gray-600 text-white"
+                    className="bg-secondary-800 border-secondary-700 text-white"
                   />
                 </div>
                 <div className="flex space-x-2">
-                  <Button type="submit" disabled={saving} className="flex-1 bg-blue-600 hover:bg-blue-700">
+                  <Button type="submit" disabled={saving} className="flex-1 bg-primary-500 hover:bg-primary-600">
                     {saving ? 'Adding...' : 'Add Carrier'}
                   </Button>
                   <Button
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="flex-1 bg-gray-600 hover:bg-gray-700"
+                    className="flex-1 bg-secondary-700 hover:bg-secondary-800"
                   >
                     Cancel
                   </Button>

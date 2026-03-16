@@ -39,7 +39,8 @@ export async function GET(request: NextRequest) {
       isStripeSecretKeySet: !!result.settings?.stripe_secret_key,
       isStripeWebhookSecretSet: !!result.settings?.stripe_webhook_secret,
       simpleShippingEnabled: result.settings?.simple_shipping_enabled === 'true',
-      simpleShippingText: result.settings?.simple_shipping_text || 'Free shipping, normally shipped within 3-5 days'
+      simpleShippingText: result.settings?.simple_shipping_text || 'Free shipping, normally shipped within 3-5 days',
+      logoUrl: result.settings?.logo_url || '',
     }
 
     return createAdminResponse({ settings });
@@ -77,7 +78,8 @@ export async function PUT(request: NextRequest) {
       ...(settingsData.stripeSecretKey && { stripe_secret_key: settingsData.stripeSecretKey }),
       ...(settingsData.stripeWebhookSecret && { stripe_webhook_secret: settingsData.stripeWebhookSecret }),
       simple_shipping_enabled: String(settingsData.simpleShippingEnabled),
-      simple_shipping_text: settingsData.simpleShippingText
+      simple_shipping_text: settingsData.simpleShippingText,
+      logo_url: settingsData.logoUrl || '',
     }
 
     const result = await updateSettings('general', transformedSettings)

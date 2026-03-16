@@ -120,7 +120,7 @@ export default function AdminAccountSettings() {
       <AdminLayout>
         <div className="p-6">
           <h1 className="text-2xl font-bold text-white mb-6">Account Settings</h1>
-          <p className="text-gray-400">Loading...</p>
+          <p className="text-secondary-400">Loading...</p>
         </div>
       </AdminLayout>
     )
@@ -130,7 +130,7 @@ export default function AdminAccountSettings() {
     <AdminLayout>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white mb-2">Account Settings</h1>
-        <p className="text-gray-400">Manage your admin account settings and security</p>
+        <p className="text-secondary-400">Manage your admin account settings and security</p>
       </div>
 
       {successMessage && (
@@ -149,7 +149,7 @@ export default function AdminAccountSettings() {
 
       <div className="space-y-8">
         {/* Profile Information */}
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <h2 className="text-lg font-medium text-white mb-4 flex items-center">
             <User className="h-5 w-5 mr-2" />
             Profile Information
@@ -158,36 +158,36 @@ export default function AdminAccountSettings() {
           <form onSubmit={handleProfileUpdate} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+                <label className="block text-sm font-medium text-secondary-300 mb-1">First Name</label>
                 <input
                   type="text"
                   value={profileData.first_name}
                   onChange={(e) => setProfileData({...profileData, first_name: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
+                <label className="block text-sm font-medium text-secondary-300 mb-1">Last Name</label>
                 <input
                   type="text"
                   value={profileData.last_name}
                   onChange={(e) => setProfileData({...profileData, last_name: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
               
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                <label className="block text-sm font-medium text-secondary-300 mb-1">Email</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
+                    <Mail className="h-5 w-5 text-secondary-400" />
                   </div>
                   <input
                     type="email"
                     value={profileData.email}
                     onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                    className="w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full pl-10 pr-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
               </div>
@@ -196,7 +196,7 @@ export default function AdminAccountSettings() {
             <div className="pt-4">
               <button
                 type="submit"
-                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
               >
                 <Save className="h-4 w-4 mr-2" />
                 Update Profile
@@ -206,7 +206,7 @@ export default function AdminAccountSettings() {
         </div>
 
         {/* Change Password */}
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <h2 className="text-lg font-medium text-white mb-4 flex items-center">
             <Key className="h-5 w-5 mr-2" />
             Change Password
@@ -214,27 +214,27 @@ export default function AdminAccountSettings() {
           
           <form onSubmit={handlePasswordReset} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Current Password</label>
+              <label className="block text-sm font-medium text-secondary-300 mb-1">Current Password</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Key className="h-5 w-5 text-gray-400" />
+                  <Key className="h-5 w-5 text-secondary-400" />
                 </div>
                 <input
                   type="password"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   required
-                  className="w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full pl-10 pr-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">New Password</label>
+                <label className="block text-sm font-medium text-secondary-300 mb-1">New Password</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Key className="h-5 w-5 text-gray-400" />
+                    <Key className="h-5 w-5 text-secondary-400" />
                   </div>
                   <input
                     type="password"
@@ -242,23 +242,23 @@ export default function AdminAccountSettings() {
                     onChange={(e) => setNewPassword(e.target.value)}
                     required
                     minLength={8}
-                    className="w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full pl-10 pr-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Confirm New Password</label>
+                <label className="block text-sm font-medium text-secondary-300 mb-1">Confirm New Password</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Key className="h-5 w-5 text-gray-400" />
+                    <Key className="h-5 w-5 text-secondary-400" />
                   </div>
                   <input
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
-                    className="w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full pl-10 pr-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
               </div>
@@ -267,7 +267,7 @@ export default function AdminAccountSettings() {
             <div className="pt-4">
               <button
                 type="submit"
-                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
               >
                 <Key className="h-4 w-4 mr-2" />
                 Change Password
@@ -277,29 +277,29 @@ export default function AdminAccountSettings() {
         </div>
 
         {/* Security */}
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <h2 className="text-lg font-medium text-white mb-4 flex items-center">
             <Shield className="h-5 w-5 mr-2" />
             Security
           </h2>
           
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-gray-750 rounded">
+            <div className="flex items-center justify-between p-4 bg-secondary-800 rounded">
               <div>
                 <h3 className="font-medium text-white">Two-Factor Authentication</h3>
-                <p className="text-sm text-gray-400">Add an extra layer of security to your account</p>
+                <p className="text-sm text-secondary-400">Add an extra layer of security to your account</p>
               </div>
-              <button className="px-4 py-2 bg-gray-600 text-gray-300 rounded-md hover:bg-gray-500">
+              <button className="px-4 py-2 bg-secondary-700 text-secondary-300 rounded-md hover:bg-secondary-600">
                 Enable
               </button>
             </div>
             
-            <div className="flex items-center justify-between p-4 bg-gray-750 rounded">
+            <div className="flex items-center justify-between p-4 bg-secondary-800 rounded">
               <div>
                 <h3 className="font-medium text-white">Active Sessions</h3>
-                <p className="text-sm text-gray-400">Manage your active login sessions</p>
+                <p className="text-sm text-secondary-400">Manage your active login sessions</p>
               </div>
-              <button className="px-4 py-2 bg-gray-600 text-gray-300 rounded-md hover:bg-gray-500">
+              <button className="px-4 py-2 bg-secondary-700 text-secondary-300 rounded-md hover:bg-secondary-600">
                 Manage Sessions
               </button>
             </div>

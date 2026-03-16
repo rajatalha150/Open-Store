@@ -98,23 +98,20 @@ Edit `.env.local` with your credentials. See [Environment Variables](docs/enviro
 - `STRIPE_SECRET_KEY` - Stripe secret key
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key
 
-### 3. Set Up Database
+### 3. Set Up Database & Admin Account
+
+**Option A: Web Setup (Recommended for Vercel)**
+
+Start the app and visit [http://localhost:3000/setup](http://localhost:3000/setup). The setup page will automatically create database tables and let you create your admin account — no terminal access required.
+
+**Option B: CLI Setup**
 
 ```bash
-npm run db:setup
+npm run db:setup        # Create database tables
+npm run admin:init      # Create initial admin user (credentials printed to console)
 ```
 
-This creates all required tables in your Neon database.
-
-### 4. Create Admin User
-
-```bash
-npm run admin:init
-```
-
-This creates the initial admin account. The credentials will be printed to the console.
-
-### 5. Start Development Server
+### 4. Start Development Server
 
 ```bash
 npm run dev
@@ -130,6 +127,7 @@ Visit [http://localhost:3000](http://localhost:3000) for the storefront and [htt
 2. Import the project on [Vercel](https://vercel.com)
 3. Add all environment variables from `.env.production.example`
 4. Deploy
+5. Visit `https://your-store.vercel.app/setup` to create your admin account
 
 See [Deployment Guide](docs/deployment.md) for detailed instructions.
 
@@ -155,6 +153,8 @@ open-store/
 │   ├── db.ts               # Database query functions
 │   ├── db-pool.ts          # Neon Postgres connection
 │   ├── schema.sql          # Database schema
+│   ├── schema-statements.ts # Schema as TS array (serverless-safe)
+│   ├── setup.ts            # First-run setup utilities
 │   ├── auth.ts             # NextAuth configuration
 │   ├── email.ts            # Email service (7 template types)
 │   ├── stripe.ts           # Stripe configuration

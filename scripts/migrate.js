@@ -22,6 +22,9 @@ async function runMigrations() {
     .map(s => s.trim())
     .filter(s => s.length > 0);
 
+  // Append incremental safety migrations matching schema-statements.ts
+  statements.push("ALTER TABLE users ADD COLUMN IF NOT EXISTS phone VARCHAR(50)");
+
   for (const statement of statements) {
     try {
       await sql.query(statement);

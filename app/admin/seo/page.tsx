@@ -51,9 +51,9 @@ export default function SEOManagement() {
         <h1 className="text-2xl font-bold mb-6">SEO Management</h1>
 
         {/* Global SEO Settings */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-6">
+        <div className="bg-secondary-900 rounded-lg p-6 mb-6">
           <div className="flex items-center mb-4">
-            <Globe className="h-6 w-6 mr-2 text-blue-400" />
+            <Globe className="h-6 w-6 mr-2 text-primary-400" />
             <h2 className="text-xl font-semibold">Global SEO Settings</h2>
           </div>
           
@@ -64,7 +64,7 @@ export default function SEOManagement() {
                 type="text"
                 value={seoSettings.siteTitle}
                 onChange={(e) => setSeoSettings({...seoSettings, siteTitle: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
               />
             </div>
             <div>
@@ -72,7 +72,7 @@ export default function SEOManagement() {
               <textarea
                 value={seoSettings.siteDescription}
                 onChange={(e) => setSeoSettings({...seoSettings, siteDescription: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                 rows={2}
               />
             </div>
@@ -82,7 +82,7 @@ export default function SEOManagement() {
                 type="text"
                 value={seoSettings.keywords}
                 onChange={(e) => setSeoSettings({...seoSettings, keywords: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
               />
             </div>
             <div>
@@ -91,21 +91,21 @@ export default function SEOManagement() {
                 type="url"
                 value={seoSettings.ogImage}
                 onChange={(e) => setSeoSettings({...seoSettings, ogImage: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
               />
             </div>
           </div>
 
           <button
             onClick={handleSave}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            className="bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600"
           >
             Save Settings
           </button>
         </div>
 
         {/* Page-specific SEO */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-6">
+        <div className="bg-secondary-900 rounded-lg p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center">
               <Search className="h-6 w-6 mr-2 text-green-400" />
@@ -114,23 +114,23 @@ export default function SEOManagement() {
           </div>
           
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-700">
+            <table className="min-w-full divide-y divide-secondary-800">
               <thead>
                 <tr>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase">Page</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase">Title</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase">Description</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase">Actions</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-secondary-300 uppercase">Page</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-secondary-300 uppercase">Title</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-secondary-300 uppercase">Description</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-secondary-300 uppercase">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-700">
+              <tbody className="divide-y divide-secondary-800">
                 {pages.map((page) => (
                   <tr key={page.id}>
                     <td className="px-4 py-2 text-sm">{page.path}</td>
                     <td className="px-4 py-2 text-sm">{page.title}</td>
                     <td className="px-4 py-2 text-sm">{page.description}</td>
                     <td className="px-4 py-2 text-sm">
-                      <button className="text-blue-400 hover:text-blue-300">Edit</button>
+                      <button className="text-primary-400 hover:text-primary-300">Edit</button>
                     </td>
                   </tr>
                 ))}
@@ -140,7 +140,7 @@ export default function SEOManagement() {
         </div>
 
         {/* Sitemap & Robots */}
-        <div className="bg-gray-800 rounded-lg p-6">
+        <div className="bg-secondary-900 rounded-lg p-6">
           <div className="flex items-center mb-4">
             <FileText className="h-6 w-6 mr-2 text-purple-400" />
             <h2 className="text-xl font-semibold">Sitemap & Robots</h2>
@@ -155,7 +155,7 @@ export default function SEOManagement() {
                     type="checkbox"
                     checked={seoSettings.enableSitemap}
                     onChange={(e) => setSeoSettings({...seoSettings, enableSitemap: e.target.checked})}
-                    className="h-4 w-4 text-blue-600 rounded mr-2"
+                    className="h-4 w-4 text-primary-500 rounded mr-2"
                   />
                   Enable Sitemap
                 </label>
@@ -173,7 +173,7 @@ export default function SEOManagement() {
               <textarea
                 value={seoSettings.robotsTxt}
                 onChange={(e) => setSeoSettings({...seoSettings, robotsTxt: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white text-sm"
+                className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white text-sm"
                 rows={3}
               />
             </div>

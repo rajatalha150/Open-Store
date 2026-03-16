@@ -206,33 +206,33 @@ export default function AdminProducts() {
           <h1 className="text-2xl font-bold text-white">Products</h1>
           <button
             onClick={() => setShowModal(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
+            className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 flex items-center space-x-2"
           >
             <Plus className="h-4 w-4" />
             <span>Add Product</span>
           </button>
         </div>
 
-        <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-700">
-            <thead className="bg-gray-700">
+        <div className="bg-secondary-900 rounded-lg shadow overflow-hidden">
+          <table className="min-w-full divide-y divide-secondary-800">
+            <thead className="bg-secondary-800">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Product</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Category</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Stock</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase">Product</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase">Price</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase">Stock</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-700">
+            <tbody className="divide-y divide-secondary-800">
               {products.map((product: any) => (
-                <tr key={product.id} className="hover:bg-gray-750">
+                <tr key={product.id} className="hover:bg-secondary-800">
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <img className="h-10 w-10 rounded object-cover" src={product.image_url} alt="" />
                       <div className="ml-4">
                         <div className="text-sm font-medium text-white">{product.name}</div>
-                        <div className="text-sm text-gray-400">{product.description?.substring(0, 50)}...</div>
+                        <div className="text-sm text-secondary-400">{product.description?.substring(0, 50)}...</div>
                       </div>
                     </div>
                   </td>
@@ -246,7 +246,7 @@ export default function AdminProducts() {
                   <td className="px-6 py-4 text-sm font-medium space-x-2">
                     <button
                       onClick={() => { setEditingProduct(product); setShowModal(true) }}
-                      className="text-blue-400 hover:text-blue-300"
+                      className="text-primary-400 hover:text-primary-300"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
@@ -264,9 +264,9 @@ export default function AdminProducts() {
         </div>
 
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-gray-800 rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
-              <h2 className="text-lg font-semibold text-gray-100 mb-4">
+          <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div className="bg-secondary-900 rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+              <h2 className="text-lg font-semibold text-secondary-100 mb-4">
                 {editingProduct ? 'Edit Product' : 'Add New Product'}
               </h2>
               {error && (
@@ -279,14 +279,14 @@ export default function AdminProducts() {
                   name="name"
                   placeholder="Product Name"
                   defaultValue={editingProduct?.name || ''}
-                  className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-gray-100"
+                  className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-secondary-100"
                   required
                 />
                 <textarea
                   name="description"
                   placeholder="Description"
                   defaultValue={editingProduct?.description || ''}
-                  className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-gray-100"
+                  className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-secondary-100"
                   rows={3}
                 />
                 <input
@@ -295,7 +295,7 @@ export default function AdminProducts() {
                   step="0.01"
                   placeholder="Price"
                   defaultValue={editingProduct?.price || ''}
-                  className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-gray-100"
+                  className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-secondary-100"
                   required
                 />
                 <input
@@ -304,19 +304,19 @@ export default function AdminProducts() {
                   step="0.01"
                   placeholder="Original Price (optional)"
                   defaultValue={editingProduct?.original_price || ''}
-                  className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-gray-100"
+                  className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-secondary-100"
                 />
                 <input
                   name="stock_quantity"
                   type="number"
                   placeholder="Stock Quantity"
                   defaultValue={editingProduct?.stock_quantity ?? 100}
-                  className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-gray-100"
+                  className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-secondary-100"
                 />
                 <select
                   name="category_id"
                   defaultValue={editingProduct?.category_id || ''}
-                  className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-gray-100"
+                  className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-secondary-100"
                   required
                 >
                   <option value="">Select Category</option>
@@ -325,14 +325,14 @@ export default function AdminProducts() {
                   ))}
                 </select>
                 <div className="space-y-2">
-                  <label className="block text-sm text-gray-300">Product Images (Max 3)</label>
+                  <label className="block text-sm text-secondary-300">Product Images (Max 3)</label>
 
                   {/* Image List */}
                   {productImages.length > 0 && (
                     <div className="flex gap-2 mb-2">
                       {productImages.map((img, index) => (
                         <div key={index} className="relative group">
-                          <img src={img} alt={`Product ${index + 1}`} className="w-20 h-20 object-cover rounded border border-gray-600" />
+                          <img src={img} alt={`Product ${index + 1}`} className="w-20 h-20 object-cover rounded border border-secondary-700" />
                           <button
                             type="button"
                             onClick={() => handleRemoveImage(index)}
@@ -353,9 +353,9 @@ export default function AdminProducts() {
                           accept="image/*"
                           multiple
                           onChange={handleImageUpload}
-                          className="flex-1 p-2 border border-gray-600 rounded bg-gray-700 text-gray-100 text-sm"
+                          className="flex-1 p-2 border border-secondary-700 rounded bg-secondary-800 text-secondary-100 text-sm"
                         />
-                        {uploading && <span className="text-blue-400 text-sm flex items-center">Uploading...</span>}
+                        {uploading && <span className="text-primary-400 text-sm flex items-center">Uploading...</span>}
                       </div>
                       <div className="flex gap-2 items-start">
                         <div className="flex-1">
@@ -364,11 +364,11 @@ export default function AdminProducts() {
                             placeholder="Paste image URL..."
                             value={imageUrl}
                             onChange={(e) => setImageUrl(e.target.value)}
-                            className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-gray-100 placeholder-gray-400"
+                            className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-secondary-100 placeholder-secondary-500"
                           />
                           {imageUrl && (
-                            <div className="mt-2 bg-gray-900 rounded p-2 border border-gray-700 inline-block">
-                              <span className="text-xs text-gray-400 block mb-1">Preview:</span>
+                            <div className="mt-2 bg-secondary-950 rounded p-2 border border-secondary-800 inline-block">
+                              <span className="text-xs text-secondary-400 block mb-1">Preview:</span>
                               <img
                                 src={imageUrl}
                                 alt="Preview"
@@ -382,7 +382,7 @@ export default function AdminProducts() {
                           type="button"
                           onClick={handleAddImageUrl}
                           disabled={!imageUrl}
-                          className="bg-gray-600 px-4 py-2 rounded hover:bg-gray-500 disabled:opacity-50 text-white h-[42px]"
+                          className="bg-secondary-700 px-4 py-2 rounded hover:bg-secondary-600 disabled:opacity-50 text-white h-[42px]"
                         >
                           Add
                         </button>

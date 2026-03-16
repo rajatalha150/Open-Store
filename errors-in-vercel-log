@@ -1,0 +1,436 @@
+Mar 16 12:35:07.49
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:34:59.58
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+Mar 16 12:34:59.48
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+Mar 16 12:34:59.48
+GET
+304
+daynightsupplies.vercel.app
+/api/settings
+Mar 16 12:34:59.47
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:34:59.28
+GET
+200
+daynightsupplies.vercel.app
+/setup
+Mar 16 12:34:55.64
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+Mar 16 12:34:55.04
+GET
+200
+daynightsupplies.vercel.app
+/api/settings
+Mar 16 12:34:55.04
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+Mar 16 12:34:55.04
+GET
+500
+daynightsupplies.vercel.app
+/api/categories
+2
+Error fetching categories: NeonDbError: relation "categories" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getCategories (/var/task/.next/server/chunks/9363.js:41:308) at async GET (/var/task/.next/server/app/api/categories/route.js:1:609) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '15', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:34:55.04
+GET
+500
+daynightsupplies.vercel.app
+/api/products
+2
+Error fetching products: NeonDbError: relation "products" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getProducts (/var/task/.next/server/chunks/9363.js:35:9) at async GET (/var/task/.next/server/app/api/products/route.js:1:661) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '59', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:34:54.47
+GET
+200
+daynightsupplies.vercel.app
+/
+Mar 16 12:34:47.70
+GET
+200
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:34:37.68
+GET
+200
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/api/auth/session
+Mar 16 12:34:37.68
+GET
+200
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/api/settings
+Mar 16 12:34:37.68
+GET
+500
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/api/products
+2
+Error fetching products: NeonDbError: relation "products" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getProducts (/var/task/.next/server/chunks/9363.js:35:9) at async GET (/var/task/.next/server/app/api/products/route.js:1:661) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '59', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:34:37.68
+GET
+500
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/api/categories
+2
+Error fetching categories: NeonDbError: relation "categories" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getCategories (/var/task/.next/server/chunks/9363.js:41:308) at async GET (/var/task/.next/server/app/api/categories/route.js:1:609) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '15', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:34:37.66
+GET
+200
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/api/settings
+Mar 16 12:34:37.66
+GET
+200
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/api/auth/session
+Mar 16 12:34:37.66
+GET
+500
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/api/categories
+2
+Error fetching categories: NeonDbError: relation "categories" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getCategories (/var/task/.next/server/chunks/9363.js:41:308) at async GET (/var/task/.next/server/app/api/categories/route.js:1:609) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '15', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:34:37.66
+GET
+500
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/api/products
+2
+Error fetching products: NeonDbError: relation "products" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getProducts (/var/task/.next/server/chunks/9363.js:35:9) at async GET (/var/task/.next/server/app/api/products/route.js:1:661) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '59', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:34:37.14
+GET
+200
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:34:37.12
+GET
+200
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:34:36.74
+GET
+200
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:34:36.71
+GET
+200
+daynightsupplies-okjtkdcr7-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:33:59.45
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:33:56.23
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+Mar 16 12:33:56.23
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:33:56.23
+GET
+500
+daynightsupplies.vercel.app
+/api/settings
+Error fetching settings: NeonDbError: relation "settings" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getSettings (/var/task/.next/server/chunks/9363.js:47:185) at async GET (/var/task/.next/server/app/api/settings/route.js:1:520) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '19', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:33:56.02
+GET
+200
+daynightsupplies.vercel.app
+/setup
+Mar 16 12:33:01.29
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:32:37.42
+GET
+500
+daynightsupplies.vercel.app
+/api/settings
+Error fetching settings: NeonDbError: relation "settings" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getSettings (/var/task/.next/server/chunks/9363.js:47:185) at async GET (/var/task/.next/server/app/api/settings/route.js:1:520) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '19', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:32:37.42
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+[next-auth][error][JWT_SESSION_ERROR] https://next-auth.js.org/errors#jwt_session_error decryption operation failed { message: 'decryption operation failed', stack: 'JWEDecryptionFailed: decryption operation failed\n' + ' at gcmDecrypt (/var/task/.next/server/chunks/7564.js:6:70667)\n' + ' at r.default (/var/task/.next/server/chunks/7564.js:6:71116)\n' + ' at flattenedDecrypt (/var/task/.next/server/chunks/7564.js:6:11887)\n' + ' at async compactDecrypt (/var/task/.next/server/chunks/7564.js:6:7447)\n' + ' at async jwtDecrypt (/var/task/.next/server/chunks/7564.js:6:35608)\n' + ' at async Object.decode (/var/task/.next/server/chunks/7564.js:30:16678)\n' + ' at async Object.session (/var/task/.next/server/chunks/7564.js:30:7188)\n' + ' at async AuthHandler (/var/task/.next/server/chunks/7564.js:6:111959)\n' + ' at async NextAuthRouteHandler (/var/task/.next/server/chunks/7564.js:30:19280)\n' + ' at async NextAuth.t.length.r (/var/task/.next/server/chunks/7564.js:30:19914)', name: 'JWEDecryptionFailed' }
+Mar 16 12:32:37.42
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:32:37.09
+GET
+200
+daynightsupplies.vercel.app
+/setup
+Mar 16 12:31:11.31
+GET
+200
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:31:11.01
+GET
+500
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/api/settings
+Error fetching settings: NeonDbError: relation "settings" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getSettings (/var/task/.next/server/chunks/9363.js:47:185) at async GET (/var/task/.next/server/app/api/settings/route.js:1:520) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '19', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:31:11.01
+GET
+500
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/api/products
+2
+Error fetching products: NeonDbError: relation "products" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getProducts (/var/task/.next/server/chunks/9363.js:35:9) at async GET (/var/task/.next/server/app/api/products/route.js:1:661) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '59', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:31:11.01
+GET
+200
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/api/auth/session
+Mar 16 12:31:11.00
+GET
+500
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/api/categories
+Error fetching categories: NeonDbError: relation "categories" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getCategories (/var/task/.next/server/chunks/9363.js:41:308) at async GET (/var/task/.next/server/app/api/categories/route.js:1:609) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '15', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:31:10.58
+GET
+200
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/api/auth/session
+Mar 16 12:31:10.58
+GET
+500
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/api/categories
+2
+Error fetching categories: NeonDbError: relation "categories" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getCategories (/var/task/.next/server/chunks/9363.js:41:308) at async GET (/var/task/.next/server/app/api/categories/route.js:1:609) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '15', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:31:10.58
+GET
+500
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/api/settings
+Error fetching settings: NeonDbError: relation "settings" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getSettings (/var/task/.next/server/chunks/9363.js:47:185) at async GET (/var/task/.next/server/app/api/settings/route.js:1:520) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '19', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:31:10.58
+GET
+500
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/api/products
+2
+Error fetching products: NeonDbError: relation "products" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getProducts (/var/task/.next/server/chunks/9363.js:35:9) at async GET (/var/task/.next/server/app/api/products/route.js:1:661) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '59', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:31:10.29
+GET
+200
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:31:10.19
+GET
+200
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:31:10.10
+GET
+200
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:31:09.80
+GET
+200
+daynightsupplies-qq7n1uwan-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:28:42.79
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:28:39.33
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:28:03.35
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:26:51.51
+GET
+500
+daynightsupplies.vercel.app
+/api/settings
+Error fetching settings: NeonDbError: relation "settings" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getSettings (/var/task/.next/server/chunks/9363.js:47:185) at async GET (/var/task/.next/server/app/api/settings/route.js:1:520) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '19', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:51.51
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+Mar 16 12:26:51.51
+GET
+403
+daynightsupplies.vercel.app
+/api/setup/status
+Mar 16 12:26:51.02
+GET
+200
+daynightsupplies.vercel.app
+/setup
+Mar 16 12:26:45.82
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+Mar 16 12:26:43.22
+GET
+200
+daynightsupplies.vercel.app
+/auth/signin
+Mar 16 12:26:43.21
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+Mar 16 12:26:43.21
+GET
+500
+daynightsupplies.vercel.app
+/api/settings
+Error fetching settings: NeonDbError: relation "settings" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getSettings (/var/task/.next/server/chunks/9363.js:47:185) at async GET (/var/task/.next/server/app/api/settings/route.js:1:520) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '19', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:43.00
+GET
+200
+daynightsupplies.vercel.app
+/auth/signup
+Mar 16 12:26:37.83
+GET
+500
+daynightsupplies.vercel.app
+/api/products
+2
+Error fetching products: NeonDbError: relation "products" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getProducts (/var/task/.next/server/chunks/9363.js:35:9) at async GET (/var/task/.next/server/app/api/products/route.js:1:661) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '59', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:37.83
+GET
+500
+daynightsupplies.vercel.app
+/api/categories
+2
+Error fetching categories: NeonDbError: relation "categories" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getCategories (/var/task/.next/server/chunks/9363.js:41:308) at async GET (/var/task/.next/server/app/api/categories/route.js:1:609) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '15', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:37.83
+GET
+500
+daynightsupplies.vercel.app
+/api/settings
+Error fetching settings: NeonDbError: relation "settings" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getSettings (/var/task/.next/server/chunks/9363.js:47:185) at async GET (/var/task/.next/server/app/api/settings/route.js:1:520) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '19', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:37.83
+GET
+200
+daynightsupplies.vercel.app
+/api/auth/session
+Mar 16 12:26:37.26
+GET
+200
+daynightsupplies.vercel.app
+/
+Mar 16 12:26:28.56
+GET
+500
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/api/categories
+Error fetching categories: NeonDbError: relation "categories" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getCategories (/var/task/.next/server/chunks/9363.js:41:308) at async GET (/var/task/.next/server/app/api/categories/route.js:1:609) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '15', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:28.56
+GET
+500
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/api/settings
+Error fetching settings: NeonDbError: relation "settings" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getSettings (/var/task/.next/server/chunks/9363.js:47:185) at async GET (/var/task/.next/server/app/api/settings/route.js:1:520) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '19', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:28.56
+GET
+500
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/api/products
+2
+Error fetching products: NeonDbError: relation "products" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getProducts (/var/task/.next/server/chunks/9363.js:35:9) at async GET (/var/task/.next/server/app/api/products/route.js:1:661) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '59', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:28.56
+GET
+200
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/api/auth/session
+Mar 16 12:26:28.20
+GET
+200
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/api/auth/session
+Mar 16 12:26:28.20
+GET
+500
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/api/settings
+Error fetching settings: NeonDbError: relation "settings" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getSettings (/var/task/.next/server/chunks/9363.js:47:185) at async GET (/var/task/.next/server/app/api/settings/route.js:1:520) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '19', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:28.20
+GET
+500
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/api/products
+2
+Error fetching products: NeonDbError: relation "products" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getProducts (/var/task/.next/server/chunks/9363.js:35:9) at async GET (/var/task/.next/server/app/api/products/route.js:1:661) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '59', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:28.20
+GET
+500
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/api/categories
+2
+Error fetching categories: NeonDbError: relation "categories" does not exist at tb.execute (/var/task/.next/server/chunks/8366.js:14:10960) at process.processTicksAndRejections (node:internal/process/task_queues:103:5) at async getCategories (/var/task/.next/server/chunks/9363.js:41:308) at async GET (/var/task/.next/server/app/api/categories/route.js:1:609) at async /var/task/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:14:39523 { severity: 'ERROR', code: '42P01', detail: undefined, hint: undefined, position: '15', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, column: undefined, dataType: undefined, constraint: undefined, file: 'parse_relation.c', line: '1449', routine: 'parserOpenTable', sourceError: undefined }
+Mar 16 12:26:27.84
+GET
+200
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:26:27.75
+GET
+200
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:26:27.66
+GET
+200
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:26:27.60
+GET
+200
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:26:27.29
+GET
+200
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/
+Mar 16 12:26:27.28
+GET
+200
+daynightsupplies-6hw20t6yn-talhas-projects-93bd431e.vercel.app
+/
+No more logs to show within selected timeline

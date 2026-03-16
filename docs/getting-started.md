@@ -61,34 +61,37 @@ openssl rand -base64 32
 
 See [Environment Variables](environment-variables.md) for all options.
 
-## Step 5: Initialize the Database
-
-```bash
-npm run db:setup
-```
-
-This creates all required tables (users, products, orders, categories, etc.) in your Neon database.
-
-## Step 6: Create Admin User
-
-```bash
-npm run admin:init
-```
-
-This creates the first admin account and prints the credentials to your console. **Save the password** - you'll need it to log in to the admin panel.
-
-## Step 7: Start the Development Server
+## Step 5: Start the Development Server
 
 ```bash
 npm run dev
 ```
+
+## Step 6: Set Up Database & Admin Account
+
+**Option A: Web Setup (Recommended)**
+
+Visit [http://localhost:3000/setup](http://localhost:3000/setup). The setup page will:
+1. Automatically create all database tables
+2. Let you create your admin account with a name, email, and password
+
+This is the same flow used on Vercel where terminal access isn't available.
+
+**Option B: CLI Setup**
+
+```bash
+npm run db:setup        # Create all tables in your Neon database
+npm run admin:init      # Create admin user (credentials printed to console)
+```
+
+If using CLI setup, save the generated password — you'll need it to sign in.
 
 Open your browser:
 - **Storefront**: [http://localhost:3000](http://localhost:3000)
 - **Admin Panel**: [http://localhost:3000/admin](http://localhost:3000/admin)
 - **Sign In**: [http://localhost:3000/auth/signin](http://localhost:3000/auth/signin)
 
-## Step 8: Seed Sample Data (Optional)
+## Step 7: Seed Sample Data (Optional)
 
 To populate your store with sample products and categories:
 

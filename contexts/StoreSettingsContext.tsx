@@ -17,6 +17,7 @@ export interface StoreSettingsData {
   enableReviews: boolean
   enableWishlist: boolean
   stripePublishableKey: string
+  logoUrl: string
 }
 
 const defaultSettings: StoreSettingsData = {
@@ -34,6 +35,7 @@ const defaultSettings: StoreSettingsData = {
   enableReviews: false,
   enableWishlist: false,
   stripePublishableKey: '',
+  logoUrl: '',
 }
 
 const StoreSettingsContext = createContext<StoreSettingsData>(defaultSettings)

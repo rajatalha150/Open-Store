@@ -152,15 +152,15 @@ export default function AdminContacts() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'new':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-primary-900/30 text-primary-400'
       case 'read':
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-secondary-800 text-secondary-300'
       case 'replied':
-        return 'bg-green-100 text-green-800'
+        return 'bg-green-900/30 text-green-400'
       case 'archived':
-        return 'bg-purple-100 text-purple-800'
+        return 'bg-purple-900/30 text-purple-400'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-secondary-800 text-secondary-300'
     }
   }
 
@@ -168,25 +168,25 @@ export default function AdminContacts() {
     <AdminLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Contact Messages</h1>
+          <h1 className="text-2xl font-bold text-white">Contact Messages</h1>
           <div className="flex items-center space-x-2">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-900/30 text-primary-400">
               <Mail className="h-4 w-4 mr-1" />
               {unreadCount} unread
             </span>
           </div>
         </div>
 
-        <div className="bg-white shadow rounded-lg mb-6 p-6">
+        <div className="bg-secondary-900 shadow rounded-lg mb-6 p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
             <div className="flex flex-1 space-x-2">
               <div className="relative flex-1 max-w-xs">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
+                  <Search className="h-5 w-5 text-secondary-400" />
                 </div>
                 <input
                   type="text"
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-secondary-700 rounded-md leading-5 bg-secondary-900 placeholder-secondary-500 focus:outline-none focus:placeholder-secondary-500 focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   placeholder="Search messages..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -195,7 +195,7 @@ export default function AdminContacts() {
               
               <div className="relative">
                 <select
-                  className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="block appearance-none w-full bg-secondary-900 border border-secondary-700 text-secondary-300 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
@@ -206,7 +206,7 @@ export default function AdminContacts() {
                   <option value="archived">Archived</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <Filter className="h-4 w-4 text-gray-400" />
+                  <Filter className="h-4 w-4 text-secondary-400" />
                 </div>
               </div>
             </div>
@@ -214,23 +214,23 @@ export default function AdminContacts() {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
-          <div className={`${selectedMessage ? 'lg:w-2/5' : 'w-full'} bg-white shadow rounded-lg overflow-hidden`}>
-            <div className="border-b border-gray-200 bg-white px-6 py-4">
-              <h2 className="text-lg font-medium text-gray-900">Messages</h2>
+          <div className={`${selectedMessage ? 'lg:w-2/5' : 'w-full'} bg-secondary-900 shadow rounded-lg overflow-hidden`}>
+            <div className="border-b border-secondary-800 bg-secondary-900 px-6 py-4">
+              <h2 className="text-lg font-medium text-white">Messages</h2>
             </div>
             
-            <div className="divide-y divide-gray-200 max-h-[600px] overflow-y-auto">
+            <div className="divide-y divide-secondary-800 max-h-[600px] overflow-y-auto">
               {loading ? (
-                <div className="p-6 text-center text-gray-500">Loading messages...</div>
+                <div className="p-6 text-center text-secondary-400">Loading messages...</div>
               ) : filteredMessages.length === 0 ? (
-                <div className="p-6 text-center text-gray-500">No messages found</div>
+                <div className="p-6 text-center text-secondary-400">No messages found</div>
               ) : (
                 filteredMessages.map((message) => (
                   <div 
                     key={message.id} 
-                    className={`p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
-                      selectedMessage?.id === message.id ? 'bg-blue-50' : ''
-                    } ${message.status === 'new' ? 'bg-blue-25' : ''}`}
+                    className={`p-4 hover:bg-secondary-950 cursor-pointer transition-colors ${
+                      selectedMessage?.id === message.id ? 'bg-primary-900/30' : ''
+                    } ${message.status === 'new' ? 'bg-primary-900/20' : ''}`}
                     onClick={() => {
                       setSelectedMessage(message)
                       if (message.status === 'new') {
@@ -240,14 +240,14 @@ export default function AdminContacts() {
                   >
                     <div className="flex justify-between">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-primary-900/30 flex items-center justify-center">
                           <MessageCircle className="h-5 w-5 text-indigo-600" />
                         </div>
                         <div className="ml-3">
-                          <p className="text-sm font-medium text-gray-900">
+                          <p className="text-sm font-medium text-white">
                             {message.first_name} {message.last_name}
                           </p>
-                          <p className="text-sm text-gray-500">{message.email}</p>
+                          <p className="text-sm text-secondary-400">{message.email}</p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
@@ -255,22 +255,22 @@ export default function AdminContacts() {
                           {message.status.charAt(0).toUpperCase() + message.status.slice(1)}
                         </span>
                         {message.status === 'new' && (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-900/30 text-primary-400">
                             <Clock className="h-3 w-3 mr-1" /> New
                           </span>
                         )}
                       </div>
                     </div>
                     <div className="mt-2">
-                      <p className="text-sm font-medium text-gray-900">{message.subject}</p>
-                      <p className="mt-1 text-sm text-gray-500 line-clamp-2">
+                      <p className="text-sm font-medium text-white">{message.subject}</p>
+                      <p className="mt-1 text-sm text-secondary-400 line-clamp-2">
                         {message.message.length > 100 
                           ? message.message.substring(0, 100) + '...' 
                           : message.message}
                       </p>
                     </div>
                     <div className="mt-2 flex justify-between items-center">
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-secondary-400">
                         {formatDate(message.created_at)}
                       </p>
                       <div className="flex space-x-1">
@@ -280,7 +280,7 @@ export default function AdminContacts() {
                               e.stopPropagation()
                               markAsArchived(message.id)
                             }}
-                            className="text-gray-400 hover:text-gray-500"
+                            className="text-secondary-400 hover:text-secondary-400"
                           >
                             <Archive className="h-4 w-4" />
                           </button>
@@ -290,7 +290,7 @@ export default function AdminContacts() {
                             e.stopPropagation()
                             deleteMessage(message.id)
                           }}
-                          className="text-gray-400 hover:text-red-500"
+                          className="text-secondary-400 hover:text-red-500"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -303,14 +303,14 @@ export default function AdminContacts() {
           </div>
 
           {selectedMessage && (
-            <div className="lg:w-3/5 bg-white shadow rounded-lg overflow-hidden">
-              <div className="border-b border-gray-200 bg-white px-6 py-4 flex justify-between items-center">
-                <h2 className="text-lg font-medium text-gray-900">Message Details</h2>
+            <div className="lg:w-3/5 bg-secondary-900 shadow rounded-lg overflow-hidden">
+              <div className="border-b border-secondary-800 bg-secondary-900 px-6 py-4 flex justify-between items-center">
+                <h2 className="text-lg font-medium text-white">Message Details</h2>
                 <div className="flex space-x-2">
                   {selectedMessage.status !== 'archived' && (
                     <button
                       onClick={() => markAsArchived(selectedMessage.id)}
-                      className="inline-flex items-center px-3 py-1 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      className="inline-flex items-center px-3 py-1 border border-secondary-700 shadow-sm text-sm leading-4 font-medium rounded-md text-secondary-300 bg-secondary-900 hover:bg-secondary-950 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                     >
                       <Archive className="h-4 w-4 mr-1" /> Archive
                     </button>
@@ -327,27 +327,27 @@ export default function AdminContacts() {
               <div className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <h3 className="text-sm font-medium text-gray-500">From</h3>
-                    <p className="mt-1 text-sm text-gray-900">{selectedMessage.first_name} {selectedMessage.last_name}</p>
+                    <h3 className="text-sm font-medium text-secondary-400">From</h3>
+                    <p className="mt-1 text-sm text-white">{selectedMessage.first_name} {selectedMessage.last_name}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-500">Email</h3>
-                    <p className="mt-1 text-sm text-gray-900">{selectedMessage.email}</p>
+                    <h3 className="text-sm font-medium text-secondary-400">Email</h3>
+                    <p className="mt-1 text-sm text-white">{selectedMessage.email}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-500">Subject</h3>
-                    <p className="mt-1 text-sm text-gray-900">{selectedMessage.subject}</p>
+                    <h3 className="text-sm font-medium text-secondary-400">Subject</h3>
+                    <p className="mt-1 text-sm text-white">{selectedMessage.subject}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-500">Date</h3>
-                    <p className="mt-1 text-sm text-gray-900">{formatDate(selectedMessage.created_at)}</p>
+                    <h3 className="text-sm font-medium text-secondary-400">Date</h3>
+                    <p className="mt-1 text-sm text-white">{formatDate(selectedMessage.created_at)}</p>
                   </div>
                 </div>
                 
                 <div className="mb-6">
-                  <h3 className="text-sm font-medium text-gray-500">Message</h3>
-                  <div className="mt-2 bg-gray-50 rounded-lg p-4">
-                    <p className="text-sm text-gray-900 whitespace-pre-line">{selectedMessage.message}</p>
+                  <h3 className="text-sm font-medium text-secondary-400">Message</h3>
+                  <div className="mt-2 bg-secondary-950 rounded-lg p-4">
+                    <p className="text-sm text-white whitespace-pre-line">{selectedMessage.message}</p>
                   </div>
                 </div>
                 

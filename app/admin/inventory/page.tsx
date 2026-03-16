@@ -76,7 +76,7 @@ export default function InventoryPage() {
   const getStockStatus = (quantity: number) => {
     if (quantity === 0) return { status: 'Out of Stock', color: 'text-red-600 bg-red-50' }
     if (quantity <= 5) return { status: 'Low Stock', color: 'text-yellow-600 bg-yellow-50' }
-    if (quantity <= 20) return { status: 'Medium Stock', color: 'text-blue-600 bg-blue-50' }
+    if (quantity <= 20) return { status: 'Medium Stock', color: 'text-primary-500 bg-primary-900/30' }
     return { status: 'In Stock', color: 'text-green-600 bg-green-50' }
   }
 
@@ -88,7 +88,7 @@ export default function InventoryPage() {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
         </div>
       </AdminLayout>
     )
@@ -97,108 +97,108 @@ export default function InventoryPage() {
   return (
     <AdminLayout>
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-8">Inventory Management</h1>
+        <h1 className="text-2xl font-bold text-white mb-8">Inventory Management</h1>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-secondary-900 rounded-lg shadow p-6">
             <div className="flex items-center">
-              <div className="bg-blue-500 rounded-lg p-3">
+              <div className="bg-primary-500 rounded-lg p-3">
                 <Package className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Products</p>
-                <p className="text-2xl font-bold text-gray-900">{inventory.length}</p>
+                <p className="text-sm font-medium text-secondary-400">Total Products</p>
+                <p className="text-2xl font-bold text-white">{inventory.length}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-secondary-900 rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="bg-red-500 rounded-lg p-3">
                 <AlertTriangle className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Low Stock</p>
-                <p className="text-2xl font-bold text-gray-900">{lowStockItems.length}</p>
+                <p className="text-sm font-medium text-secondary-400">Low Stock</p>
+                <p className="text-2xl font-bold text-white">{lowStockItems.length}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-secondary-900 rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="bg-yellow-500 rounded-lg p-3">
                 <Package className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Out of Stock</p>
-                <p className="text-2xl font-bold text-gray-900">{outOfStockItems.length}</p>
+                <p className="text-sm font-medium text-secondary-400">Out of Stock</p>
+                <p className="text-2xl font-bold text-white">{outOfStockItems.length}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-secondary-900 rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="bg-green-500 rounded-lg p-3">
                 <TrendingUp className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Value</p>
-                <p className="text-2xl font-bold text-gray-900">${totalValue.toFixed(2)}</p>
+                <p className="text-sm font-medium text-secondary-400">Total Value</p>
+                <p className="text-2xl font-bold text-white">${totalValue.toFixed(2)}</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Inventory Table */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">Product Inventory</h2>
+        <div className="bg-secondary-900 rounded-lg shadow overflow-hidden">
+          <div className="px-6 py-4 border-b border-secondary-800">
+            <h2 className="text-lg font-semibold text-white">Product Inventory</h2>
           </div>
           
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-secondary-800">
+              <thead className="bg-secondary-950">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase tracking-wider">
                     Product
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase tracking-wider">
                     SKU
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase tracking-wider">
                     Category
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase tracking-wider">
                     Stock
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase tracking-wider">
                     Price
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase tracking-wider">
                     Total Sold
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-400 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-secondary-900 divide-y divide-secondary-800">
                 {inventory.map((item) => {
                   const stockStatus = getStockStatus(item.stock_quantity)
                   return (
-                    <tr key={item.id} className="hover:bg-gray-50">
+                    <tr key={item.id} className="hover:bg-secondary-950">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{item.name}</div>
+                        <div className="text-sm font-medium text-white">{item.name}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">{item.sku}</div>
+                        <div className="text-sm text-secondary-400">{item.sku}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">{item.category_name}</div>
+                        <div className="text-sm text-secondary-400">{item.category_name}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {editingItem === item.id ? (
@@ -207,7 +207,7 @@ export default function InventoryPage() {
                               type="number"
                               value={newQuantity}
                               onChange={(e) => setNewQuantity(e.target.value)}
-                              className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                              className="w-20 px-2 py-1 border border-secondary-700 rounded text-sm"
                               min="0"
                             />
                             <button
@@ -227,7 +227,7 @@ export default function InventoryPage() {
                             </button>
                           </div>
                         ) : (
-                          <div className="text-sm font-medium text-gray-900">{item.stock_quantity}</div>
+                          <div className="text-sm font-medium text-white">{item.stock_quantity}</div>
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -236,10 +236,10 @@ export default function InventoryPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">${item.price.toFixed(2)}</div>
+                        <div className="text-sm text-white">${item.price.toFixed(2)}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">{item.total_sold}</div>
+                        <div className="text-sm text-secondary-400">{item.total_sold}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex items-center space-x-2">
@@ -261,7 +261,7 @@ export default function InventoryPage() {
                               setEditingItem(item.id)
                               setNewQuantity(item.stock_quantity.toString())
                             }}
-                            className="text-blue-600 hover:text-blue-800"
+                            className="text-primary-500 hover:text-primary-400"
                           >
                             <Edit className="h-4 w-4" />
                           </button>

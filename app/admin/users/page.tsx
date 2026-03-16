@@ -122,15 +122,15 @@ export default function UserManagement() {
   // Get user status badge
   const getUserStatus = (user: User) => {
     if (user.account_suspended) {
-      return { text: 'Suspended', color: 'bg-red-100 text-red-800', icon: <XCircle className="w-4 h-4" /> };
+      return { text: 'Suspended', color: 'bg-red-900/30 text-red-400', icon: <XCircle className="w-4 h-4" /> };
     } else if (user.account_locked) {
-      return { text: 'Locked', color: 'bg-orange-100 text-orange-800', icon: <AlertCircle className="w-4 h-4" /> };
+      return { text: 'Locked', color: 'bg-orange-900/30 text-orange-400', icon: <AlertCircle className="w-4 h-4" /> };
     } else if (!user.is_active) {
-      return { text: 'Inactive', color: 'bg-gray-100 text-gray-800', icon: <XCircle className="w-4 h-4" /> };
+      return { text: 'Inactive', color: 'bg-secondary-800 text-secondary-300', icon: <XCircle className="w-4 h-4" /> };
     } else if (!user.email_verified) {
-      return { text: 'Unverified', color: 'bg-yellow-100 text-yellow-800', icon: <AlertCircle className="w-4 h-4" /> };
+      return { text: 'Unverified', color: 'bg-yellow-900/30 text-yellow-400', icon: <AlertCircle className="w-4 h-4" /> };
     } else {
-      return { text: 'Active', color: 'bg-green-100 text-green-800', icon: <CheckCircle className="w-4 h-4" /> };
+      return { text: 'Active', color: 'bg-green-900/30 text-green-400', icon: <CheckCircle className="w-4 h-4" /> };
     }
   };
 
@@ -138,21 +138,21 @@ export default function UserManagement() {
     <AdminLayout>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white mb-2">User Management</h1>
-        <p className="text-gray-400">Manage and monitor registered users</p>
+        <p className="text-secondary-400">Manage and monitor registered users</p>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-gray-800 rounded-lg shadow p-6 mb-6">
+      <div className="bg-secondary-900 rounded-lg shadow p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Search</label>
+            <label className="block text-sm font-medium text-secondary-300 mb-1">Search</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+                <Search className="h-5 w-5 text-secondary-400" />
               </div>
               <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full pl-10 pr-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Search users..."
                 value={searchTerm}
                 onChange={(e) => {
@@ -164,9 +164,9 @@ export default function UserManagement() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Status</label>
+            <label className="block text-sm font-medium text-secondary-300 mb-1">Status</label>
             <select
-              className="block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               value={statusFilter}
               onChange={(e) => {
                 setStatusFilter(e.target.value);
@@ -180,9 +180,9 @@ export default function UserManagement() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Account Type</label>
+            <label className="block text-sm font-medium text-secondary-300 mb-1">Account Type</label>
             <select
-              className="block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               value={accountTypeFilter}
               onChange={(e) => {
                 setAccountTypeFilter(e.target.value);
@@ -198,9 +198,9 @@ export default function UserManagement() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Sort By</label>
+            <label className="block text-sm font-medium text-secondary-300 mb-1">Sort By</label>
             <select
-              className="block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               value={`${sortBy}_${sortOrder}`}
               onChange={(e) => {
                 const [field, order] = e.target.value.split('_');
@@ -226,49 +226,49 @@ export default function UserManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
-            <div className="bg-blue-500 rounded-lg p-3">
+            <div className="bg-primary-500 rounded-lg p-3">
               <Users className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Total Users</p>
+              <p className="text-sm font-medium text-secondary-400">Total Users</p>
               <p className="text-2xl font-bold text-white">{totalCount}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="bg-green-500 rounded-lg p-3">
               <CheckCircle className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Active Users</p>
+              <p className="text-sm font-medium text-secondary-400">Active Users</p>
               <p className="text-2xl font-bold text-white">{users.filter(u => u.is_active && !u.account_locked && !u.account_suspended).length}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="bg-purple-500 rounded-lg p-3">
               <Package className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Total Orders</p>
+              <p className="text-sm font-medium text-secondary-400">Total Orders</p>
               <p className="text-2xl font-bold text-white">{users.reduce((sum, u) => sum + u.total_orders, 0)}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="bg-yellow-500 rounded-lg p-3">
               <DollarSign className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Total Revenue</p>
+              <p className="text-sm font-medium text-secondary-400">Total Revenue</p>
               <p className="text-2xl font-bold text-white">
                 ${users.reduce((sum, u) => sum + Number(u.total_spent || 0), 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
@@ -278,47 +278,47 @@ export default function UserManagement() {
       </div>
 
       {/* Users Table */}
-      <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
+      <div className="bg-secondary-900 rounded-lg shadow overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-700">
-            <thead className="bg-gray-750">
+          <table className="min-w-full divide-y divide-secondary-800">
+            <thead className="bg-secondary-800">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">
                   User
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">
                   Account
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">
                   Status
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">
                   Orders
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">
                   Spent
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">
                   Last Login
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">
                   Joined
                 </th>
-                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-secondary-300 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-gray-800 divide-y divide-gray-700">
+            <tbody className="bg-secondary-900 divide-y divide-secondary-800">
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-4 text-center text-gray-400">
+                  <td colSpan={8} className="px-6 py-4 text-center text-secondary-400">
                     Loading users...
                   </td>
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-4 text-center text-gray-400">
+                  <td colSpan={8} className="px-6 py-4 text-center text-secondary-400">
                     No users found
                   </td>
                 </tr>
@@ -326,23 +326,23 @@ export default function UserManagement() {
                 users.map((user) => {
                   const status = getUserStatus(user);
                   return (
-                    <tr key={user.id} className="hover:bg-gray-750">
+                    <tr key={user.id} className="hover:bg-secondary-800">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
-                            <User className="h-10 w-10 rounded-full bg-gray-600 text-gray-300 p-2" />
+                            <User className="h-10 w-10 rounded-full bg-secondary-700 text-secondary-300 p-2" />
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-white">
                               {user.first_name} {user.last_name}
                             </div>
-                            <div className="text-sm text-gray-400">{user.email}</div>
+                            <div className="text-sm text-secondary-400">{user.email}</div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                        <div className="text-gray-400">{user.account_type}</div>
-                        <div className="text-gray-500">{user.tier}</div>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
+                        <div className="text-secondary-400">{user.account_type}</div>
+                        <div className="text-secondary-500">{user.tier}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.color}`}>
@@ -350,23 +350,23 @@ export default function UserManagement() {
                           <span className="ml-1">{status.text}</span>
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
                         {user.total_orders}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
                         ${Number(user.total_spent || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
                         {user.last_login_at ? formatDate(user.last_login_at) : 'Never'}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-300">
                         {formatDate(user.customer_since)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex justify-end space-x-2">
                           <button
                             onClick={() => handleViewUser(user.id)}
-                            className="text-blue-400 hover:text-blue-300 p-1"
+                            className="text-primary-400 hover:text-primary-300 p-1"
                             title="View User Details"
                           >
                             <Eye className="h-5 w-5" />
@@ -396,8 +396,8 @@ export default function UserManagement() {
         </div>
 
         {/* Pagination */}
-        <div className="bg-gray-750 px-6 py-3 flex items-center justify-between border-t border-gray-700">
-          <div className="text-sm text-gray-300">
+        <div className="bg-secondary-800 px-6 py-3 flex items-center justify-between border-t border-secondary-800">
+          <div className="text-sm text-secondary-300">
             Showing <span className="font-medium">{(currentPage - 1) * limit + 1}</span> to{' '}
             <span className="font-medium">
               {Math.min(currentPage * limit, totalCount)}
@@ -408,9 +408,9 @@ export default function UserManagement() {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`relative inline-flex items-center px-4 py-2 border border-gray-600 text-sm font-medium rounded-md ${currentPage === 1
-                ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+              className={`relative inline-flex items-center px-4 py-2 border border-secondary-700 text-sm font-medium rounded-md ${currentPage === 1
+                ? 'bg-secondary-800 text-secondary-400 cursor-not-allowed'
+                : 'bg-secondary-800 text-secondary-200 hover:bg-secondary-700'
                 }`}
             >
               Previous
@@ -418,9 +418,9 @@ export default function UserManagement() {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`relative inline-flex items-center px-4 py-2 border border-gray-600 text-sm font-medium rounded-md ${currentPage === totalPages
-                ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+              className={`relative inline-flex items-center px-4 py-2 border border-secondary-700 text-sm font-medium rounded-md ${currentPage === totalPages
+                ? 'bg-secondary-800 text-secondary-400 cursor-not-allowed'
+                : 'bg-secondary-800 text-secondary-200 hover:bg-secondary-700'
                 }`}
             >
               Next

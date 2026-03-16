@@ -66,7 +66,7 @@ export default function BulkOperations() {
           <button
             onClick={() => setActiveTab('import')}
             className={`px-4 py-2 rounded-md ${
-              activeTab === 'import' ? 'bg-blue-600' : 'bg-gray-700'
+              activeTab === 'import' ? 'bg-primary-500' : 'bg-secondary-800'
             }`}
           >
             Import Products
@@ -74,7 +74,7 @@ export default function BulkOperations() {
           <button
             onClick={() => setActiveTab('export')}
             className={`px-4 py-2 rounded-md ${
-              activeTab === 'export' ? 'bg-blue-600' : 'bg-gray-700'
+              activeTab === 'export' ? 'bg-primary-500' : 'bg-secondary-800'
             }`}
           >
             Export Products
@@ -93,19 +93,19 @@ export default function BulkOperations() {
         )}
 
         {activeTab === 'import' && (
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary-900 rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <Upload className="h-6 w-6 mr-2 text-blue-400" />
+              <Upload className="h-6 w-6 mr-2 text-primary-400" />
               <h2 className="text-xl font-semibold">Import Products</h2>
             </div>
-            <p className="text-gray-300 mb-4">
+            <p className="text-secondary-300 mb-4">
               Upload a CSV file to bulk import products. Download the template to see the required format.
             </p>
             
             <div className="mb-4">
               <a
                 href="/api/admin/bulk/template"
-                className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+                className="inline-flex items-center px-4 py-2 bg-secondary-700 text-white rounded-md hover:bg-secondary-800"
               >
                 <FileText className="h-4 w-4 mr-2" />
                 Download Template
@@ -120,7 +120,7 @@ export default function BulkOperations() {
                 if (file) handleImport(file)
               }}
               disabled={isProcessing}
-              className="w-full text-white bg-gray-700 border border-gray-600 rounded-md px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+              className="w-full text-white bg-secondary-800 border border-secondary-700 rounded-md px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-500 file:text-white hover:file:bg-primary-600"
             />
             {isProcessing && (
               <p className="text-yellow-400 text-sm mt-2">Processing import...</p>
@@ -129,12 +129,12 @@ export default function BulkOperations() {
         )}
 
         {activeTab === 'export' && (
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary-900 rounded-lg p-6">
             <div className="flex items-center mb-4">
               <Download className="h-6 w-6 mr-2 text-green-400" />
               <h2 className="text-xl font-semibold">Export Products</h2>
             </div>
-            <p className="text-gray-300 mb-4">
+            <p className="text-secondary-300 mb-4">
               Export all products to CSV or Excel format for backup or external processing.
             </p>
             
@@ -150,7 +150,7 @@ export default function BulkOperations() {
               <button
                 onClick={() => handleExport('xlsx')}
                 disabled={isProcessing}
-                className="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                className="flex items-center justify-center px-4 py-3 bg-primary-500 text-white rounded-md hover:bg-primary-600 disabled:opacity-50"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Export as Excel

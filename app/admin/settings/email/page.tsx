@@ -9,6 +9,7 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import { Mail, Send, Settings, AlertCircle, CheckCircle, Info } from 'lucide-react'
+import AdminLayout from '@/components/AdminLayout'
 
 export default function EmailConfigurationPage() {
   const [emailSettings, setEmailSettings] = useState({
@@ -206,13 +207,16 @@ export default function EmailConfigurationPage() {
 
   if (loading) {
     return (
+      <AdminLayout>
       <div className="flex justify-center items-center h-full">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
       </div>
+      </AdminLayout>
     )
   }
 
   return (
+    <AdminLayout>
     <div className="space-y-6">
       <div className="flex items-center gap-2 mb-6">
         <Mail className="h-6 w-6" />
@@ -220,10 +224,10 @@ export default function EmailConfigurationPage() {
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+      <div className="flex space-x-1 bg-secondary-800 p-1 rounded-lg">
         <button
           onClick={() => setActiveTab('smtp')}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'smtp' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'smtp' ? 'bg-secondary-900 shadow-sm' : 'hover:bg-secondary-800'
             }`}
         >
           <Settings className="h-4 w-4 inline mr-2" />
@@ -231,7 +235,7 @@ export default function EmailConfigurationPage() {
         </button>
         <button
           onClick={() => setActiveTab('templates')}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'templates' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'templates' ? 'bg-secondary-900 shadow-sm' : 'hover:bg-secondary-800'
             }`}
         >
           <Mail className="h-4 w-4 inline mr-2" />
@@ -250,9 +254,9 @@ export default function EmailConfigurationPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Quick Setup Presets */}
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <h3 className="text-sm font-medium text-blue-900 mb-2">Quick Setup</h3>
-              <p className="text-sm text-blue-700 mb-3">Choose a preset to automatically configure common email providers:</p>
+            <div className="bg-primary-900/30 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-primary-300 mb-2">Quick Setup</h3>
+              <p className="text-sm text-primary-400 mb-3">Choose a preset to automatically configure common email providers:</p>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => loadPreset('gmail')}>
                   Gmail
@@ -305,7 +309,7 @@ export default function EmailConfigurationPage() {
                       {validationErrors.smtp_port}
                     </p>
                   )}
-                  <p className="text-xs text-gray-500">Common ports: 587 (TLS), 465 (SSL), 25 (unsecured)</p>
+                  <p className="text-xs text-secondary-400">Common ports: 587 (TLS), 465 (SSL), 25 (unsecured)</p>
                 </div>
 
                 <div className="flex items-center space-x-2">
@@ -316,7 +320,7 @@ export default function EmailConfigurationPage() {
                   />
                   <Label htmlFor="smtp_secure">Use Secure Connection (TLS/SSL)</Label>
                 </div>
-                <p className="text-xs text-gray-500">Enable for ports 587 (TLS) or 465 (SSL)</p>
+                <p className="text-xs text-secondary-400">Enable for ports 587 (TLS) or 465 (SSL)</p>
 
                 <div className="space-y-2">
                   <Label htmlFor="smtp_user">SMTP Username *</Label>
@@ -334,7 +338,7 @@ export default function EmailConfigurationPage() {
                       {validationErrors.smtp_user}
                     </p>
                   )}
-                  <p className="text-xs text-gray-500">Usually your email address</p>
+                  <p className="text-xs text-secondary-400">Usually your email address</p>
                 </div>
 
                 <div className="space-y-2">
@@ -354,7 +358,7 @@ export default function EmailConfigurationPage() {
                       {validationErrors.smtp_pass}
                     </p>
                   )}
-                  <p className="text-xs text-gray-500">Use app password for Gmail/Outlook</p>
+                  <p className="text-xs text-secondary-400">Use app password for Gmail/Outlook</p>
                 </div>
 
                 <div className="space-y-2">
@@ -373,7 +377,7 @@ export default function EmailConfigurationPage() {
                       {validationErrors.email_from_name}
                     </p>
                   )}
-                  <p className="text-xs text-gray-500">Name shown in recipient's inbox</p>
+                  <p className="text-xs text-secondary-400">Name shown in recipient's inbox</p>
                 </div>
 
                 <div className="space-y-2">
@@ -392,7 +396,7 @@ export default function EmailConfigurationPage() {
                       {validationErrors.sender_email}
                     </p>
                   )}
-                  <p className="text-xs text-gray-500">Must be a verified domain in your email provider (e.g. Resend)</p>
+                  <p className="text-xs text-secondary-400">Must be a verified domain in your email provider (e.g. Resend)</p>
                 </div>
               </div>
 
@@ -402,8 +406,8 @@ export default function EmailConfigurationPage() {
                 {/* Connection Status */}
                 <div className="p-4 rounded-lg border">
                   <div className="flex items-center gap-2 mb-2">
-                    {connectionStatus === 'idle' && <Info className="h-4 w-4 text-gray-500" />}
-                    {connectionStatus === 'testing' && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500" />}
+                    {connectionStatus === 'idle' && <Info className="h-4 w-4 text-secondary-400" />}
+                    {connectionStatus === 'testing' && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-500" />}
                     {connectionStatus === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
                     {connectionStatus === 'error' && <AlertCircle className="h-4 w-4 text-red-500" />}
                     <span className="text-sm font-medium">
@@ -483,10 +487,10 @@ export default function EmailConfigurationPage() {
           </CardHeader>
           <CardContent className="space-y-6">
 
-            <div className="bg-blue-50 p-4 rounded-lg mb-6">
-              <h4 className="text-sm font-medium text-blue-900 mb-2">Template Variables</h4>
-              <p className="text-sm text-blue-700 mb-2">Use these placeholders in your templates:</p>
-              <div className="grid grid-cols-2 gap-4 text-xs text-blue-800">
+            <div className="bg-primary-900/30 p-4 rounded-lg mb-6">
+              <h4 className="text-sm font-medium text-primary-300 mb-2">Template Variables</h4>
+              <p className="text-sm text-primary-400 mb-2">Use these placeholders in your templates:</p>
+              <div className="grid grid-cols-2 gap-4 text-xs text-primary-400">
                 <div>
                   <p><code>{'{customer_name}'}</code> - Customer's name</p>
                   <p><code>{'{order_number}'}</code> - Order number</p>
@@ -598,5 +602,6 @@ export default function EmailConfigurationPage() {
         </Card>
       )}
     </div>
+    </AdminLayout>
   )
 }

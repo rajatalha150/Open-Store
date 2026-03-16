@@ -74,18 +74,18 @@ export default function AdminBackup() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Backup Section */}
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary-900 rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <Database className="h-6 w-6 mr-2 text-blue-400" />
+              <Database className="h-6 w-6 mr-2 text-primary-400" />
               <h2 className="text-xl font-semibold">Create Backup</h2>
             </div>
-            <p className="text-gray-300 mb-4">
+            <p className="text-secondary-300 mb-4">
               Create a complete backup of your database including all products, orders, users, and settings.
             </p>
             <button
               onClick={handleBackup}
               disabled={isBackingUp}
-              className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center"
+              className="w-full bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 disabled:opacity-50 flex items-center justify-center"
             >
               <Download className="h-4 w-4 mr-2" />
               {isBackingUp ? 'Creating Backup...' : 'Download Backup'}
@@ -93,7 +93,7 @@ export default function AdminBackup() {
           </div>
 
           {/* Restore Section */}
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary-900 rounded-lg p-6">
             <div className="flex items-center mb-4">
               <Upload className="h-6 w-6 mr-2 text-green-400" />
               <h2 className="text-xl font-semibold">Restore Database</h2>
@@ -116,7 +116,7 @@ export default function AdminBackup() {
                 }
               }}
               disabled={isRestoring}
-              className="w-full text-white bg-gray-700 border border-gray-600 rounded-md px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-600 file:text-white hover:file:bg-green-700"
+              className="w-full text-white bg-secondary-800 border border-secondary-700 rounded-md px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-600 file:text-white hover:file:bg-green-700"
             />
             {isRestoring && (
               <p className="text-yellow-400 text-sm mt-2">Restoring database...</p>
@@ -125,15 +125,15 @@ export default function AdminBackup() {
         </div>
 
         {/* Backup Schedule */}
-        <div className="mt-8 bg-gray-800 rounded-lg p-6">
+        <div className="mt-8 bg-secondary-900 rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-4">Automated Backups</h2>
-          <p className="text-gray-300 mb-4">
+          <p className="text-secondary-300 mb-4">
             Configure automatic daily backups to ensure your data is always protected.
           </p>
           <div className="flex items-center justify-between">
             <div>
               <p className="text-white">Daily Backup Schedule</p>
-              <p className="text-gray-400 text-sm">Runs every day at 2:00 AM</p>
+              <p className="text-secondary-400 text-sm">Runs every day at 2:00 AM</p>
             </div>
             <div className="flex items-center">
               <span className="text-green-400 text-sm mr-2">Enabled</span>

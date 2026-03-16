@@ -15,12 +15,13 @@ export interface StoreSettings {
   enableReviews: boolean;
   enableWishlist: boolean;
   stripePublishableKey: string;
+  logoUrl: string;
 }
 
 export async function getStoreSettings(): Promise<StoreSettings> {
   try {
     const result = await getSettings();
-    const s = result.settings || {};
+    const s = result.success && result.settings ? result.settings : {};
 
     return {
       storeName: s.store_name || process.env.STORE_NAME || 'My Store',
@@ -37,6 +38,7 @@ export async function getStoreSettings(): Promise<StoreSettings> {
       enableReviews: s.enable_reviews === 'true',
       enableWishlist: s.enable_wishlist === 'true',
       stripePublishableKey: s.stripe_publishable_key || '',
+      logoUrl: s.logo_url || '',
     };
   } catch (error) {
     console.error('Error fetching store settings:', error);
@@ -55,6 +57,7 @@ export async function getStoreSettings(): Promise<StoreSettings> {
       enableReviews: false,
       enableWishlist: false,
       stripePublishableKey: '',
+      logoUrl: '',
     };
   }
 }

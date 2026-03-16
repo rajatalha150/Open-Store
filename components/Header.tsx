@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
-import { ShoppingCart, User, Heart, Sun, Moon, Menu, X, Search } from 'lucide-react'
+import { ShoppingCart, User, Heart, Menu, X, Search } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { useComparison } from '@/contexts/ComparisonContext'
 import { useStoreSettings } from '@/contexts/StoreSettingsContext'
@@ -14,7 +14,7 @@ export default function Header() {
   const { state } = useCart()
   const { state: comparisonState } = useComparison()
   const { data: session } = useSession()
-  const { storeName } = useStoreSettings()
+  const { storeName, logoUrl } = useStoreSettings()
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -36,23 +36,21 @@ export default function Header() {
             {/* Logo */}
             <div className="flex items-center flex-shrink-0 mr-4 lg:mr-8">
               <a href="/" className="flex items-center">
-                <img
-                  src="/images/logo.png"
-                  alt={storeName}
-                  className="h-12 sm:h-16 md:h-16 w-auto max-w-[180px] sm:max-w-[250px] object-contain"
-                  loading="eager"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none'
-                    if (e.currentTarget.nextElementSibling) {
-                      (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex'
-                    }
-                  }}
-                />
-                <div className="flex items-center space-x-1 sm:space-x-2" style={{ display: 'none' }}>
-                  <div className="flex items-center">
-                    <Sun className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500" />
-                    <Moon className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500 -ml-1 sm:-ml-2" />
-                  </div>
+                {logoUrl ? (
+                  <img
+                    src={logoUrl}
+                    alt={storeName}
+                    className="h-12 sm:h-16 md:h-16 w-auto max-w-[180px] sm:max-w-[250px] object-contain"
+                    loading="eager"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                      if (e.currentTarget.nextElementSibling) {
+                        (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex'
+                      }
+                    }}
+                  />
+                ) : null}
+                <div className="flex items-center space-x-1 sm:space-x-2" style={{ display: logoUrl ? 'none' : 'flex' }}>
                   <span className="text-sm sm:text-lg font-bold text-white">{storeName}</span>
                 </div>
               </a>

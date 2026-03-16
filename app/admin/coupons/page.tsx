@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { Trash2, Plus, Calendar, Tag, Percent, DollarSign, Minus, Filter } from 'lucide-react'
+import AdminLayout from '@/components/AdminLayout'
 
 interface Coupon {
   id: number
@@ -171,6 +172,7 @@ export default function CouponManagement() {
   if (error) return <div className="p-6 text-center text-red-500">Error: {error}</div>
 
   return (
+    <AdminLayout>
     <div className="p-6 max-w-6xl mx-auto text-white">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-white">Coupon Management</h1>
@@ -193,7 +195,7 @@ export default function CouponManagement() {
             })
             setShowForm(true)
           }}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors"
         >
           <Plus size={18} />
           Add Coupon
@@ -201,53 +203,53 @@ export default function CouponManagement() {
       </div>
 
       {showForm && (
-        <div className="mb-6 bg-gray-800 p-6 rounded-lg shadow-md">
+        <div className="mb-6 bg-secondary-900 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4 text-white">
             {editingCoupon ? 'Edit Coupon' : 'Create New Coupon'}
           </h2>
           
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Code *</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Code *</label>
               <input
                 type="text"
                 name="code"
                 value={formData.code}
                 onChange={handleInputChange}
                 required
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
                 placeholder="e.g., SUMMER20"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Description</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Description</label>
               <input
                 type="text"
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
                 placeholder="Coupon description"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Discount Type *</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Discount Type *</label>
               <select
                 name="discount_type"
                 value={formData.discount_type}
                 onChange={handleInputChange}
                 required
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
               >
-                <option value="percentage" className="bg-gray-700 text-white">Percentage</option>
-                <option value="fixed_amount" className="bg-gray-700 text-white">Fixed Amount</option>
+                <option value="percentage" className="bg-secondary-800 text-white">Percentage</option>
+                <option value="fixed_amount" className="bg-secondary-800 text-white">Fixed Amount</option>
               </select>
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
+              <label className="block text-sm font-medium mb-1 text-secondary-300">
                 {formData.discount_type === 'percentage' ? 'Discount Percentage (%)' : 'Discount Amount ($) *'}
               </label>
               <input
@@ -258,12 +260,12 @@ export default function CouponManagement() {
                 required
                 min="0"
                 step="0.01"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Minimum Order Amount ($)</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Minimum Order Amount ($)</label>
               <input
                 type="number"
                 name="minimum_order_amount"
@@ -271,12 +273,12 @@ export default function CouponManagement() {
                 onChange={handleInputChange}
                 min="0"
                 step="0.01"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Maximum Discount Amount ($)</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Maximum Discount Amount ($)</label>
               <input
                 type="number"
                 name="maximum_discount_amount"
@@ -284,70 +286,70 @@ export default function CouponManagement() {
                 onChange={handleInputChange}
                 min="0"
                 step="0.01"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
               />
-              <p className="text-xs text-gray-400 mt-1">Leave empty for no maximum</p>
+              <p className="text-xs text-secondary-400 mt-1">Leave empty for no maximum</p>
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Usage Limit</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Usage Limit</label>
               <input
                 type="number"
                 name="usage_limit"
                 value={formData.usage_limit || ''}
                 onChange={handleInputChange}
                 min="1"
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
               />
-              <p className="text-xs text-gray-400 mt-1">Leave empty for unlimited</p>
+              <p className="text-xs text-secondary-400 mt-1">Leave empty for unlimited</p>
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Valid From</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Valid From</label>
               <input
                 type="datetime-local"
                 name="valid_from"
                 value={formData.valid_from}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Valid Until</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Valid Until</label>
               <input
                 type="datetime-local"
                 name="valid_until"
                 value={formData.valid_until}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
               />
             </div>
             
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium mb-1 text-gray-300">Applies to Categories (comma-separated IDs)</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Applies to Categories (comma-separated IDs)</label>
               <input
                 type="text"
                 name="applies_to_categories"
                 value={formData.applies_to_categories.join(',')}
                 onChange={(e) => setFormData({...formData, applies_to_categories: e.target.value.split(',').map(Number).filter(n => !isNaN(n))})}
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
                 placeholder="e.g., 1,2,3"
               />
-              <p className="text-xs text-gray-400 mt-1">Leave empty to apply to all categories</p>
+              <p className="text-xs text-secondary-400 mt-1">Leave empty to apply to all categories</p>
             </div>
             
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium mb-1 text-gray-300">Applies to Products (comma-separated IDs)</label>
+              <label className="block text-sm font-medium mb-1 text-secondary-300">Applies to Products (comma-separated IDs)</label>
               <input
                 type="text"
                 name="applies_to_products"
                 value={formData.applies_to_products.join(',')}
                 onChange={(e) => setFormData({...formData, applies_to_products: e.target.value.split(',').map(Number).filter(n => !isNaN(n))})}
-                className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                className="w-full p-2 border border-secondary-700 rounded bg-secondary-800 text-white"
                 placeholder="e.g., 1,2,3"
               />
-              <p className="text-xs text-gray-400 mt-1">Leave empty to apply to all products</p>
+              <p className="text-xs text-secondary-400 mt-1">Leave empty to apply to all products</p>
             </div>
             
             <div className="md:col-span-2 flex items-center">
@@ -356,9 +358,9 @@ export default function CouponManagement() {
                 name="is_active"
                 checked={formData.is_active}
                 onChange={handleInputChange}
-                className="mr-2 h-4 w-4 text-blue-600 bg-gray-700 border-gray-600 rounded"
+                className="mr-2 h-4 w-4 text-primary-500 bg-secondary-800 border-secondary-700 rounded"
               />
-              <label className="text-sm font-medium text-gray-300">Active</label>
+              <label className="text-sm font-medium text-secondary-300">Active</label>
             </div>
             
             <div className="md:col-span-2 flex gap-2 mt-4">
@@ -374,7 +376,7 @@ export default function CouponManagement() {
                   setShowForm(false)
                   setEditingCoupon(null)
                 }}
-                className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+                className="bg-secondary-700 text-white px-4 py-2 rounded hover:bg-secondary-800 transition-colors"
               >
                 Cancel
               </button>
@@ -383,42 +385,42 @@ export default function CouponManagement() {
         </div>
       )}
 
-      <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-700">
-          <thead className="bg-gray-700">
+      <div className="bg-secondary-900 rounded-lg shadow overflow-hidden">
+        <table className="min-w-full divide-y divide-secondary-800">
+          <thead className="bg-secondary-800">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Code</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Discount</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Validity</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Usage</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Code</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Discount</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Validity</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Usage</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-gray-800 divide-y divide-gray-700">
+          <tbody className="bg-secondary-900 divide-y divide-secondary-800">
             {(coupons || []).map((coupon) => (
-              <tr key={coupon.id} className="hover:bg-gray-750">
+              <tr key={coupon.id} className="hover:bg-secondary-800">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="font-medium text-white">{coupon.code}</div>
-                  <div className="text-sm text-gray-400">{coupon.description}</div>
+                  <div className="text-sm text-secondary-400">{coupon.description}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     {coupon.discount_type === 'percentage' ? (
-                      <Percent className="mr-1 h-4 w-4 text-gray-400" />
+                      <Percent className="mr-1 h-4 w-4 text-secondary-400" />
                     ) : (
-                      <DollarSign className="mr-1 h-4 w-4 text-gray-400" />
+                      <DollarSign className="mr-1 h-4 w-4 text-secondary-400" />
                     )}
                     {coupon.discount_type === 'percentage' 
                       ? `${coupon.discount_value}%` 
                       : `$${coupon.discount_value}`}
                   </div>
                   {coupon.minimum_order_amount > 0 && (
-                    <div className="text-sm text-gray-400">Min: ${coupon.minimum_order_amount}</div>
+                    <div className="text-sm text-secondary-400">Min: ${coupon.minimum_order_amount}</div>
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center text-sm text-gray-400">
+                  <div className="flex items-center text-sm text-secondary-400">
                     <Calendar className="mr-1 h-4 w-4" />
                     <div>
                       <div>{new Date(coupon.valid_from).toLocaleDateString()}</div>
@@ -452,7 +454,7 @@ export default function CouponManagement() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button
                     onClick={() => handleEdit(coupon)}
-                    className="text-blue-400 hover:text-blue-300 mr-3"
+                    className="text-primary-400 hover:text-primary-300 mr-3"
                   >
                     Edit
                   </button>
@@ -469,11 +471,12 @@ export default function CouponManagement() {
         </table>
         
         {coupons.length === 0 && (
-          <div className="text-center py-8 text-gray-400">
+          <div className="text-center py-8 text-secondary-400">
             No coupons found. Create your first coupon using the "Add Coupon" button.
           </div>
         )}
       </div>
     </div>
+    </AdminLayout>
   )
 }

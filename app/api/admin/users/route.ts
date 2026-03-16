@@ -11,6 +11,9 @@ export async function GET(request: NextRequest) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Ensure optional columns exist (idempotent safeguard when migrations lag)
+    await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS phone VARCHAR(50)`;
+
     const search = request.nextUrl.searchParams.get('search') || '';
     const page = parseInt(request.nextUrl.searchParams.get('page') || '1');
     const limit = parseInt(request.nextUrl.searchParams.get('limit') || '10');
@@ -66,6 +69,9 @@ export async function PUT(request: NextRequest) {
     if (!session?.user?.isAdmin) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    // Ensure optional columns exist before updates
+    await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS phone VARCHAR(50)`;
 
     const body = await request.json();
     const { userId, updates } = body;

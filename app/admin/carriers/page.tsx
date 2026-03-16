@@ -107,7 +107,7 @@ export default function AdminCarriers() {
     return (
       <AdminLayout>
         <div className="flex justify-center items-center h-full">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
         </div>
       </AdminLayout>
     )
@@ -121,20 +121,20 @@ export default function AdminCarriers() {
         <div className="mb-6">
           <button
             onClick={() => setShowForm(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+            className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md"
           >
             Add New Carrier
           </button>
         </div>
 
         {showForm && (
-          <div className="bg-gray-800 rounded-lg shadow p-6 mb-6">
+          <div className="bg-secondary-900 rounded-lg shadow p-6 mb-6">
             <h2 className="text-xl font-semibold text-white mb-4">
               {editingCarrier ? 'Edit Carrier' : 'Add New Carrier'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-secondary-300 mb-1">
                   Carrier Name
                 </label>
                 <input
@@ -142,13 +142,13 @@ export default function AdminCarriers() {
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required
-                  className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
+                  className="w-full px-3 py-2 border border-secondary-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-secondary-800 text-white"
                   placeholder="e.g., UPS, FedEx, USPS"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-secondary-300 mb-1">
                   Service Name
                 </label>
                 <input
@@ -156,13 +156,13 @@ export default function AdminCarriers() {
                   value={formData.service_name}
                   onChange={(e) => setFormData({...formData, service_name: e.target.value})}
                   required
-                  className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
+                  className="w-full px-3 py-2 border border-secondary-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-secondary-800 text-white"
                   placeholder="e.g., UPS Ground, FedEx Express"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-secondary-300 mb-1">
                   Base Delivery Days
                 </label>
                 <input
@@ -171,7 +171,7 @@ export default function AdminCarriers() {
                   onChange={(e) => setFormData({...formData, base_delivery_days: parseInt(e.target.value)})}
                   required
                   min="1"
-                  className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
+                  className="w-full px-3 py-2 border border-secondary-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-secondary-800 text-white"
                   placeholder="e.g., 3"
                 />
               </div>
@@ -179,14 +179,14 @@ export default function AdminCarriers() {
               <div className="flex space-x-3">
                 <button
                   type="submit"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                 >
                   {editingCarrier ? 'Update' : 'Create'}
                 </button>
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="inline-flex items-center px-4 py-2 border border-gray-600 text-sm font-medium rounded-md shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  className="inline-flex items-center px-4 py-2 border border-secondary-700 text-sm font-medium rounded-md shadow-sm text-white bg-secondary-700 hover:bg-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-600"
                 >
                   Cancel
                 </button>
@@ -195,33 +195,33 @@ export default function AdminCarriers() {
           </div>
         )}
 
-        <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div className="bg-secondary-900 rounded-lg shadow overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-700">
-              <thead className="bg-gray-700">
+            <table className="min-w-full divide-y divide-secondary-800">
+              <thead className="bg-secondary-800">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Carrier</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Service Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Base Delivery Days</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Carrier</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Service Name</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Base Delivery Days</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-700">
+              <tbody className="divide-y divide-secondary-800">
                 {carriers.map((carrier: any) => (
-                  <tr key={carrier.id} className="hover:bg-gray-750">
+                  <tr key={carrier.id} className="hover:bg-secondary-800">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-white">{carrier.name}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-300">{carrier.service_name}</div>
+                      <div className="text-sm text-secondary-300">{carrier.service_name}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-300">{carrier.base_delivery_days} days</div>
+                      <div className="text-sm text-secondary-300">{carrier.base_delivery_days} days</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                       <button
                         onClick={() => handleEdit(carrier)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-primary-500 hover:text-primary-300"
                       >
                         Edit
                       </button>

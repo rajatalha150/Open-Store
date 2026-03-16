@@ -44,7 +44,7 @@ export default function AdminDashboard() {
   }
 
   const statCards = [
-    { name: 'Total Products', value: stats.products, icon: Package, color: 'bg-blue-500' },
+    { name: 'Total Products', value: stats.products, icon: Package, color: 'bg-primary-500' },
     { name: 'Categories', value: stats.categories, icon: ShoppingBag, color: 'bg-green-500' },
     { name: 'Total Orders', value: stats.orders, icon: Users, color: 'bg-purple-500' },
     { name: 'Revenue', value: `$${(stats.revenue || 0).toFixed(2)}`, icon: DollarSign, color: 'bg-yellow-500' },
@@ -59,13 +59,13 @@ export default function AdminDashboard() {
           {statCards.map((stat) => {
             const Icon = stat.icon
             return (
-              <div key={stat.name} className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700 hover:border-gray-600 transition-colors">
+              <div key={stat.name} className="bg-secondary-900 rounded-xl shadow-lg p-6 border border-secondary-800 hover:border-secondary-700 transition-colors">
                 <div className="flex items-center">
                   <div className={`${stat.color} rounded-xl p-3 shadow-lg`}>
                     <Icon className="h-7 w-7 text-white" />
                   </div>
                   <div className="ml-5">
-                    <p className="text-sm font-medium text-gray-400 uppercase tracking-wide">{stat.name}</p>
+                    <p className="text-sm font-medium text-secondary-400 uppercase tracking-wide">{stat.name}</p>
                     <p className="text-3xl font-bold text-white mt-1">{stat.value}</p>
                   </div>
                 </div>
@@ -74,36 +74,36 @@ export default function AdminDashboard() {
           })}
         </div>
 
-        <div className="bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-700">
+        <div className="bg-secondary-900 rounded-xl shadow-lg p-8 border border-secondary-800">
           <h2 className="text-xl font-semibold text-white mb-6">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             <a
               href="/admin/products"
-              className="group p-6 border border-gray-600 rounded-xl hover:bg-gray-700 hover:border-gray-500 transition-all duration-200 bg-gray-750"
+              className="group p-6 border border-secondary-700 rounded-xl hover:bg-secondary-800 hover:border-secondary-600 transition-all duration-200 bg-secondary-800"
             >
-              <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors">Manage Products</h3>
-              <p className="text-sm text-gray-400 mt-2">Add, edit, or remove products</p>
+              <h3 className="font-semibold text-white group-hover:text-primary-400 transition-colors">Manage Products</h3>
+              <p className="text-sm text-secondary-400 mt-2">Add, edit, or remove products</p>
             </a>
             <a
               href="/admin/categories"
-              className="group p-6 border border-gray-600 rounded-xl hover:bg-gray-700 hover:border-gray-500 transition-all duration-200 bg-gray-750"
+              className="group p-6 border border-secondary-700 rounded-xl hover:bg-secondary-800 hover:border-secondary-600 transition-all duration-200 bg-secondary-800"
             >
               <h3 className="font-semibold text-white group-hover:text-green-400 transition-colors">Manage Categories</h3>
-              <p className="text-sm text-gray-400 mt-2">Organize your product categories</p>
+              <p className="text-sm text-secondary-400 mt-2">Organize your product categories</p>
             </a>
             <a
               href="/admin/orders"
-              className="group p-6 border border-gray-600 rounded-xl hover:bg-gray-700 hover:border-gray-500 transition-all duration-200 bg-gray-750"
+              className="group p-6 border border-secondary-700 rounded-xl hover:bg-secondary-800 hover:border-secondary-600 transition-all duration-200 bg-secondary-800"
             >
               <h3 className="font-semibold text-white group-hover:text-purple-400 transition-colors">View Orders</h3>
-              <p className="text-sm text-gray-400 mt-2">Process and manage orders</p>
+              <p className="text-sm text-secondary-400 mt-2">Process and manage orders</p>
             </a>
             <a
               href="/admin/contacts"
-              className="group p-6 border border-gray-600 rounded-xl hover:bg-gray-700 hover:border-gray-500 transition-all duration-200 bg-gray-750"
+              className="group p-6 border border-secondary-700 rounded-xl hover:bg-secondary-800 hover:border-secondary-600 transition-all duration-200 bg-secondary-800"
             >
               <h3 className="font-semibold text-white group-hover:text-yellow-400 transition-colors">Contact Messages</h3>
-              <p className="text-sm text-gray-400 mt-2">View and manage customer messages</p>
+              <p className="text-sm text-secondary-400 mt-2">View and manage customer messages</p>
             </a>
           </div>
         </div>

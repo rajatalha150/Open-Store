@@ -72,7 +72,7 @@ export default function UserStats() {
       <AdminLayout>
         <div className="p-6">
           <h1 className="text-2xl font-bold text-white mb-6">User Statistics</h1>
-          <p className="text-gray-400">Loading user statistics...</p>
+          <p className="text-secondary-400">Loading user statistics...</p>
         </div>
       </AdminLayout>
     );
@@ -83,7 +83,7 @@ export default function UserStats() {
       <AdminLayout>
         <div className="p-6">
           <h1 className="text-2xl font-bold text-white mb-6">User Statistics</h1>
-          <p className="text-gray-400">Failed to load user statistics</p>
+          <p className="text-secondary-400">Failed to load user statistics</p>
         </div>
       </AdminLayout>
     );
@@ -111,54 +111,54 @@ export default function UserStats() {
     <AdminLayout>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white mb-2">User Statistics</h1>
-        <p className="text-gray-400">Comprehensive overview of user activity and engagement</p>
+        <p className="text-secondary-400">Comprehensive overview of user activity and engagement</p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
-            <div className="bg-blue-500 rounded-lg p-3">
+            <div className="bg-primary-500 rounded-lg p-3">
               <Users className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Total Users</p>
+              <p className="text-sm font-medium text-secondary-400">Total Users</p>
               <p className="text-2xl font-bold text-white">{stats.overall.total_users}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="bg-green-500 rounded-lg p-3">
               <CheckCircle className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Active Users</p>
+              <p className="text-sm font-medium text-secondary-400">Active Users</p>
               <p className="text-2xl font-bold text-white">{stats.overall.active_users}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="bg-purple-500 rounded-lg p-3">
               <Package className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Total Orders</p>
+              <p className="text-sm font-medium text-secondary-400">Total Orders</p>
               <p className="text-2xl font-bold text-white">{stats.overall.total_orders}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="bg-yellow-500 rounded-lg p-3">
               <DollarSign className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Total Revenue</p>
+              <p className="text-sm font-medium text-secondary-400">Total Revenue</p>
               <p className="text-2xl font-bold text-white">
                 ${stats.overall.total_revenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
@@ -169,7 +169,7 @@ export default function UserStats() {
 
       {/* User Growth Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <h3 className="text-lg font-medium text-white mb-4 flex items-center">
             <BarChart className="h-5 w-5 mr-2" />
             User Growth (Last 30 Days)
@@ -198,7 +198,7 @@ export default function UserStats() {
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <h3 className="text-lg font-medium text-white mb-4 flex items-center">
             <TrendingUp className="h-5 w-5 mr-2" />
             Active Users (Last 30 Days)
@@ -230,7 +230,7 @@ export default function UserStats() {
 
       {/* Additional Stats and Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <h3 className="text-lg font-medium text-white mb-4">Account Type Distribution</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
@@ -257,14 +257,14 @@ export default function UserStats() {
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <h3 className="text-lg font-medium text-white mb-4">Top Spent Users</h3>
           <div className="space-y-4">
             {(stats.topSpent || []).slice(0, 5).map((user, index) => (
-              <div key={user.id} className="flex items-center justify-between p-3 bg-gray-750 rounded">
+              <div key={user.id} className="flex items-center justify-between p-3 bg-secondary-800 rounded">
                 <div>
                   <p className="text-white font-medium">{user.name || user.email}</p>
-                  <p className="text-sm text-gray-400">{user.email}</p>
+                  <p className="text-sm text-secondary-400">{user.email}</p>
                 </div>
                 <p className="text-lg font-bold text-yellow-400">
                   ${user.total_spent.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -272,7 +272,7 @@ export default function UserStats() {
               </div>
             ))}
             {(!stats.topSpent || stats.topSpent.length === 0) && (
-              <p className="text-gray-400 text-center py-4">No spending data available</p>
+              <p className="text-secondary-400 text-center py-4">No spending data available</p>
             )}
           </div>
         </div>
@@ -280,37 +280,37 @@ export default function UserStats() {
 
       {/* Additional User Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="bg-red-500 rounded-lg p-3">
               <XCircle className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Suspended Users</p>
+              <p className="text-sm font-medium text-secondary-400">Suspended Users</p>
               <p className="text-2xl font-bold text-white">{stats.overall.suspended_users}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="bg-orange-500 rounded-lg p-3">
               <AlertCircle className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Locked Accounts</p>
+              <p className="text-sm font-medium text-secondary-400">Locked Accounts</p>
               <p className="text-2xl font-bold text-white">{stats.overall.locked_users}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-gray-800 rounded-lg shadow p-6">
+        <div className="bg-secondary-900 rounded-lg shadow p-6">
           <div className="flex items-center">
-            <div className="bg-blue-500 rounded-lg p-3">
+            <div className="bg-primary-500 rounded-lg p-3">
               <Users className="h-6 w-6 text-white" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-400">Verified Users</p>
+              <p className="text-sm font-medium text-secondary-400">Verified Users</p>
               <p className="text-2xl font-bold text-white">{stats.overall.verified_users}</p>
             </div>
           </div>

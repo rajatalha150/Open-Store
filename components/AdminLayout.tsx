@@ -35,10 +35,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { storeName } = useStoreSettings()
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div className="min-h-screen bg-secondary-950 text-secondary-100">
       <div className="flex">
-        <div className="w-64 bg-gray-800 shadow-lg">
-          <div className="p-6 border-b border-gray-700">
+        <div className="w-64 bg-secondary-900 shadow-lg">
+          <div className="p-6 border-b border-secondary-800">
             <h1 className="text-xl font-bold text-white">Admin Panel</h1>
           </div>
           <nav className="mt-6">
@@ -51,8 +51,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   href={item.href}
                   className={`flex items-center px-6 py-3 text-sm font-medium ${
                     isActive
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                      ? 'bg-primary-500 text-white'
+                      : 'text-secondary-300 hover:text-white hover:bg-secondary-800'
                   }`}
                 >
                   <Icon className="mr-3 h-5 w-5" />
@@ -62,9 +62,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             })}
           </nav>
         </div>
-        
-        <div className="flex-1 bg-gray-900">
-          <header className="bg-gray-800 shadow-md border-b border-gray-700">
+
+        <div className="flex-1 bg-secondary-950">
+          <header className="bg-secondary-900 shadow-md border-b border-secondary-800">
             <div className="px-6 py-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-white">
@@ -72,15 +72,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </h2>
                 <Link
                   href="/"
-                  className="text-sm text-blue-400 hover:text-blue-300"
+                  className="text-sm text-primary-400 hover:text-primary-300"
                 >
                   View Store →
                 </Link>
               </div>
             </div>
           </header>
-          
-          <main className="p-6 bg-gray-900 text-gray-100">
+
+          <main className="p-6 bg-secondary-950 text-secondary-100">
             {children}
           </main>
         </div>

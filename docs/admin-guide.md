@@ -6,17 +6,33 @@ The admin dashboard provides full control over your store. Access it at `/admin`
 
 ### Create Admin Account
 
+**Option A: Web Setup (Recommended)**
+
+Visit `/setup` in your browser. This page lets you:
+1. Create your admin account with your own email and password
+2. Automatically creates database tables if they don't exist
+3. Signs you in and redirects to the admin dashboard
+
+The setup page disables itself permanently once an admin account exists.
+
+> **Tip:** On Vercel deployments, set a `SETUP_SECRET` environment variable for extra security. The setup page will require it before allowing access.
+
+**Option B: CLI Setup**
+
 ```bash
 npm run admin:init
 ```
 
-This creates an admin user with a secure random password. The credentials are printed to the console - save them!
+This creates an admin user with a secure random password. The credentials are printed to the console — save them!
 
 ### First Login
 
+If you used the CLI setup:
 1. Go to `/auth/signin`
 2. Enter the admin email and password from the init script
 3. You'll be redirected to the admin dashboard
+
+If you used the web setup, you're already signed in.
 
 ## Dashboard
 

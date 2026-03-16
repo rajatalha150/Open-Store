@@ -60,7 +60,7 @@ export default function InventoryAlerts() {
         <h1 className="text-2xl font-bold mb-6">Inventory Alerts</h1>
 
         {/* Settings */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-6">
+        <div className="bg-secondary-900 rounded-lg p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Alert Settings</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
@@ -69,7 +69,7 @@ export default function InventoryAlerts() {
                 type="number"
                 value={settings.lowStockThreshold}
                 onChange={(e) => setSettings({...settings, lowStockThreshold: parseInt(e.target.value)})}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
               />
             </div>
             <div className="flex items-center">
@@ -77,7 +77,7 @@ export default function InventoryAlerts() {
                 type="checkbox"
                 checked={settings.outOfStockAlert}
                 onChange={(e) => setSettings({...settings, outOfStockAlert: e.target.checked})}
-                className="h-4 w-4 text-blue-600 rounded mr-2"
+                className="h-4 w-4 text-primary-500 rounded mr-2"
               />
               <label>Out of Stock Alerts</label>
             </div>
@@ -86,28 +86,28 @@ export default function InventoryAlerts() {
                 type="checkbox"
                 checked={settings.emailNotifications}
                 onChange={(e) => setSettings({...settings, emailNotifications: e.target.checked})}
-                className="h-4 w-4 text-blue-600 rounded mr-2"
+                className="h-4 w-4 text-primary-500 rounded mr-2"
               />
               <label>Email Notifications</label>
             </div>
           </div>
           <button
             onClick={updateSettings}
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            className="mt-4 bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600"
           >
             Save Settings
           </button>
         </div>
 
         {/* Alerts */}
-        <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-700">
+        <div className="bg-secondary-900 rounded-lg shadow overflow-hidden">
+          <div className="px-6 py-4 border-b border-secondary-800">
             <h2 className="text-lg font-semibold flex items-center">
               <Bell className="h-5 w-5 mr-2" />
               Active Alerts ({alerts.length})
             </h2>
           </div>
-          <div className="divide-y divide-gray-700">
+          <div className="divide-y divide-secondary-800">
             {alerts.map((alert) => (
               <div key={alert.id} className="px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center">
@@ -121,7 +121,7 @@ export default function InventoryAlerts() {
                   </div>
                   <div>
                     <h3 className="font-medium">{alert.product_name}</h3>
-                    <p className="text-sm text-gray-400">SKU: {alert.sku}</p>
+                    <p className="text-sm text-secondary-400">SKU: {alert.sku}</p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -130,7 +130,7 @@ export default function InventoryAlerts() {
                   }`}>
                     {alert.current_stock} units
                   </p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-secondary-400">
                     Threshold: {alert.threshold}
                   </p>
                 </div>

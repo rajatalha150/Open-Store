@@ -10,7 +10,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
 
-    const filename = `products/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+    const rawFolder = (formData.get('folder') as string) || 'products';
+    const folder = rawFolder.replace(/[^a-zA-Z0-9_-]/g, '');
+    const filename = `${folder || 'products'}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
 
     const blob = await put(filename, file, {
       access: 'public',

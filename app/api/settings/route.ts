@@ -27,6 +27,7 @@ export async function GET(request: NextRequest) {
       enableReviews: s.enable_reviews === 'true',
       enableWishlist: s.enable_wishlist === 'true',
       stripePublishableKey: s.stripe_publishable_key || '',
+      logoUrl: s.logo_url || '',
     };
 
     return Response.json({ settings: publicSettings });

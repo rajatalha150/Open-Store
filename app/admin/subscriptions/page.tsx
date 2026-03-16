@@ -189,7 +189,7 @@ export default function SubscriptionManagement() {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
         </div>
       </AdminLayout>
     )
@@ -205,7 +205,7 @@ export default function SubscriptionManagement() {
               resetForm()
               setShowForm(true)
             }}
-            className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="flex items-center bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
           >
             <Plus className="h-5 w-5 mr-2" />
             Add Plan
@@ -213,7 +213,7 @@ export default function SubscriptionManagement() {
         </div>
 
         {showForm && (
-          <div className="bg-gray-800 p-6 rounded-lg shadow mb-6">
+          <div className="bg-secondary-900 p-6 rounded-lg shadow mb-6">
             <h2 className="text-xl font-semibold mb-4 text-white">
               {editingPlan ? 'Edit Subscription Plan' : 'Create New Subscription Plan'}
             </h2>
@@ -221,18 +221,18 @@ export default function SubscriptionManagement() {
             <form onSubmit={editingPlan ? handleUpdatePlan : handleCreatePlan} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Name *</label>
+                  <label className="block text-sm font-medium text-secondary-300 mb-1">Name *</label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     required
-                    className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                    className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Price *</label>
+                  <label className="block text-sm font-medium text-secondary-300 mb-1">Price *</label>
                   <input
                     type="number"
                     value={formData.price}
@@ -240,60 +240,60 @@ export default function SubscriptionManagement() {
                     required
                     min="0"
                     step="0.01"
-                    className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                    className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Billing Interval</label>
+                  <label className="block text-sm font-medium text-secondary-300 mb-1">Billing Interval</label>
                   <div className="flex space-x-4">
                     <select
                       value={formData.interval_count}
                       onChange={(e) => setFormData({...formData, interval_count: parseInt(e.target.value)})}
-                      className="flex-1 px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                      className="flex-1 px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                     >
                       {[1, 2, 3, 6, 12].map(num => (
-                        <option key={num} value={num} className="bg-gray-700 text-white">{num}</option>
+                        <option key={num} value={num} className="bg-secondary-800 text-white">{num}</option>
                       ))}
                     </select>
                     
                     <select
                       value={formData.interval_type}
                       onChange={(e) => setFormData({...formData, interval_type: e.target.value})}
-                      className="flex-1 px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                      className="flex-1 px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                     >
-                      <option value="day" className="bg-gray-700 text-white">Day(s)</option>
-                      <option value="week" className="bg-gray-700 text-white">Week(s)</option>
-                      <option value="month" className="bg-gray-700 text-white">Month(s)</option>
-                      <option value="year" className="bg-gray-700 text-white">Year(s)</option>
+                      <option value="day" className="bg-secondary-800 text-white">Day(s)</option>
+                      <option value="week" className="bg-secondary-800 text-white">Week(s)</option>
+                      <option value="month" className="bg-secondary-800 text-white">Month(s)</option>
+                      <option value="year" className="bg-secondary-800 text-white">Year(s)</option>
                     </select>
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Trial Period (days)</label>
+                  <label className="block text-sm font-medium text-secondary-300 mb-1">Trial Period (days)</label>
                   <input
                     type="number"
                     value={formData.trial_period_days}
                     onChange={(e) => setFormData({...formData, trial_period_days: parseInt(e.target.value) || 0})}
                     min="0"
-                    className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                    className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                <label className="block text-sm font-medium text-secondary-300 mb-1">Description</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                  className="w-full px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Features</label>
+                <label className="block text-sm font-medium text-secondary-300 mb-1">Features</label>
                 <div className="space-y-2">
                   {formData.features.map((feature, index) => (
                     <div key={index} className="flex items-center">
@@ -301,7 +301,7 @@ export default function SubscriptionManagement() {
                         type="text"
                         value={feature}
                         onChange={(e) => updateFeature(index, e.target.value)}
-                        className="flex-1 px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                        className="flex-1 px-3 py-2 border border-secondary-700 rounded-md bg-secondary-800 text-white"
                         placeholder="Feature description"
                       />
                       <button
@@ -316,7 +316,7 @@ export default function SubscriptionManagement() {
                   <button
                     type="button"
                     onClick={addFeature}
-                    className="flex items-center text-blue-400 hover:text-blue-300 text-sm"
+                    className="flex items-center text-primary-400 hover:text-primary-300 text-sm"
                   >
                     <Plus className="h-4 w-4 mr-1" />
                     Add Feature
@@ -330,9 +330,9 @@ export default function SubscriptionManagement() {
                   id="is_active"
                   checked={formData.is_active}
                   onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
-                  className="h-4 w-4 text-blue-600 bg-gray-700 border-gray-600 rounded"
+                  className="h-4 w-4 text-primary-500 bg-secondary-800 border-secondary-700 rounded"
                 />
-                <label htmlFor="is_active" className="ml-2 block text-sm text-gray-300">
+                <label htmlFor="is_active" className="ml-2 block text-sm text-secondary-300">
                   Active
                 </label>
               </div>
@@ -348,7 +348,7 @@ export default function SubscriptionManagement() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="flex items-center bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
+                  className="flex items-center bg-secondary-700 text-white px-4 py-2 rounded-md hover:bg-secondary-800"
                 >
                   <X className="h-5 w-5 mr-1" />
                   Cancel
@@ -358,32 +358,32 @@ export default function SubscriptionManagement() {
           </div>
         )}
 
-        <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-700">
-            <thead className="bg-gray-700">
+        <div className="bg-secondary-900 rounded-lg shadow overflow-hidden">
+          <table className="min-w-full divide-y divide-secondary-800">
+            <thead className="bg-secondary-800">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Interval</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Trial</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Price</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Interval</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Trial</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-secondary-300 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-gray-800 divide-y divide-gray-700">
+            <tbody className="bg-secondary-900 divide-y divide-secondary-800">
               {plans?.map((plan) => (
-                <tr key={plan.id} className="hover:bg-gray-750">
+                <tr key={plan.id} className="hover:bg-secondary-800">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-white">{plan.name}</div>
-                    <div className="text-sm text-gray-400">{plan.description}</div>
+                    <div className="text-sm text-secondary-400">{plan.description}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                     ${plan.price}/{plan.interval_count > 1 ? `${plan.interval_count} ` : ''}{plan.interval_type}{plan.interval_count > 1 ? 's' : ''}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-400">
                     Every {plan.interval_count} {plan.interval_type}{plan.interval_count > 1 ? 's' : ''}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary-400">
                     {plan.trial_period_days > 0 ? `${plan.trial_period_days} days` : 'None'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -396,7 +396,7 @@ export default function SubscriptionManagement() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button
                       onClick={() => startEditing(plan)}
-                      className="text-blue-400 hover:text-blue-300 mr-3"
+                      className="text-primary-400 hover:text-primary-300 mr-3"
                     >
                       <Edit className="h-5 w-5" />
                     </button>
@@ -413,7 +413,7 @@ export default function SubscriptionManagement() {
           </table>
           
           {(!plans || plans.length === 0) && (
-            <div className="text-center py-8 text-gray-400">
+            <div className="text-center py-8 text-secondary-400">
               No subscription plans found. Create your first plan using the "Add Plan" button.
             </div>
           )}

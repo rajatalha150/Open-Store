@@ -65,6 +65,12 @@ These must be set for the application to function:
 | `STORE_CURRENCY` | Display currency | `USD` |
 | `STORE_TIMEZONE` | Timezone | `America/New_York` |
 
+## Setup
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `SETUP_SECRET` | Optional secret required to access the `/setup` page. If set, the setup page prompts for this value before allowing admin account creation. Recommended for production deployments. | Not set (no secret required) |
+
 ## Production Settings
 
 | Variable | Description | Default |

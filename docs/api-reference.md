@@ -73,6 +73,30 @@ Most API endpoints require authentication via NextAuth.js session cookies. Admin
 |--------|----------|-------------|
 | GET | `/api/health` | Basic health check |
 
+### Setup (One-Time)
+
+These endpoints are only functional before the first admin account is created. They return `409` once an admin exists.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/setup/status` | Check if setup is needed (`?secret=` if `SETUP_SECRET` is set) |
+| POST | `/api/setup` | Create database tables and first admin account |
+
+**POST `/api/setup` body:**
+
+```json
+{
+  "email": "admin@example.com",
+  "password": "SecureP@ssw0rd!",
+  "confirmPassword": "SecureP@ssw0rd!",
+  "firstName": "John",
+  "lastName": "Doe",
+  "setupSecret": "optional-if-SETUP_SECRET-is-set"
+}
+```
+
+Password requirements: 12+ characters, uppercase, lowercase, digit, and special character.
+
 ## Authenticated Endpoints
 
 Require a valid user session.
