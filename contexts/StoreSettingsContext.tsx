@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState, ReactNode } from 'react'
 
 export interface StoreSettingsData {
   storeName: string
@@ -40,19 +40,42 @@ const defaultSettings: StoreSettingsData = {
 
 const StoreSettingsContext = createContext<StoreSettingsData>(defaultSettings)
 
+const STORE_SETTINGS_UPDATED_EVENT = 'store-settings-updated'
+
 export function StoreSettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<StoreSettingsData>(defaultSettings)
 
-  useEffect(() => {
-    fetch('/api/settings')
-      .then(res => res.json())
-      .then(data => {
-        if (data.settings) {
-          setSettings(data.settings)
-        }
-      })
-      .catch(err => console.error('Failed to load store settings:', err))
+  const loadSettings = useCallback(async () => {
+    try {
+      const res = await fetch('/api/settings', { cache: 'no-store' })
+      const data = await res.json()
+      if (data.settings) {
+        setSettings(data.settings)
+      }
+    } catch (err) {
+      console.error('Failed to load store settings:', err)
+    }
   }, [])
+
+  useEffect(() => {
+    loadSettings()
+
+    const handleSettingsUpdated = () => {
+      loadSettings()
+    }
+
+    const handleWindowFocus = () => {
+      loadSettings()
+    }
+
+    window.addEventListener(STORE_SETTINGS_UPDATED_EVENT, handleSettingsUpdated)
+    window.addEventListener('focus', handleWindowFocus)
+
+    return () => {
+      window.removeEventListener(STORE_SETTINGS_UPDATED_EVENT, handleSettingsUpdated)
+      window.removeEventListener('focus', handleWindowFocus)
+    }
+  }, [loadSettings])
 
   return (
     <StoreSettingsContext.Provider value={settings}>
@@ -63,6 +86,11 @@ export function StoreSettingsProvider({ children }: { children: ReactNode }) {
 
 export function useStoreSettings() {
   return useContext(StoreSettingsContext)
+}
+
+export function notifyStoreSettingsUpdated() {
+  if (typeof window === 'undefined') return
+  window.dispatchEvent(new Event(STORE_SETTINGS_UPDATED_EVENT))
 }
 
 export function formatAddress(settings: StoreSettingsData): string {

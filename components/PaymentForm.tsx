@@ -127,7 +127,7 @@ function getStripePromise() {
     stripePromise = new Promise(async (resolve) => {
       try {
         // Fetch the publishable key from settings API
-        const response = await fetch('/api/settings');
+        const response = await fetch('/api/settings', { cache: 'no-store' });
         if (!response.ok) {
           console.error('Failed to fetch settings');
           resolve(null);

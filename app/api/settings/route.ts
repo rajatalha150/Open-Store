@@ -1,6 +1,9 @@
 import { NextRequest } from 'next/server';
 import { getSettings } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET(request: NextRequest) {
   try {
     const result = await getSettings();
@@ -30,7 +33,16 @@ export async function GET(request: NextRequest) {
       logoUrl: s.logo_url || '',
     };
 
-    return Response.json({ settings: publicSettings });
+    return Response.json(
+      { settings: publicSettings },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error fetching public settings:', error);
     return Response.json({ error: 'Failed to fetch settings' }, { status: 500 });

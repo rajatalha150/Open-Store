@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import { getSettings } from '@/lib/db';
 
 export interface StoreSettings {
@@ -20,6 +21,7 @@ export interface StoreSettings {
 
 export async function getStoreSettings(): Promise<StoreSettings> {
   try {
+    noStore();
     const result = await getSettings();
     const s = result.success && result.settings ? result.settings : {};
 
@@ -41,6 +43,15 @@ export async function getStoreSettings(): Promise<StoreSettings> {
       logoUrl: s.logo_url || '',
     };
   } catch (error) {
+    if (
+      error &&
+      typeof error === 'object' &&
+      'digest' in error &&
+      error.digest === 'DYNAMIC_SERVER_USAGE'
+    ) {
+      throw error;
+    }
+
     console.error('Error fetching store settings:', error);
     return {
       storeName: process.env.STORE_NAME || 'My Store',

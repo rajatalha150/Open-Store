@@ -5,6 +5,7 @@ import Link from 'next/link'
 import AdminLayout from '@/components/AdminLayout'
 import { CheckCircle, XCircle, CreditCard, Mail, Upload, Trash2, ImageIcon, Loader2 } from 'lucide-react'
 import { getUploadErrorMessage, uploadImageFile } from '@/lib/upload-client'
+import { notifyStoreSettingsUpdated } from '@/contexts/StoreSettingsContext'
 
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
@@ -82,6 +83,7 @@ export default function AdminSettings() {
       })
 
       if (saveRes.ok) {
+        notifyStoreSettingsUpdated()
         setSaveStatus({ type: 'success', message: 'Logo uploaded and saved!' })
       } else {
         setSaveStatus({ type: 'error', message: 'Logo uploaded but failed to save settings.' })
@@ -107,6 +109,7 @@ export default function AdminSettings() {
       })
 
       if (res.ok) {
+        notifyStoreSettingsUpdated()
         setSaveStatus({ type: 'success', message: 'Logo removed successfully!' })
       } else {
         setSaveStatus({ type: 'error', message: 'Failed to remove logo.' })
@@ -129,6 +132,7 @@ export default function AdminSettings() {
       })
 
       if (response.ok) {
+        notifyStoreSettingsUpdated()
         setSaveStatus({ type: 'success', message: 'Settings saved successfully!' })
         // Refresh settings to update badges
         const refreshResponse = await fetch('/api/admin/settings')
