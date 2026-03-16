@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import AdminLayout from '@/components/AdminLayout'
 import { Plus, Edit, Trash2, X } from 'lucide-react'
+import { getUploadErrorMessage, uploadImageFile } from '@/lib/upload-client'
 
 export default function AdminCategories() {
   type Category = {
@@ -20,6 +21,7 @@ export default function AdminCategories() {
   // Image Upload State
   const [uploading, setUploading] = useState(false)
   const [previewUrl, setPreviewUrl] = useState('')
+  const [error, setError] = useState('')
 
   useEffect(() => {
     fetchCategories()
@@ -51,19 +53,13 @@ export default function AdminCategories() {
     if (!file) return
 
     setUploading(true)
+    setError('')
     try {
-      const formData = new FormData()
-      formData.append('file', file)
-
-      const res = await fetch('/api/upload', { method: 'POST', body: formData })
-      const data = await res.json()
-
-      if (!res.ok) throw new Error(data.error || 'Upload failed')
-
-      setPreviewUrl(data.url)
+      const url = await uploadImageFile(file, 'categories')
+      setPreviewUrl(url)
     } catch (error) {
       console.error('Upload failed:', error)
-      alert('Failed to upload image. Please try again.')
+      setError(getUploadErrorMessage(error, 'Failed to upload image.'))
     } finally {
       setUploading(false)
     }
@@ -171,6 +167,11 @@ export default function AdminCategories() {
               <h2 className="text-lg font-semibold text-white mb-4">
                 {editingCategory ? 'Edit Category' : 'Add New Category'}
               </h2>
+              {error && (
+                <div className="mb-4 rounded border border-red-500 bg-red-500/20 p-3 text-sm text-red-200">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit} className="space-y-4">
                 <input
                   name="name"

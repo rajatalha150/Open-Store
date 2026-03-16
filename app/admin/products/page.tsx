@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import AdminLayout from '@/components/AdminLayout'
 import { Plus, Edit, Trash2, Eye, X } from 'lucide-react'
+import { getUploadErrorMessage, uploadImageFile } from '@/lib/upload-client'
 
 type Product = {
   id: string;
@@ -105,19 +106,12 @@ export default function AdminProducts() {
 
     try {
       for (const file of filesToUpload) {
-        const formData = new FormData()
-        formData.append('file', file)
-
-        const res = await fetch('/api/upload', { method: 'POST', body: formData })
-        const data = await res.json()
-
-        if (!res.ok) throw new Error(data.error || 'Upload failed')
-
-        setProductImages(prev => [...prev, data.url])
+        const url = await uploadImageFile(file, 'products')
+        setProductImages(prev => [...prev, url])
       }
     } catch (error: any) {
       console.error('Upload failed:', error)
-      setError('Upload failed: ' + error.message)
+      setError(getUploadErrorMessage(error, 'Upload failed.'))
     } finally {
       setUploading(false)
       e.target.value = ''

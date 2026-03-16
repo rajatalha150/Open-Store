@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import AdminLayout from '@/components/AdminLayout'
 import { CheckCircle, XCircle, CreditCard, Mail, Upload, Trash2, ImageIcon, Loader2 } from 'lucide-react'
+import { getUploadErrorMessage, uploadImageFile } from '@/lib/upload-client'
 
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
@@ -69,16 +70,8 @@ export default function AdminSettings() {
     setSaveStatus(null)
 
     try {
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('folder', 'branding')
-
-      const res = await fetch('/api/upload', { method: 'POST', body: formData })
-      const data = await res.json()
-
-      if (!res.ok) throw new Error(data.error || 'Upload failed')
-
-      const updatedSettings = { ...settings, logoUrl: data.url }
+      const url = await uploadImageFile(file, 'branding')
+      const updatedSettings = { ...settings, logoUrl: url }
       setSettings(updatedSettings)
 
       // Save immediately so the logo persists
@@ -94,7 +87,7 @@ export default function AdminSettings() {
         setSaveStatus({ type: 'error', message: 'Logo uploaded but failed to save settings.' })
       }
     } catch (error: any) {
-      setSaveStatus({ type: 'error', message: 'Failed to upload logo: ' + (error.message || 'Unknown error') })
+      setSaveStatus({ type: 'error', message: getUploadErrorMessage(error, 'Failed to upload logo.') })
     } finally {
       setIsUploadingLogo(false)
       if (logoInputRef.current) logoInputRef.current.value = ''
