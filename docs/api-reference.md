@@ -1,246 +1,156 @@
 # API Reference
 
-Open Store exposes REST API endpoints under `/api/`. All endpoints return JSON.
-
-## Authentication
-
-Most API endpoints require authentication via NextAuth.js session cookies. Admin endpoints require `isAdmin: true` on the session.
+All API routes live under `/api` and return JSON.
 
 ## Public Endpoints
 
-### Products
+### Catalog and storefront
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/products` | List all products (supports `?category=`, `?featured=true`, `?limit=`) |
-| GET | `/api/products/[id]` | Get product by ID |
-| GET | `/api/search?q=keyword` | Search products (supports `category`, `minPrice`, `maxPrice`, `inStock`, `limit`, `offset`) |
-| GET | `/api/recommendations?productId=1` | Get product recommendations |
-| GET | `/api/compare?ids=1,2,3` | Compare products by IDs |
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| GET | `/api/products` | Product list |
+| GET | `/api/products/[id]` | Product details |
+| GET | `/api/categories` | Category list |
+| GET | `/api/search` | Product search |
+| GET | `/api/recommendations` | Related products |
+| GET | `/api/compare` | Compare products |
+| GET | `/api/settings` | Public store settings |
 
-### Categories
+### Orders and checkout
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/categories` | List all categories |
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| POST | `/api/orders` | Create an order |
+| GET | `/api/orders/track` | Track by order number and email |
+| POST | `/api/create-payment-intent` | Create Stripe Payment Intent |
+| POST | `/api/stripe/webhook` | Stripe webhook receiver |
 
-### Orders
+### Public forms and utilities
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/orders` | Create a new order |
-| GET | `/api/orders/track?orderNumber=&email=` | Track an order |
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| POST | `/api/contact` | Contact form submission |
+| POST | `/api/newsletter` | Newsletter signup |
+| GET | `/api/health` | Basic app health check |
+| GET | `/api/reviews` | Product reviews |
+| POST | `/api/reviews` | Submit product review |
+| POST | `/api/coupons/validate` | Validate coupon |
 
-### Payments
+## Setup Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/create-payment-intent` | Create Stripe payment intent |
-| POST | `/api/stripe/webhook` | Stripe webhook handler |
+These are intended for first-run initialization.
 
-### Coupons
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| GET | `/api/setup/status` | Returns whether setup is still needed. Accepts `?secret=` when `SETUP_SECRET` is configured. |
+| POST | `/api/setup` | Runs migrations and creates the first admin |
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/coupons/validate` | Validate a coupon code |
-
-### Contact & Newsletter
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/contact` | Submit contact form |
-| POST | `/api/newsletter` | Subscribe to newsletter |
-
-### Shipping
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/shipping/carriers` | List shipping carriers |
-| POST | `/api/shipping/rates` | Calculate shipping rates |
-| GET | `/api/shipping/estimate?zipCode=&carrierId=` | Estimate delivery time |
-| GET | `/api/shipping/tracking/[trackingNumber]` | Get tracking events |
-
-### Reviews
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/reviews?productId=1` | Get approved reviews for a product |
-| POST | `/api/reviews` | Submit a review |
-
-### Health
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/health` | Basic health check |
-
-### Setup (One-Time)
-
-These endpoints are only functional before the first admin account is created. They return `409` once an admin exists.
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/setup/status` | Check if setup is needed (`?secret=` if `SETUP_SECRET` is set) |
-| POST | `/api/setup` | Create database tables and first admin account |
-
-**POST `/api/setup` body:**
+Example body for `POST /api/setup`:
 
 ```json
 {
   "email": "admin@example.com",
-  "password": "SecureP@ssw0rd!",
-  "confirmPassword": "SecureP@ssw0rd!",
-  "firstName": "John",
-  "lastName": "Doe",
-  "setupSecret": "optional-if-SETUP_SECRET-is-set"
+  "password": "StrongP@ssw0rd!",
+  "confirmPassword": "StrongP@ssw0rd!",
+  "firstName": "Admin",
+  "lastName": "User",
+  "setupSecret": "optional"
 }
 ```
 
-Password requirements: 12+ characters, uppercase, lowercase, digit, and special character.
+Password requirements for `/setup`:
+- 12 or more characters
+- uppercase
+- lowercase
+- number
+- special character
 
-## Authenticated Endpoints
+## Authenticated User Endpoints
 
-Require a valid user session.
-
-### User Profile
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/user/profile` | Get current user profile |
-| PUT | `/api/user/profile` | Update profile (name, phone, address) |
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| GET | `/api/user/profile` | Current user profile |
+| PUT | `/api/user/profile` | Update profile |
 | POST | `/api/user/change-password` | Change password |
-| GET | `/api/user/orders` | Get user's order history |
+| GET | `/api/user/orders` | Order history |
+| GET | `/api/wishlist` | Wishlist |
+| POST | `/api/wishlist` | Add to wishlist |
+| DELETE | `/api/wishlist` | Remove from wishlist |
+| GET | `/api/recently-viewed` | Recently viewed products |
+| POST | `/api/recently-viewed` | Record product view |
+| GET | `/api/subscriptions` | Current subscriptions |
+| POST | `/api/subscriptions` | Create subscription |
+| GET | `/api/subscriptions/plans` | List plans |
+| GET | `/api/subscriptions/plans/[id]` | Plan details |
 
-### Wishlist
+## Auth Routes
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/wishlist` | Get user's wishlist |
-| POST | `/api/wishlist` | Add product to wishlist (`{ productId }`) |
-| DELETE | `/api/wishlist?productId=1` | Remove from wishlist |
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| POST | `/api/auth/register` | Register user |
+| POST | `/api/auth/forgot-password` | Start password reset |
+| POST | `/api/auth/reset-password` | Complete password reset |
+| POST | `/api/auth/verify-email` | Verify email |
+| POST | `/api/auth/resend-verification` | Resend verification |
 
-### Recently Viewed
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/recently-viewed?userId=1` | Get recently viewed products |
-| POST | `/api/recently-viewed` | Track a product view |
-
-### Subscriptions
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/subscriptions` | Get user's subscriptions |
-| POST | `/api/subscriptions` | Create a subscription |
-| GET | `/api/subscriptions/plans` | List subscription plans |
-| GET | `/api/subscriptions/plans/[id]` | Get plan details |
-
-## Auth Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register new user |
-| POST | `/api/auth/forgot-password` | Request password reset |
-| POST | `/api/auth/reset-password` | Reset password with token |
-| POST | `/api/auth/verify-email` | Verify email with token |
-| POST | `/api/auth/resend-verification` | Resend verification email |
-
-NextAuth.js also provides:
-- `POST /api/auth/signin` - Sign in
-- `POST /api/auth/signout` - Sign out
-- `GET /api/auth/session` - Get session
+NextAuth also serves `/api/auth/[...nextauth]`.
 
 ## Admin Endpoints
 
-Require admin session (`isAdmin: true`).
+All admin endpoints require an authenticated admin session.
 
-### Products & Categories
+### Catalog and uploads
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/products` | Create product |
-| PUT | `/api/products/[id]` | Update product |
-| DELETE | `/api/products/[id]` | Delete product |
-| POST | `/api/upload` | Upload image (Vercel Blob) |
-| POST | `/api/admin/categories` | Create category |
-| PUT | `/api/admin/categories` | Update category |
-| DELETE | `/api/admin/categories` | Delete category |
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| GET / POST | `/api/admin/products` | Product admin API |
+| GET / POST / PUT / DELETE | `/api/admin/categories` | Category admin API |
+| POST | `/api/upload` | Upload image to Vercel Blob |
 
-### Orders
+### Orders, users, reviews, contacts
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/admin/orders` | List all orders |
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| GET | `/api/admin/orders` | Admin order list |
 | PUT | `/api/orders/[id]/status` | Update order status |
-| GET | `/api/orders/[id]/invoice` | Get order invoice |
+| GET | `/api/admin/users` | Paginated user list |
+| GET / PUT | `/api/admin/users/[id]` | User details and update |
+| GET | `/api/admin/users/stats` | User stats |
+| GET / PUT | `/api/admin/reviews` | Review moderation |
+| GET | `/api/admin/contacts` | Contact messages |
 
-### Users
+### Settings and email
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/admin/users` | List users (supports `?search=`, `?page=`, `?limit=`) |
-| GET | `/api/admin/users/[id]` | Get user details |
-| PUT | `/api/admin/users/[id]` | Update user |
-| GET | `/api/admin/users/stats` | User statistics |
-
-### Coupons
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/coupons` | List all coupons |
-| POST | `/api/coupons` | Create coupon |
-| PUT | `/api/coupons/[id]` | Update coupon |
-| DELETE | `/api/coupons/[id]` | Delete coupon |
-
-### Reviews
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/admin/reviews` | List all reviews |
-| PUT | `/api/admin/reviews` | Update review status |
-
-### Settings
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/settings` | Get store settings |
-| GET | `/api/admin/settings` | Get admin settings |
-| PUT | `/api/admin/settings` | Update settings |
-| GET | `/api/admin/email-settings` | Get email config |
-| PUT | `/api/admin/email-settings` | Update email config |
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| GET / PUT | `/api/admin/settings` | General store settings |
+| GET / PUT | `/api/admin/email-settings` | SMTP and email settings |
 | POST | `/api/admin/email-settings/test` | Send test email |
+| POST | `/api/admin/email-settings/test-connection` | Test SMTP connection |
+| POST | `/api/admin/email-test` | Send admin test email |
 
-### Analytics
+### System and operations
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/analytics/summary?period=30d` | Revenue, orders, customer summary |
-| GET | `/api/analytics/trend?metric=revenue&period=30d` | Trend data for charts |
-
-### Inventory
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/inventory` | List product inventory |
-| PUT | `/api/inventory` | Update stock quantity |
-| GET | `/api/admin/inventory/alerts` | Low stock alerts |
-
-### System
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
+| Method | Endpoint | Notes |
+| --- | --- | --- |
 | GET | `/api/admin/health` | Admin health check |
-| GET | `/api/admin/system/health` | Detailed system metrics |
-| POST | `/api/admin/backup` | Create database backup |
-| POST | `/api/admin/restore` | Restore from backup |
-| GET | `/api/admin/security/logs` | Security event logs |
-| POST | `/api/admin/security/logs` | Create security log entry |
-| GET | `/api/admin/contacts` | Customer contact messages |
-| POST | `/api/admin/init` | Initialize database |
+| GET | `/api/admin/system/health` | Detailed health metrics |
+| GET | `/api/admin/security/logs` | Security log feed |
+| POST | `/api/admin/backup` | Create backup |
+| POST | `/api/admin/restore` | Restore backup |
+| POST | `/api/admin/init` | Admin initialization helper |
+| GET | `/api/admin/integration-status` | Integration status |
 
-### Carriers
+### Shipping and inventory
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/admin/carriers` | List carriers |
-| PUT | `/api/admin/carriers/[id]` | Update carrier |
-| DELETE | `/api/admin/carriers/[id]` | Delete carrier |
+| Method | Endpoint | Notes |
+| --- | --- | --- |
+| GET | `/api/inventory` | Inventory list |
+| GET | `/api/admin/inventory/alerts` | Inventory alerts |
+| GET / PUT | `/api/admin/inventory/settings` | Inventory settings |
+| GET | `/api/shipping/carriers` | Public carrier list |
+| GET / POST | `/api/admin/carriers` | Admin carrier API |
+| PUT / DELETE | `/api/admin/carriers/[id]` | Update or delete carrier |
+| POST | `/api/shipping/rates` | Shipping rates |
+| GET | `/api/shipping/estimate` | Delivery estimate |
+| GET | `/api/shipping/tracking/[trackingNumber]` | Tracking events |

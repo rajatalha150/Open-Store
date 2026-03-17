@@ -1,193 +1,100 @@
 # Customization Guide
 
-Open Store is designed to be easily customizable for your brand.
+This project supports two kinds of customization:
+- runtime branding through the admin panel
+- code-level UI and behavior changes in the repository
 
-## Store Branding
+## 1. Branding Through Admin Settings
 
-### Store Name & Info
+Use `Admin > Settings` for the normal storefront branding flow.
 
-Update via **Admin > Settings** or environment variables:
+You can update:
+- store name
+- contact email
+- phone and address
+- currency and timezone
+- store logo
+
+These values appear in places such as:
+- header and footer
+- contact page
+- metadata and browser title
+- transactional emails
+
+Notes:
+- runtime settings are database-backed and should update without redeploy
+- favicon and browser-tab icon changes may require a hard refresh
+- if Blob is misconfigured, logo upload will fail until `BLOB_READ_WRITE_TOKEN` is fixed
+
+## 2. Hardcoded Fallbacks
+
+If no admin setting exists yet, the app falls back to environment variables such as:
 
 ```env
-STORE_NAME="My Awesome Store"
-STORE_EMAIL="hello@mystore.com"
-STORE_PHONE="+1 (555) 123-4567"
-STORE_ADDRESS="123 Main St, City, State 12345"
-STORE_CURRENCY="USD"
+STORE_NAME="My Store"
+STORE_EMAIL="hello@example.com"
+STORE_PHONE=""
+STORE_ADDRESS=""
+STORE_CITY=""
+STORE_STATE=""
+STORE_ZIP=""
+CURRENCY="USD"
+TIMEZONE="America/New_York"
 ```
 
-These values appear in:
-- Page header and footer
-- Email templates
-- Meta tags and SEO
-- Contact page
-- Order confirmations
+## 3. Header, Footer, and Layout
 
-### Logo
+Primary files:
+- `components/Header.tsx`
+- `components/Footer.tsx`
+- `app/layout.tsx`
 
-Replace the logo file at `public/images/logo.png`. Recommended size: 200x50px, PNG with transparent background.
+Use these when you want code-level changes to:
+- navigation
+- logo placement
+- footer links
+- metadata defaults
 
-### Favicon
+## 4. Static Content Pages
 
-Replace `public/favicon.ico` with your favicon. Use [favicon.io](https://favicon.io) to generate from an image.
+These pages are easy to edit directly:
+- `app/about/page.tsx`
+- `app/contact/page.tsx`
+- `app/faq/page.tsx`
+- `app/privacy/page.tsx`
+- `app/terms/page.tsx`
 
-## Color Theme
+## 5. Theme and Styling
 
-The color scheme is defined in `tailwind.config.ts` and `app/globals.css`.
+Primary styling files:
+- `app/globals.css`
+- `tailwind.config.js`
 
-### Changing the Primary Color
+Use them to change:
+- colors
+- spacing
+- typography
+- utility tokens and theme extensions
 
-Edit `tailwind.config.ts` to change the primary color scheme:
+## 6. Homepage Composition
 
-```js
-// tailwind.config.ts
-theme: {
-  extend: {
-    colors: {
-      primary: {
-        50: '#fef2f2',
-        100: '#fee2e2',
-        // ... customize your primary color scale
-        500: '#ef4444',
-        600: '#dc2626',
-        700: '#b91c1c',
-      },
-    },
-  },
-}
-```
+The homepage is assembled from reusable storefront components. Edit `app/page.tsx` and related components to change section order, featured collections, or merchandising.
 
-### CSS Variables
+## 7. Schema-Driven Customization
 
-Global styles are in `app/globals.css`. Key variables:
+When adding new product or settings fields:
+1. update `lib/schema.sql`
+2. update `lib/schema-statements.ts`
+3. update database access in `lib/db.ts`
+4. update admin forms
+5. update storefront rendering
+6. run `npm run db:setup` or re-run `/setup` before an admin exists
 
-```css
-:root {
-  --background: 0 0% 100%;
-  --foreground: 0 0% 3.9%;
-  --primary: 0 72.2% 50.6%;
-  --primary-foreground: 0 85.7% 97.3%;
-  /* ... */
-}
-```
+## 8. Image and Asset Notes
 
-## Layout & Pages
+Uploads for products, categories, and branding use Vercel Blob, not a local `public/` upload flow.
 
-### Header
-
-Edit `components/Header.tsx` to customize:
-- Navigation links
-- Logo placement
-- Search bar behavior
-- Cart icon
-
-### Footer
-
-Edit `components/Footer.tsx` to customize:
-- Footer links
-- Social media links
-- Copyright text
-- Newsletter signup
-
-### Homepage
-
-The homepage (`app/page.tsx`) is composed of:
-- `HeroBanner` - Main banner with call-to-action
-- `FeaturedCategories` - Category grid
-- `BestSellers` - Top products carousel
-- Product listings
-
-Rearrange, add, or remove components to customize the layout.
-
-### Static Pages
-
-These pages can be edited directly:
-- `app/about/page.tsx` - About page
-- `app/contact/page.tsx` - Contact form
-- `app/faq/page.tsx` - FAQ section
-- `app/privacy/page.tsx` - Privacy policy
-- `app/terms/page.tsx` - Terms of service
-
-## SEO
-
-### Admin SEO Settings
-
-Go to **Admin > SEO** to configure:
-- Default page title and description
-- Open Graph image
-- Social media meta tags
-
-### Per-Page Meta Tags
-
-Each page exports metadata via Next.js conventions:
-
-```tsx
-export const metadata = {
-  title: 'Page Title - Store Name',
-  description: 'Page description for search engines',
-};
-```
-
-Dynamic pages (products, categories) generate metadata from database content.
-
-## Adding New Pages
-
-### Static Page
-
-Create a new file at `app/your-page/page.tsx`:
-
-```tsx
-export default function YourPage() {
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">Your Page Title</h1>
-      <p>Your content here.</p>
-    </div>
-  );
-}
-```
-
-### Adding to Navigation
-
-Edit `components/Header.tsx` to add navigation links.
-
-## Adding New Product Fields
-
-1. Add the column to `lib/schema.sql`
-2. Run `npm run db:setup`
-3. Update queries in `lib/db.ts`
-4. Update the admin product form in `app/admin/products/page.tsx`
-5. Update the product display in `app/product/[id]/page.tsx`
-
-## UI Components
-
-Open Store uses [shadcn/ui](https://ui.shadcn.com) components built on [Radix UI](https://radix-ui.com).
-
-Available components in `components/ui/`:
-- Button, Input, Label, Textarea
-- Card, Badge, Separator
-- Dialog, Sheet, Popover
-- Select, Checkbox, Switch
-- Table, Tabs
-- Toast notifications (via Sonner)
-
-### Adding New UI Components
-
-```bash
-npx shadcn-ui@latest add [component-name]
-```
-
-## Image Optimization
-
-Images are optimized by Next.js Image component:
-- Automatic WebP/AVIF conversion
-- Responsive sizing
-- Lazy loading
-
-To add new image domains (for external images), edit `next.config.js`:
-
-```js
-images: {
-  domains: ['images.unsplash.com', 'your-domain.com'],
-}
-```
+Use `public/` for:
+- static decorative assets
+- fallback icons
+- hardcoded brand images that are part of the codebase

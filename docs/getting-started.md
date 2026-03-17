@@ -1,122 +1,121 @@
 # Getting Started
 
-This guide walks you through setting up Open Store for local development.
+This guide covers the current local-development flow.
 
 ## Prerequisites
 
-- **Node.js 18+** - [Download](https://nodejs.org)
-- **npm** or **yarn** - Comes with Node.js
-- **Git** - [Download](https://git-scm.com)
-- **Neon Account** - Free at [neon.tech](https://neon.tech) (serverless Postgres)
-- **Stripe Account** - Free at [stripe.com](https://stripe.com) (test mode)
+- Node.js 18+
+- npm
+- Git
+- Neon account
+- Stripe account
+- SMTP provider
 
-## Step 1: Clone the Repository
+## 1. Clone and install
 
 ```bash
 git clone https://github.com/your-username/open-store.git
 cd open-store
-```
-
-## Step 2: Install Dependencies
-
-```bash
 npm install
 ```
 
-## Step 3: Set Up Neon Database
+## 2. Create a Neon database
 
-1. Sign up at [neon.tech](https://neon.tech)
-2. Create a new project
-3. Copy the connection string from the dashboard
-4. It will look like: `postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require`
+Create a project in Neon and copy the pooled connection string with `sslmode=require`.
 
-See [Database Setup](database-setup.md) for full details.
+Example:
 
-## Step 4: Configure Environment Variables
+```env
+DATABASE_URL="postgresql://user:pass@ep-xxx-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
+```
+
+## 3. Create `.env.local`
 
 ```bash
 cp .env.local.example .env.local
 ```
 
-Open `.env.local` and fill in the required values:
+Minimum local values:
 
 ```env
-# Database (from Step 3)
-DATABASE_URL="postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require"
-
-# Auth
 NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="generate-with-openssl-rand-base64-32"
-
-# Stripe (from dashboard.stripe.com/test/apikeys)
+NEXTAUTH_SECRET="replace-with-openssl-output"
+DATABASE_URL="postgresql://user:pass@ep-xxx-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
 STRIPE_SECRET_KEY="sk_test_..."
 ```
 
-Generate a secure secret:
+Generate `NEXTAUTH_SECRET` with:
 
 ```bash
 openssl rand -base64 32
 ```
 
-See [Environment Variables](environment-variables.md) for all options.
+Optional for local image uploads:
 
-## Step 5: Start the Development Server
+```env
+BLOB_READ_WRITE_TOKEN="vercel_blob_..."
+```
+
+## 4. Start the dev server
 
 ```bash
 npm run dev
 ```
 
-## Step 6: Set Up Database & Admin Account
+## 5. Complete first-run setup
 
-**Option A: Web Setup (Recommended)**
+Open `http://localhost:3000/setup`.
 
-Visit [http://localhost:3000/setup](http://localhost:3000/setup). The setup page will:
-1. Automatically create all database tables
-2. Let you create your admin account with a name, email, and password
+The setup page will:
+1. check whether an admin already exists
+2. run schema migrations if needed
+3. create the first admin account
+4. try to sign you in automatically
 
-This is the same flow used on Vercel where terminal access isn't available.
+If you set `SETUP_SECRET` locally, the setup page will require it before continuing.
 
-**Option B: CLI Setup**
+## 6. Sign in to admin
+
+Primary admin pages:
+- `/admin`
+- `/admin/products`
+- `/admin/categories`
+- `/admin/orders`
+- `/admin/settings`
+
+## Optional CLI alternatives
+
+You can still use the CLI if needed:
 
 ```bash
-npm run db:setup        # Create all tables in your Neon database
-npm run admin:init      # Create admin user (credentials printed to console)
+npm run db:setup
+npm run admin:init
 ```
 
-If using CLI setup, save the generated password — you'll need it to sign in.
+Use the web setup by default. It matches the production flow and exercises the actual `/setup` logic.
 
-Open your browser:
-- **Storefront**: [http://localhost:3000](http://localhost:3000)
-- **Admin Panel**: [http://localhost:3000/admin](http://localhost:3000/admin)
-- **Sign In**: [http://localhost:3000/auth/signin](http://localhost:3000/auth/signin)
-
-## Step 7: Seed Sample Data (Optional)
-
-To populate your store with sample products and categories:
+## Optional: sample data
 
 ```bash
 npx ts-node scripts/seed-data.ts
 ```
 
-## Next Steps
-
-- [Add products](admin-guide.md#products) via the admin panel
-- [Configure email](email-setup.md) for order notifications
-- [Set up Stripe](payments.md) for accepting payments
-- [Customize your store](customization.md) appearance
-- [Deploy to Vercel](deployment.md) when ready
-
 ## Troubleshooting
 
-### "No database connection string was provided"
-Make sure `DATABASE_URL` is set in `.env.local` and the Neon database is accessible.
+### Database connection errors
+- Verify `DATABASE_URL`
+- Keep `sslmode=require`
+- Confirm the Neon database is reachable
 
-### "NEXTAUTH_SECRET is not set"
-Generate one with `openssl rand -base64 32` and add it to `.env.local`.
+### `/setup` says an admin already exists
+- That deployment or database is already initialized
+- Sign in at `/auth/signin`
 
-### Admin panel returns "Unauthorized"
-Make sure you've run `npm run admin:init` and are signed in with the admin email.
+### Image uploads fail locally
+- `BLOB_READ_WRITE_TOKEN` is missing or stale
+- Reconnect the Vercel Blob store and refresh the token if needed
 
-### Build fails with TypeScript errors
-Run `npx tsc --noEmit` to see specific errors. Most likely a missing environment variable.
+### Settings save but do not show up
+- With current code, runtime store settings are uncached
+- Hard refresh if you are checking favicon or browser-tab icon changes
