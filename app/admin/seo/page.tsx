@@ -22,6 +22,24 @@ export default function SEOManagement() {
     { id: 2, path: '/products', title: 'Products', description: 'Browse our product catalog', keywords: 'products, catalog, browse' }
   ])
 
+  useEffect(() => {
+    const loadSeoSettings = async () => {
+      try {
+        const response = await fetch('/api/admin/seo')
+        if (!response.ok) return
+
+        const data = await response.json()
+        if (data.settings) {
+          setSeoSettings(prev => ({ ...prev, ...data.settings }))
+        }
+      } catch (error) {
+        console.error('Failed to load SEO settings:', error)
+      }
+    }
+
+    loadSeoSettings()
+  }, [])
+
   const handleSave = async () => {
     try {
       await fetch('/api/admin/seo', {
