@@ -125,7 +125,7 @@ A redeploy is only required when you change:
 - `docs/environment-variables.md` - canonical env var list
 - `docs/database-setup.md` - Neon and schema setup
 - `docs/admin-guide.md` - admin panel workflows
-- `docs/payments.md` - Stripe setup and webhook flow
+- `docs/stripe-production-setup.md` - Stripe production setup for live payments
 - `docs/email-setup.md` - SMTP configuration
 - `docs/customization.md` - branding and storefront customization
 - `docs/api-reference.md` - API endpoints
