@@ -28,6 +28,73 @@ interface OrderEmailData {
   status: string
 }
 
+interface StoredEmailSettings {
+  smtp_host?: string
+  smtp_port?: number | string
+  smtp_secure?: boolean
+  smtp_user?: string
+  smtp_pass?: string
+  email_from_name?: string
+  sender_email?: string
+  [key: string]: any
+}
+
+function isValidEmailAddress(value: string | undefined | null): value is string {
+  if (!value) return false
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
+function normalizeEmailSettings(settings: StoredEmailSettings | null | undefined) {
+  const smtpPort = Number(settings?.smtp_port || process.env.SMTP_PORT || 465)
+  const smtpSecureSetting = settings?.smtp_secure ?? (process.env.SMTP_SECURE === 'true')
+
+  // Port 587 uses STARTTLS with secure=false in Nodemailer.
+  const secure = smtpPort === 465 ? true : smtpPort === 587 ? false : Boolean(smtpSecureSetting)
+  const requireTLS = smtpPort === 587 ? true : (smtpPort !== 465 && Boolean(smtpSecureSetting)) || undefined
+  const senderEmail = isValidEmailAddress(settings?.sender_email)
+    ? settings.sender_email
+    : isValidEmailAddress(process.env.EMAIL_FROM)
+      ? process.env.EMAIL_FROM
+      : isValidEmailAddress(settings?.smtp_user)
+        ? settings.smtp_user
+        : 'onboarding@resend.dev'
+
+  return {
+    smtp_host: settings?.smtp_host || process.env.SMTP_HOST || 'smtp.resend.com',
+    smtp_port: smtpPort,
+    smtp_secure: secure,
+    smtp_require_tls: requireTLS,
+    smtp_user: settings?.smtp_user || process.env.SMTP_USER || 'resend',
+    smtp_pass: settings?.smtp_pass || process.env.SMTP_PASS || '',
+    email_from_name: settings?.email_from_name || process.env.STORE_NAME || 'My Store',
+    sender_email: senderEmail,
+  }
+}
+
+export function createTransportConfig(settings: StoredEmailSettings | null | undefined): EmailConfig & { requireTLS?: boolean } {
+  const normalized = normalizeEmailSettings(settings)
+
+  return {
+    host: normalized.smtp_host,
+    port: normalized.smtp_port,
+    secure: normalized.smtp_secure,
+    requireTLS: normalized.smtp_require_tls,
+    auth: {
+      user: normalized.smtp_user,
+      pass: normalized.smtp_pass
+    }
+  }
+}
+
+export function resolveEmailSender(settings: StoredEmailSettings | null | undefined) {
+  const normalized = normalizeEmailSettings(settings)
+
+  return {
+    fromName: normalized.email_from_name,
+    fromEmail: normalized.sender_email,
+  }
+}
+
 class EmailService {
   private transporter: nodemailer.Transporter | null = null
   private emailConfig: EmailConfig | null = null
@@ -45,33 +112,18 @@ class EmailService {
   async initializeTransporter() {
     if (!this.transporter) {
       const settingsResult = await getEmailSettings();
-      if (settingsResult.success && settingsResult.emailSettings && settingsResult.emailSettings.smtp_host) {
-        const emailSettings = settingsResult.emailSettings;
-        this.emailConfig = {
-          host: emailSettings.smtp_host,
-          port: emailSettings.smtp_port,
-          secure: emailSettings.smtp_secure,
-          auth: {
-            user: emailSettings.smtp_user,
-            pass: emailSettings.smtp_pass
-          }
-        };
+      const transportConfig = createTransportConfig(
+        settingsResult.success ? settingsResult.emailSettings : null
+      );
 
-        this.transporter = nodemailer.createTransport(this.emailConfig);
-      } else {
-        // Fallback to environment variables if database settings are not available
-        this.emailConfig = {
-          host: process.env.SMTP_HOST || 'smtp.resend.com',
-          port: parseInt(process.env.SMTP_PORT || '465'),
-          secure: process.env.SMTP_SECURE === 'true',
-          auth: {
-            user: process.env.SMTP_USER || 'resend',
-            pass: process.env.SMTP_PASS || ''
-          }
-        };
+      this.emailConfig = {
+        host: transportConfig.host,
+        port: transportConfig.port,
+        secure: transportConfig.secure,
+        auth: transportConfig.auth
+      };
 
-        this.transporter = nodemailer.createTransport(this.emailConfig);
-      }
+      this.transporter = nodemailer.createTransport(transportConfig);
     }
   }
 
@@ -178,8 +230,7 @@ class EmailService {
         `;
       }
 
-      const fromName = emailSettings?.email_from_name || process.env.STORE_NAME || 'My Store';
-      const fromEmail = emailSettings?.sender_email || process.env.EMAIL_FROM || 'onboarding@resend.dev';
+      const { fromName, fromEmail } = resolveEmailSender(emailSettings);
 
       await this.transporter!.sendMail({
         from: `"${fromName}" <${fromEmail}>`,
@@ -277,8 +328,7 @@ class EmailService {
         `;
       }
 
-      const fromName = emailSettings?.email_from_name || process.env.STORE_NAME || 'My Store';
-      const fromEmail = emailSettings?.sender_email || process.env.EMAIL_FROM || 'onboarding@resend.dev';
+      const { fromName, fromEmail } = resolveEmailSender(emailSettings);
 
       await this.transporter!.sendMail({
         from: `"${fromName}" <${fromEmail}>`,
@@ -413,8 +463,7 @@ class EmailService {
         `;
       }
 
-      const fromName = emailSettings?.email_from_name || process.env.STORE_NAME || 'My Store';
-      const fromEmail = emailSettings?.sender_email || process.env.EMAIL_FROM || 'onboarding@resend.dev';
+      const { fromName, fromEmail } = resolveEmailSender(emailSettings);
 
       await this.transporter!.sendMail({
         from: `"${fromName}" <${fromEmail}>`,
@@ -487,8 +536,7 @@ class EmailService {
         `;
       }
 
-      const fromName = emailSettings?.email_from_name || process.env.STORE_NAME || 'My Store';
-      const fromEmail = emailSettings?.sender_email || process.env.EMAIL_FROM || 'onboarding@resend.dev';
+      const { fromName, fromEmail } = resolveEmailSender(emailSettings);
 
       await this.transporter!.sendMail({
         from: `"${fromName}" <${fromEmail}>`,
@@ -559,8 +607,7 @@ class EmailService {
         `;
       }
 
-      const fromName = emailSettings?.email_from_name || process.env.STORE_NAME || 'My Store';
-      const fromEmail = emailSettings?.sender_email || process.env.EMAIL_FROM || 'onboarding@resend.dev';
+      const { fromName, fromEmail } = resolveEmailSender(emailSettings);
 
       await this.transporter!.sendMail({
         from: `"${fromName}" <${fromEmail}>`,
@@ -583,8 +630,7 @@ class EmailService {
       const emailSettings = settingsResult.success && settingsResult.emailSettings ? settingsResult.emailSettings : null;
       const storeInfo = await this.getStoreInfo();
       const storeName = storeInfo.storeName;
-      const fromName = emailSettings?.email_from_name || process.env.STORE_NAME || 'My Store';
-      const fromEmail = emailSettings?.sender_email || process.env.EMAIL_FROM || 'onboarding@resend.dev';
+      const { fromName, fromEmail } = resolveEmailSender(emailSettings);
       let html: string;
       if (emailSettings?.email_template_password_reset) {
         html = emailSettings.email_template_password_reset
@@ -624,8 +670,7 @@ class EmailService {
       const emailSettings = settingsResult.success && settingsResult.emailSettings ? settingsResult.emailSettings : null;
       const storeInfo = await this.getStoreInfo();
       const storeName = storeInfo.storeName;
-      const fromName = emailSettings?.email_from_name || process.env.STORE_NAME || 'My Store';
-      const fromEmail = emailSettings?.sender_email || process.env.EMAIL_FROM || 'onboarding@resend.dev';
+      const { fromName, fromEmail } = resolveEmailSender(emailSettings);
       let html: string;
       if (emailSettings?.email_template_email_verification) {
         html = emailSettings.email_template_email_verification

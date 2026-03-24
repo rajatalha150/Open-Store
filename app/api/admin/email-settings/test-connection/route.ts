@@ -1,10 +1,13 @@
 import { NextRequest } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/auth'
+import { createTransportConfig } from '@/lib/email'
+import { ensureDatabaseInitialized } from '@/lib/db-init'
 import nodemailer from 'nodemailer'
 
 export async function POST(request: NextRequest) {
   try {
+    await ensureDatabaseInitialized()
     const session = await getServerSession(authOptions)
     
     if (!session || !session.user?.isAdmin) {
@@ -25,15 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create transporter with provided settings
-    const transporter = nodemailer.createTransport({
-      host: emailSettings.smtp_host,
-      port: emailSettings.smtp_port,
-      secure: emailSettings.smtp_secure,
-      auth: {
-        user: emailSettings.smtp_user,
-        pass: emailSettings.smtp_pass
-      }
-    })
+    const transporter = nodemailer.createTransport(createTransportConfig(emailSettings))
 
     // Test the connection
     await transporter.verify()

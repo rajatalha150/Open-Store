@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/auth'
 import { getEmailSettings } from '@/lib/db'
+import { createTransportConfig, resolveEmailSender } from '@/lib/email'
+import { ensureDatabaseInitialized } from '@/lib/db-init'
 import nodemailer from 'nodemailer'
 
 export async function POST(request: NextRequest) {
   try {
+    await ensureDatabaseInitialized()
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.isAdmin) {
@@ -26,20 +29,13 @@ export async function POST(request: NextRequest) {
 
     const emailSettings = settingsResult.emailSettings
 
-    const transporter = nodemailer.createTransport({
-      host: emailSettings.smtp_host,
-      port: emailSettings.smtp_port,
-      secure: emailSettings.smtp_secure,
-      auth: {
-        user: emailSettings.smtp_user,
-        pass: emailSettings.smtp_pass
-      }
-    })
+    const transporter = nodemailer.createTransport(createTransportConfig(emailSettings))
+    const { fromName, fromEmail } = resolveEmailSender(emailSettings)
 
     await transporter.sendMail({
-      from: `"${emailSettings.email_from_name}" <${emailSettings.sender_email || emailSettings.smtp_user}>`,
+      from: `"${fromName}" <${fromEmail}>`,
       to: testEmail,
-      subject: `Test Email from ${emailSettings.email_from_name || 'Store'}`,
+      subject: `Test Email from ${fromName || 'Store'}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2>Test Email</h2>

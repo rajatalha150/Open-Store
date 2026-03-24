@@ -73,6 +73,7 @@ export default function EmailConfigurationPage() {
 
   const validateSettings = () => {
     const errors: Record<string, string> = {}
+    const senderEmail = (emailSettings.sender_email || '').trim()
 
     if (!emailSettings.smtp_host) errors.smtp_host = 'SMTP host is required'
     if (!emailSettings.smtp_port || emailSettings.smtp_port < 1 || emailSettings.smtp_port > 65535) {
@@ -81,6 +82,11 @@ export default function EmailConfigurationPage() {
     if (!emailSettings.smtp_user) errors.smtp_user = 'SMTP username is required'
     if (!emailSettings.smtp_pass) errors.smtp_pass = 'SMTP password is required'
     if (!emailSettings.email_from_name) errors.email_from_name = 'From name is required'
+    if (!senderEmail) {
+      errors.sender_email = 'Sender email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(senderEmail)) {
+      errors.sender_email = 'Enter a valid sender email address'
+    }
 
     setValidationErrors(errors)
     return Object.keys(errors).length === 0
@@ -153,16 +159,21 @@ export default function EmailConfigurationPage() {
       gmail: {
         smtp_host: 'smtp.gmail.com',
         smtp_port: 587,
-        smtp_secure: true
+        smtp_secure: false
       },
       outlook: {
         smtp_host: 'smtp-mail.outlook.com',
         smtp_port: 587,
-        smtp_secure: true
+        smtp_secure: false
       },
       yahoo: {
         smtp_host: 'smtp.mail.yahoo.com',
         smtp_port: 587,
+        smtp_secure: false
+      },
+      resend: {
+        smtp_host: 'smtp.resend.com',
+        smtp_port: 465,
         smtp_secure: true
       }
     }
@@ -267,6 +278,9 @@ export default function EmailConfigurationPage() {
                 <Button variant="outline" size="sm" onClick={() => loadPreset('yahoo')}>
                   Yahoo
                 </Button>
+                <Button variant="outline" size="sm" onClick={() => loadPreset('resend')}>
+                  Resend
+                </Button>
               </div>
             </div>
 
@@ -320,7 +334,7 @@ export default function EmailConfigurationPage() {
                   />
                   <Label htmlFor="smtp_secure">Use Secure Connection (TLS/SSL)</Label>
                 </div>
-                <p className="text-xs text-secondary-400">Enable for ports 587 (TLS) or 465 (SSL)</p>
+                <p className="text-xs text-secondary-400">Use for implicit SSL on port 465. For port 587, save with TLS enabled and the backend will use STARTTLS.</p>
 
                 <div className="space-y-2">
                   <Label htmlFor="smtp_user">SMTP Username *</Label>
@@ -338,7 +352,7 @@ export default function EmailConfigurationPage() {
                       {validationErrors.smtp_user}
                     </p>
                   )}
-                  <p className="text-xs text-secondary-400">Usually your email address</p>
+                  <p className="text-xs text-secondary-400">For Resend SMTP, this is usually the literal username `resend`</p>
                 </div>
 
                 <div className="space-y-2">
@@ -452,12 +466,18 @@ export default function EmailConfigurationPage() {
                     <ul className="list-disc pl-4 space-y-1">
                       <li>Enable 2-factor authentication</li>
                       <li>Generate an app password (not your regular password)</li>
-                      <li>Use smtp.gmail.com, port 587, TLS enabled</li>
+                      <li>Use smtp.gmail.com, port 587, STARTTLS</li>
                     </ul>
                     <p><strong>For Outlook:</strong></p>
                     <ul className="list-disc pl-4 space-y-1">
-                      <li>Use smtp-mail.outlook.com, port 587, TLS enabled</li>
+                      <li>Use smtp-mail.outlook.com, port 587, STARTTLS</li>
                       <li>Your regular email and password should work</li>
+                    </ul>
+                    <p><strong>For Resend:</strong></p>
+                    <ul className="list-disc pl-4 space-y-1">
+                      <li>Use smtp.resend.com, port 465</li>
+                      <li>Username is usually <code>resend</code> and password is your Resend API key</li>
+                      <li>Sender email must be a verified Resend sender or domain</li>
                     </ul>
                   </div>
                 </div>
