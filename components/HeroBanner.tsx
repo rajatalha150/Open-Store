@@ -5,21 +5,21 @@ import { useState, useEffect } from 'react'
 
 const slides = [
   {
-    title: "Timeless Elegance",
-    subtitle: "Handcrafted jewelry for those special moments",
-    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1200&h=600&fit=crop",
-    cta: "Shop Collection"
+    title: "Everyday Essentials",
+    subtitle: "Smart picks for the home, kitchen, and daily routine",
+    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1200&h=600&fit=crop",
+    cta: "Shop Essentials"
   },
   {
-    title: "Exclusive Bundles",
-    subtitle: "Rare and exquisite stones for the discerning collector",
-    image: "https://images.unsplash.com/photo-1599643478518-17488fbbcd75?w=1200&h=600&fit=crop",
-    cta: "Shop Bundles"
+    title: "Freshen Up Your Space",
+    subtitle: "Functional home goods that make everyday living easier",
+    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200&h=600&fit=crop",
+    cta: "Shop Home Goods"
   },
   {
-    title: "Modern Statement",
-    subtitle: "Bold gold designs that define your style",
-    image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1200&h=600&fit=crop",
+    title: "Made For Daily Life",
+    subtitle: "Practical products for busy mornings, clean spaces, and better routines",
+    image: "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=1200&h=600&fit=crop",
     cta: "Shop New Arrivals"
   }
 ]
