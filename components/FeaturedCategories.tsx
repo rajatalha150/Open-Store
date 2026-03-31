@@ -68,7 +68,7 @@ export default function FeaturedCategories() {
 
   if (loading) {
     return (
-      <section className="bg-secondary-900 py-8 md:py-16">
+      <section className="bg-secondary-900 py-6 md:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 md:mb-10">
             <div className="h-3 w-28 rounded-full bg-secondary-700" />
@@ -76,17 +76,17 @@ export default function FeaturedCategories() {
             <div className="mt-3 h-4 w-full max-w-xl rounded-full bg-secondary-800" />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 2xl:grid-cols-6">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-6">
             {[1, 2, 3, 4, 5, 6].map((item) => (
               <div
                 key={item}
-                className="h-full overflow-hidden rounded-[28px] border border-secondary-800 bg-secondary-800/90 p-3"
+                className="h-full overflow-hidden rounded-[24px] border border-secondary-800 bg-secondary-800/90 p-2.5 md:p-3"
               >
-                <div className="aspect-[4/3] animate-pulse rounded-[22px] bg-secondary-700" />
-                <div className="space-y-3 px-1 pb-2 pt-4">
+                <div className="aspect-square animate-pulse rounded-[18px] bg-secondary-700" />
+                <div className="space-y-2.5 px-1 pb-1 pt-3">
                   <div className="h-3 w-20 rounded-full bg-secondary-700" />
-                  <div className="h-5 w-4/5 rounded-full bg-secondary-700" />
-                  <div className="h-4 w-24 rounded-full bg-secondary-800" />
+                  <div className="h-4 w-4/5 rounded-full bg-secondary-700" />
+                  <div className="h-3 w-24 rounded-full bg-secondary-800" />
                 </div>
               </div>
             ))}
@@ -97,7 +97,7 @@ export default function FeaturedCategories() {
   }
 
   return (
-    <section className="bg-secondary-900 py-8 md:py-16">
+    <section className="bg-secondary-900 py-6 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-3 md:mb-10 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
@@ -113,7 +113,7 @@ export default function FeaturedCategories() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 2xl:grid-cols-6">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-6">
           {categories.map((category) => {
             const IconComponent = getCategoryIcon(category)
             const displayName = normalizeCategoryName(category.name)
@@ -123,51 +123,51 @@ export default function FeaturedCategories() {
               <Link
                 key={category.id}
                 href={`/category/${category.slug}`}
-                className="group flex h-full w-full flex-col overflow-hidden rounded-[28px] border border-secondary-700/80 bg-secondary-800 p-3 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-400/70 hover:shadow-2xl hover:shadow-black/20"
+                className="group flex h-full w-full flex-col overflow-hidden rounded-[24px] border border-secondary-700/80 bg-secondary-800 p-2.5 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-400/70 hover:shadow-xl hover:shadow-black/20 md:p-3"
               >
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] bg-gradient-to-br from-cream-100 via-secondary-100 to-secondary-200">
+                <div className="relative aspect-square overflow-hidden rounded-[18px] bg-gradient-to-br from-cream-100 via-secondary-100 to-secondary-200">
                   {hasImage ? (
                     <img
                       src={category.image_url || FALLBACK_CATEGORY_IMAGE}
                       alt={displayName}
-                      className="h-full w-full object-contain p-4 transition-transform duration-300 group-hover:scale-[1.04]"
+                      className="h-full w-full object-contain p-3 transition-transform duration-300 group-hover:scale-[1.04] md:p-4"
                       onError={() => markImageAsFailed(category.id)}
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center">
-                      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 shadow-lg shadow-secondary-400/30">
-                        <IconComponent className="h-9 w-9 text-primary-500" />
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/80 shadow-lg shadow-secondary-400/30 md:h-20 md:w-20">
+                        <IconComponent className="h-7 w-7 text-primary-500 md:h-9 md:w-9" />
                       </div>
                     </div>
                   )}
 
                   <div className="absolute inset-0 bg-gradient-to-t from-secondary-950/18 via-transparent to-transparent" />
-                  <div className="absolute left-3 top-3 rounded-full border border-white/50 bg-white/85 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-secondary-700 backdrop-blur-sm">
+                  <div className="absolute left-2.5 top-2.5 rounded-full border border-white/50 bg-white/85 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-secondary-700 backdrop-blur-sm">
                     Category
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col px-1 pb-2 pt-4">
-                  <div className="flex items-start justify-between gap-3">
+                <div className="flex flex-1 flex-col px-1 pb-1 pt-3">
+                  <div className="flex items-start justify-between gap-2.5">
                     <div className="min-w-0 flex-1">
-                      <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-secondary-400">
+                      <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-secondary-400">
                         Curated Collection
                       </p>
                       <h3
                         title={displayName}
-                        className="mt-2 min-h-[3.5rem] text-sm font-semibold leading-tight text-secondary-50 md:text-base"
+                        className="mt-1.5 min-h-[2.75rem] text-sm font-semibold leading-tight text-secondary-50"
                       >
                         {displayName}
                       </h3>
                     </div>
-                    <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-500/14 text-primary-300 transition-colors duration-300 group-hover:bg-primary-500/22 group-hover:text-primary-200">
-                      <IconComponent className="h-4 w-4" />
+                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-500/14 text-primary-300 transition-colors duration-300 group-hover:bg-primary-500/22 group-hover:text-primary-200">
+                      <IconComponent className="h-3.5 w-3.5" />
                     </div>
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between border-t border-secondary-700/70 pt-3 text-xs font-medium text-secondary-300">
+                  <div className="mt-3 flex items-center justify-between border-t border-secondary-700/70 pt-2.5 text-[11px] font-medium text-secondary-300">
                     <span>Browse collection</span>
-                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>
               </Link>
