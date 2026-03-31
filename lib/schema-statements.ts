@@ -29,7 +29,6 @@ export const schemaStatements: string[] = [
 
   // Backward-compatible column additions (idempotent)
   `ALTER TABLE users ADD COLUMN IF NOT EXISTS phone VARCHAR(50)`,
-
   `CREATE TABLE IF NOT EXISTS categories (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
@@ -59,6 +58,8 @@ export const schemaStatements: string[] = [
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 )`,
+
+  `ALTER TABLE products ADD COLUMN IF NOT EXISTS images TEXT[]`,
 
   `CREATE TABLE IF NOT EXISTS orders (
   id SERIAL PRIMARY KEY,

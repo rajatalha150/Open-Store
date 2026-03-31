@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import AdminLayout from '@/components/AdminLayout'
-import { Plus, Edit, Trash2, Eye, X } from 'lucide-react'
+import { GripVertical, Plus, Edit, Trash2, X } from 'lucide-react'
 import { getUploadErrorMessage, uploadImageFile } from '@/lib/upload-client'
+import { isValidProductImageUrl, MAX_PRODUCT_IMAGES } from '@/lib/product-images'
 
 type Product = {
   id: string;
@@ -37,6 +38,8 @@ export default function AdminProducts() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [productImages, setProductImages] = useState<string[]>([])
+  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(null)
+  const [dragOverImageIndex, setDragOverImageIndex] = useState<number | null>(null)
 
   useEffect(() => {
     fetchProducts()
@@ -55,6 +58,8 @@ export default function AdminProducts() {
     } else {
       setProductImages([])
     }
+    setDraggedImageIndex(null)
+    setDragOverImageIndex(null)
   }, [editingProduct])
 
   // Prevent background scrolling when modal is open
@@ -93,16 +98,21 @@ export default function AdminProducts() {
     const files = e.target.files
     if (!files || files.length === 0) return
 
-    const remainingSlots = 3 - productImages.length
+    const remainingSlots = MAX_PRODUCT_IMAGES - productImages.length
     if (remainingSlots <= 0) {
-      setError('Maximum 3 images allowed')
+      setError(`Maximum ${MAX_PRODUCT_IMAGES} images allowed`)
       return
     }
 
     const filesToUpload = Array.from(files).slice(0, remainingSlots)
+    if (files.length > remainingSlots) {
+      setError(`Only ${remainingSlots} more image${remainingSlots === 1 ? '' : 's'} can be added.`)
+    }
 
     setUploading(true)
-    setError('')
+    if (files.length <= remainingSlots) {
+      setError('')
+    }
 
     try {
       for (const file of filesToUpload) {
@@ -119,17 +129,69 @@ export default function AdminProducts() {
   }
 
   const handleAddImageUrl = () => {
-    if (!imageUrl) return
-    if (productImages.length >= 3) {
-      setError('Maximum 3 images allowed')
+    const trimmedUrl = imageUrl.trim()
+    if (!trimmedUrl) return
+
+    if (productImages.length >= MAX_PRODUCT_IMAGES) {
+      setError(`Maximum ${MAX_PRODUCT_IMAGES} images allowed`)
       return
     }
-    setProductImages(prev => [...prev, imageUrl])
+
+    if (!isValidProductImageUrl(trimmedUrl)) {
+      setError('Enter a valid image URL before adding it.')
+      return
+    }
+
+    if (productImages.includes(trimmedUrl)) {
+      setError('That image has already been added.')
+      return
+    }
+
+    setError('')
+    setProductImages(prev => [...prev, trimmedUrl])
     setImageUrl('')
   }
 
   const handleRemoveImage = (index: number) => {
     setProductImages(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const reorderProductImages = (fromIndex: number, toIndex: number) => {
+    if (fromIndex === toIndex) return
+
+    setProductImages((prev) => {
+      const nextImages = [...prev]
+      const [movedImage] = nextImages.splice(fromIndex, 1)
+      nextImages.splice(toIndex, 0, movedImage)
+      return nextImages
+    })
+  }
+
+  const handleImageDragStart = (index: number) => {
+    setDraggedImageIndex(index)
+    setDragOverImageIndex(index)
+  }
+
+  const handleImageDragEnter = (index: number) => {
+    if (draggedImageIndex === null || draggedImageIndex === index) return
+    setDragOverImageIndex(index)
+  }
+
+  const handleImageDrop = (index: number) => {
+    if (draggedImageIndex === null) return
+
+    reorderProductImages(draggedImageIndex, index)
+    setDraggedImageIndex(null)
+    setDragOverImageIndex(null)
+  }
+
+  const handleImageDragEnd = () => {
+    setDraggedImageIndex(null)
+    setDragOverImageIndex(null)
+  }
+
+  const handleMakePrimary = (index: number) => {
+    reorderProductImages(index, 0)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -319,18 +381,52 @@ export default function AdminProducts() {
                   ))}
                 </select>
                 <div className="space-y-2">
-                  <label className="block text-sm text-secondary-300">Product Images (Max 3)</label>
+                  <label className="block text-sm text-secondary-300">
+                    Product Images ({productImages.length}/{MAX_PRODUCT_IMAGES})
+                  </label>
 
                   {/* Image List */}
                   {productImages.length > 0 && (
-                    <div className="flex gap-2 mb-2">
+                    <div className="flex flex-wrap gap-2 mb-2">
                       {productImages.map((img, index) => (
-                        <div key={index} className="relative group">
-                          <img src={img} alt={`Product ${index + 1}`} className="w-20 h-20 object-cover rounded border border-secondary-700" />
+                        <div
+                          key={`${img}-${index}`}
+                          draggable
+                          onDragStart={() => handleImageDragStart(index)}
+                          onDragEnter={() => handleImageDragEnter(index)}
+                          onDragOver={(e) => e.preventDefault()}
+                          onDrop={() => handleImageDrop(index)}
+                          onDragEnd={handleImageDragEnd}
+                          className={`relative group w-24 rounded-lg border transition-all ${
+                            dragOverImageIndex === index
+                              ? 'border-primary-500 ring-2 ring-primary-500/40'
+                              : 'border-secondary-700'
+                          } ${
+                            draggedImageIndex === index ? 'opacity-60' : 'opacity-100'
+                          }`}
+                        >
+                          <div className="absolute left-1.5 top-1.5 z-10 flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-[10px] font-medium text-white">
+                            <GripVertical className="h-3 w-3 text-secondary-300" />
+                            <span>{index === 0 ? 'Primary' : `Image ${index + 1}`}</span>
+                          </div>
+                          <img
+                            src={img}
+                            alt={`Product ${index + 1}`}
+                            className="h-24 w-24 object-cover rounded-lg"
+                          />
+                          {index !== 0 && (
+                            <button
+                              type="button"
+                              onClick={() => handleMakePrimary(index)}
+                              className="absolute bottom-1.5 left-1.5 rounded bg-secondary-950/90 px-2 py-1 text-[10px] font-medium text-secondary-100 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100"
+                            >
+                              Make Primary
+                            </button>
+                          )}
                           <button
                             type="button"
                             onClick={() => handleRemoveImage(index)}
-                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100"
                           >
                             <X className="h-3 w-3" />
                           </button>
@@ -339,7 +435,7 @@ export default function AdminProducts() {
                     </div>
                   )}
 
-                  {productImages.length < 3 && (
+                  {productImages.length < MAX_PRODUCT_IMAGES && (
                     <div className="space-y-2">
                       <div className="flex gap-2">
                         <input
@@ -375,7 +471,7 @@ export default function AdminProducts() {
                         <button
                           type="button"
                           onClick={handleAddImageUrl}
-                          disabled={!imageUrl}
+                          disabled={!imageUrl.trim()}
                           className="bg-secondary-700 px-4 py-2 rounded hover:bg-secondary-600 disabled:opacity-50 text-white h-[42px]"
                         >
                           Add
@@ -383,6 +479,10 @@ export default function AdminProducts() {
                       </div>
                     </div>
                   )}
+
+                  <p className="text-xs text-secondary-500">
+                    Drag thumbnails to reorder them. The first image is used as the primary storefront image.
+                  </p>
                 </div>
                 <label className="flex items-center">
                   <input

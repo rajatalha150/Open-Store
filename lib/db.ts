@@ -1,4 +1,5 @@
 import { sql } from '@/lib/db-pool';
+import { getPrimaryProductImage, normalizeProductImages } from '@/lib/product-images';
 
 export interface Product {
   id: number
@@ -9,6 +10,7 @@ export interface Product {
   category_id: number
   category_slug?: string
   image_url: string
+  images?: string[]
   rating: number
   reviews_count: number
   in_stock: boolean
@@ -81,6 +83,31 @@ export interface Review {
 export async function createTables() {
   console.log('Tables are managed via schema.sql. Run: npx tsx scripts/setup-db.ts');
   return { success: true };
+}
+
+let ensureProductImagesColumnPromise: Promise<void> | null = null;
+
+async function ensureProductImagesColumn() {
+  if (!ensureProductImagesColumnPromise) {
+    ensureProductImagesColumnPromise = (async () => {
+      await sql`ALTER TABLE products ADD COLUMN IF NOT EXISTS images TEXT[]`;
+    })().catch((error) => {
+      ensureProductImagesColumnPromise = null;
+      throw error;
+    });
+  }
+
+  await ensureProductImagesColumnPromise;
+}
+
+function normalizeProductRecord(product: any) {
+  const images = normalizeProductImages(product?.images, product?.image_url);
+
+  return {
+    ...product,
+    image_url: getPrimaryProductImage(images, product?.image_url),
+    images,
+  };
 }
 
 export async function seedData() {
@@ -183,7 +210,7 @@ export async function getProducts(categoryId?: string, limit: number = 20, featu
     }
 
     const products = rows.map((r: any) => ({
-      ...r,
+      ...normalizeProductRecord(r),
       category_name: r.category_name || 'Uncategorized'
     }));
 
@@ -221,7 +248,7 @@ export async function getProductById(id: string | number) {
     `;
 
     if (rows.length > 0) {
-      return { success: true, product: rows[0] };
+      return { success: true, product: normalizeProductRecord(rows[0]) };
     }
 
     return { success: false, error: 'Product not found' };
@@ -489,15 +516,20 @@ export async function getOrders(limit: number = 50) {
 // Admin Products
 export async function createProduct(data: any) {
   try {
+    await ensureProductImagesColumn();
+    const images = normalizeProductImages(data.images, data.image_url);
+    const imageUrl = getPrimaryProductImage(images, data.image_url);
+
     const rows = await sql`
-      INSERT INTO products (name, description, price, original_price, category_id, image_url, rating, reviews_count, in_stock, stock_quantity, sku, weight, dimensions, tags, featured, created_at, updated_at)
+      INSERT INTO products (name, description, price, original_price, category_id, image_url, images, rating, reviews_count, in_stock, stock_quantity, sku, weight, dimensions, tags, featured, created_at, updated_at)
       VALUES (
         ${data.name},
         ${data.description || null},
         ${parseFloat(data.price)},
         ${data.original_price ? parseFloat(data.original_price) : null},
         ${data.category_id || null},
-        ${data.image_url || null},
+        ${imageUrl},
+        ${images.length > 0 ? images : null},
         ${data.rating || 0},
         ${data.reviews_count || 0},
         ${data.in_stock !== undefined ? data.in_stock : true},
@@ -511,7 +543,7 @@ export async function createProduct(data: any) {
       )
       RETURNING *
     `;
-    return { success: true, product: rows[0] };
+    return { success: true, product: normalizeProductRecord(rows[0]) };
   } catch (error) {
     return { success: false, error };
   }
@@ -519,15 +551,28 @@ export async function createProduct(data: any) {
 
 export async function updateProduct(id: string | number, data: any) {
   try {
+    await ensureProductImagesColumn();
     const numId = typeof id === 'number' ? id : parseInt(id);
+    const images = normalizeProductImages(data.images, data.image_url);
+    const imageUrl = getPrimaryProductImage(images, data.image_url);
     const rows = await sql`
       UPDATE products SET
         name = COALESCE(${data.name}, name),
         description = COALESCE(${data.description}, description),
         price = COALESCE(${data.price !== undefined ? parseFloat(data.price) : null}, price),
-        original_price = ${data.original_price !== undefined ? (data.original_price ? parseFloat(data.original_price) : null) : null},
+        original_price = CASE
+          WHEN ${data.original_price !== undefined} THEN ${data.original_price ? parseFloat(data.original_price) : null}
+          ELSE original_price
+        END,
         category_id = COALESCE(${data.category_id}, category_id),
-        image_url = COALESCE(${data.image_url}, image_url),
+        image_url = CASE
+          WHEN ${data.images !== undefined || data.image_url !== undefined} THEN ${imageUrl}
+          ELSE image_url
+        END,
+        images = CASE
+          WHEN ${data.images !== undefined || data.image_url !== undefined} THEN ${images.length > 0 ? images : null}
+          ELSE images
+        END,
         in_stock = COALESCE(${data.in_stock}, in_stock),
         stock_quantity = COALESCE(${data.stock_quantity !== undefined ? parseInt(data.stock_quantity) : null}, stock_quantity),
         sku = COALESCE(${data.sku}, sku),
@@ -539,7 +584,7 @@ export async function updateProduct(id: string | number, data: any) {
       WHERE id = ${numId}
       RETURNING *
     `;
-    return { success: true, product: rows[0] };
+    return { success: true, product: normalizeProductRecord(rows[0]) };
   } catch (error) {
     console.error('Update product error:', error);
     return { success: false, error };

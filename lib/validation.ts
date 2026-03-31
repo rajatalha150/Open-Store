@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { isValidProductImageUrl, MAX_PRODUCT_IMAGES } from '@/lib/product-images';
 
 // Email validation schema
 export const emailSchema = z.string().email().min(1).max(255);
@@ -32,7 +33,8 @@ export const productSchema = z.object({
   price: z.number().positive().max(999999.99),
   original_price: z.number().positive().max(999999.99).optional(),
   category_id: z.number().int().positive(),
-  image_url: z.string().url().max(500).optional(),
+  image_url: z.string().max(500).refine(isValidProductImageUrl, 'Invalid image URL').optional(),
+  images: z.array(z.string().max(500).refine(isValidProductImageUrl, 'Invalid image URL')).max(MAX_PRODUCT_IMAGES).optional(),
   stock_quantity: z.number().int().min(0).max(999999),
   sku: z.string().max(100).optional(),
   weight: z.number().positive().max(9999.99).optional(),

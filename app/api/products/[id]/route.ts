@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getProductById } from '@/lib/db'
+import { normalizeProductImages } from '@/lib/product-images'
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -13,19 +14,12 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
     const product = result.product as any;
 
-    // Normailze/Polyfill missing fields for frontend compatibility
-    // In SQL these came from joins. In NoSQL they should be on the document.
-    // If we haven't migrated them, we provide defaults.
-    if (!product.images || !Array.isArray(product.images)) {
-      product.images = [{ id: 0, image_url: product.image_url, alt_text: product.name }];
-    } else if (product.images.length > 0 && typeof product.images[0] === 'string') {
-      // Handle new string array format from Firestore
-      product.images = product.images.map((url: string, index: number) => ({
-        id: index,
-        image_url: url,
-        alt_text: `${product.name} - Image ${index + 1}`
-      }));
-    }
+    const normalizedImages = normalizeProductImages(product.images, product.image_url)
+    product.images = normalizedImages.map((url: string, index: number) => ({
+      id: index,
+      image_url: url,
+      alt_text: `${product.name} - Image ${index + 1}`
+    }));
 
     if (!product.variants || !Array.isArray(product.variants)) {
       product.variants = [];
