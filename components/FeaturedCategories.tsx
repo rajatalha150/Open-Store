@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowUpRight, Circle, Crown, Gem, Gift, Grip, Home, Sparkles, Star, Watch } from 'lucide-react'
+import { Circle, Crown, Gem, Gift, Grip, Home, Sparkles, Star, Watch } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 interface Category {
@@ -142,20 +142,14 @@ export default function FeaturedCategories() {
                   )}
 
                   <div className="absolute inset-0 bg-gradient-to-t from-secondary-950/18 via-transparent to-transparent" />
-                  <div className="absolute left-2.5 top-2.5 rounded-full border border-white/50 bg-white/85 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-secondary-700 backdrop-blur-sm">
-                    Category
-                  </div>
                 </div>
 
                 <div className="flex flex-1 flex-col px-1 pb-1 pt-3">
                   <div className="flex items-start justify-between gap-2.5">
                     <div className="min-w-0 flex-1">
-                      <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-secondary-400">
-                        Curated Collection
-                      </p>
                       <h3
                         title={displayName}
-                        className="mt-1.5 min-h-[2.75rem] text-sm font-semibold leading-tight text-secondary-50"
+                        className="min-h-[2.75rem] text-sm font-semibold leading-tight text-secondary-50"
                       >
                         {displayName}
                       </h3>
@@ -163,11 +157,6 @@ export default function FeaturedCategories() {
                     <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-500/14 text-primary-300 transition-colors duration-300 group-hover:bg-primary-500/22 group-hover:text-primary-200">
                       <IconComponent className="h-3.5 w-3.5" />
                     </div>
-                  </div>
-
-                  <div className="mt-3 flex items-center justify-between border-t border-secondary-700/70 pt-2.5 text-[11px] font-medium text-secondary-300">
-                    <span>Browse collection</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>
               </Link>
