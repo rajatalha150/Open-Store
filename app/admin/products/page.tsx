@@ -77,6 +77,7 @@ export default function AdminProducts() {
         value: variant.value,
         price_modifier: Number(variant.price_modifier || 0),
         stock_quantity: Math.max(0, Number(variant.stock_quantity || 0)),
+        image_url: variant.image_url || '',
       }))
   }
 
@@ -227,13 +228,14 @@ export default function AdminProducts() {
         value: '',
         price_modifier: 0,
         stock_quantity: editingProduct?.stock_quantity ?? 0,
+        image_url: '',
       },
     ])
   }
 
   const handleVariantChange = (
     index: number,
-    field: 'name' | 'value' | 'price_modifier' | 'stock_quantity',
+    field: 'name' | 'value' | 'price_modifier' | 'stock_quantity' | 'image_url',
     value: string
   ) => {
     setProductVariants(prev => prev.map((variant, variantIndex) => {
@@ -249,6 +251,10 @@ export default function AdminProducts() {
         return { ...variant, stock_quantity: value === '' || !Number.isFinite(parsedValue) ? 0 : Math.max(0, parsedValue) }
       }
 
+      if (field === 'image_url') {
+        return { ...variant, image_url: value }
+      }
+
       return { ...variant, [field]: value }
     }))
   }
@@ -262,7 +268,8 @@ export default function AdminProducts() {
       variant.name.trim() ||
       variant.value.trim() ||
       Number(variant.price_modifier) !== 0 ||
-      Number(variant.stock_quantity) !== 0
+      Number(variant.stock_quantity) !== 0 ||
+      Boolean(variant.image_url)
     )
 
     const hasIncompleteVariant = variantsWithAnyData.some((variant) =>
@@ -281,6 +288,7 @@ export default function AdminProducts() {
         value: variant.value.trim(),
         price_modifier: Number(variant.price_modifier || 0),
         stock_quantity: Math.max(0, Math.floor(Number(variant.stock_quantity || 0))),
+        ...(variant.image_url && productImages.includes(variant.image_url) ? { image_url: variant.image_url } : {}),
       })),
     }
   }
@@ -613,7 +621,7 @@ export default function AdminProducts() {
                   ) : (
                     <div className="space-y-3">
                       {productVariants.map((variant, index) => (
-                        <div key={variant.id || index} className="grid grid-cols-1 gap-2 rounded border border-secondary-800 bg-secondary-900 p-3 md:grid-cols-[1fr_1fr_0.8fr_0.8fr_auto] md:items-end">
+                        <div key={variant.id || index} className="grid grid-cols-1 gap-2 rounded border border-secondary-800 bg-secondary-900 p-3 md:grid-cols-[1fr_1fr_0.8fr_0.8fr_1fr_auto] md:items-end">
                           <label className="text-xs text-secondary-400">
                             Option Name
                             <input
@@ -655,6 +663,21 @@ export default function AdminProducts() {
                               placeholder="0"
                               className="mt-1 w-full rounded border border-secondary-700 bg-secondary-800 p-2 text-sm text-secondary-100 placeholder-secondary-500"
                             />
+                          </label>
+                          <label className="text-xs text-secondary-400">
+                            Variant Image
+                            <select
+                              value={variant.image_url || ''}
+                              onChange={(e) => handleVariantChange(index, 'image_url', e.target.value)}
+                              className="mt-1 w-full rounded border border-secondary-700 bg-secondary-800 p-2 text-sm text-secondary-100"
+                            >
+                              <option value="">Use primary image</option>
+                              {productImages.map((img, imageIndex) => (
+                                <option key={`${img}-${imageIndex}`} value={img}>
+                                  Image {imageIndex + 1}{imageIndex === 0 ? ' (Primary)' : ''}
+                                </option>
+                              ))}
+                            </select>
                           </label>
                           <button
                             type="button"

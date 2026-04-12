@@ -1,3 +1,5 @@
+import { isValidProductImageUrl } from '@/lib/product-images';
+
 export const MAX_PRODUCT_VARIANTS = 10;
 
 export interface ProductVariant {
@@ -6,6 +8,7 @@ export interface ProductVariant {
   value: string;
   price_modifier: number;
   stock_quantity: number;
+  image_url?: string;
 }
 
 function toFiniteNumber(value: unknown, fallback = 0) {
@@ -57,6 +60,7 @@ export function normalizeProductVariants(variants: unknown): ProductVariant[] {
     const variant = rawVariant as Record<string, unknown>;
     const name = typeof variant.name === 'string' ? variant.name.trim() : '';
     const value = typeof variant.value === 'string' ? variant.value.trim() : '';
+    const imageUrl = typeof variant.image_url === 'string' ? variant.image_url.trim() : '';
 
     if (!name || !value) {
       continue;
@@ -74,6 +78,7 @@ export function normalizeProductVariants(variants: unknown): ProductVariant[] {
       value,
       price_modifier: toFiniteNumber(variant.price_modifier, 0),
       stock_quantity: toNonNegativeInteger(variant.stock_quantity, 0),
+      ...(imageUrl && isValidProductImageUrl(imageUrl) ? { image_url: imageUrl } : {}),
     });
 
     if (normalizedVariants.length >= MAX_PRODUCT_VARIANTS) {

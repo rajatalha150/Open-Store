@@ -94,7 +94,7 @@ export default function ProductDetailPage() {
 
   const fetchProduct = async (id: string) => {
     try {
-      const response = await fetch(`/api/products/${id}`)
+      const response = await fetch(`/api/products/${id}`, { cache: 'no-store' })
       const data = await response.json()
       if (data.success) {
         setProduct(data.product)
@@ -125,7 +125,7 @@ export default function ProductDetailPage() {
         id: product.id,
         name: product.name,
         price: getCurrentPrice(),
-        image_url: product.images[0]?.image_url || '',
+        image_url: getSelectedVariantImageUrl() || product.images[selectedImage]?.image_url || product.images[0]?.image_url || '',
         stock_quantity: getAvailableStock(),
         quantity,
         selectedVariants: selectedVariantList,
@@ -169,6 +169,22 @@ export default function ProductDetailPage() {
     }
   }
 
+  const handleVariantSelect = (variantName: string, variant: ProductVariant) => {
+    setSelectedVariants(prev => ({
+      ...prev,
+      [variantName]: variant.value
+    }))
+    setQuantity(1)
+
+    if (!product || !variant.image_url) return
+
+    const variantImageIndex = product.images.findIndex((image) => image.image_url === variant.image_url)
+    if (variantImageIndex >= 0) {
+      setSelectedImage(variantImageIndex)
+      setZoomLevel(1)
+    }
+  }
+
   const getCurrentPrice = () => {
     if (!product) return 0
     let price = product.price
@@ -208,6 +224,10 @@ export default function ProductDetailPage() {
     }
 
     return product.stock_quantity
+  }
+
+  const getSelectedVariantImageUrl = () => {
+    return getSelectedVariantList().find((variant) => variant.image_url)?.image_url
   }
 
   if (isLoading) {
@@ -340,10 +360,7 @@ export default function ProductDetailPage() {
                         <button
                           key={variant.id}
                           disabled={variant.stock_quantity <= 0}
-                          onClick={() => setSelectedVariants(prev => ({
-                            ...prev,
-                            [variantName]: variant.value
-                          }))}
+                          onClick={() => handleVariantSelect(variantName, variant)}
                           className={`px-4 py-2 border rounded-md text-sm font-medium ${selectedVariants[variantName] === variant.value
                             ? 'border-primary-500 bg-primary-500 text-secondary-50'
                             : variant.stock_quantity <= 0

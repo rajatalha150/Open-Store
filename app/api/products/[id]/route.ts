@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getProductById } from '@/lib/db'
 import { normalizeProductImages } from '@/lib/product-images'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const { id } = params;

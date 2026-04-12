@@ -31,7 +31,7 @@ Use `Admin > Products` to:
 - add up to 10 variant option rows, such as `Size: Large` or `Color: Black`
 - manage stock, price, tags, and featured status
 
-Variant rows can include a price adjustment and option-level stock. If a product has variants, customers choose the required option values on the product detail page before adding it to the cart.
+Variant rows can include a price adjustment, option-level stock, and a mapped image from the product image gallery. If a product has variants, customers choose the required option values on the product detail page before adding it to the cart, and the gallery switches to the mapped variant image when one is configured.
 
 ### Categories
 Use `Admin > Categories` to:

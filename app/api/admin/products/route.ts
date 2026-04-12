@@ -29,6 +29,7 @@ const variantPayloadSchema = z.object({
   value: z.string().trim().min(1).max(80),
   price_modifier: z.coerce.number().min(-999999).max(999999).default(0),
   stock_quantity: z.coerce.number().int().min(0).default(0),
+  image_url: imageUrlSchema.optional().nullable(),
 })
 
 const productPayloadSchema = z.object({
