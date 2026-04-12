@@ -54,22 +54,22 @@ Schema statements live in:
 - `lib/schema.sql`
 - `lib/schema-statements.ts`
 
-Why both exist:
-- `lib/schema.sql` is easier to read and maintain
-- `lib/schema-statements.ts` is used by serverless setup flows where filesystem access is not the right runtime assumption
+How they are used:
+- `/setup` uses `lib/schema-statements.ts`, which is safe for serverless runtime setup flows where filesystem reads are not the right assumption
+- CLI migration scripts read `lib/schema.sql`
 
-If you add or change tables, update both files.
+If you add or change tables, update both files and keep the serverless setup path in sync.
 
 ## Current Core Tables
 
 | Table | Purpose |
 | --- | --- |
 | `users` | Customers and admins |
-| `products` | Catalog items |
+| `products` | Catalog items, image galleries, variant JSON, rating, and review count |
 | `categories` | Catalog categories |
 | `orders` | Order headers |
-| `order_items` | Order line items |
-| `reviews` | Product reviews |
+| `order_items` | Order line items, including selected variant details |
+| `reviews` | Product reviews with rating, title, text, status, customer name, and verified-purchase flag |
 | `coupons` | Discount codes |
 | `settings` | Store, Stripe, email, and feature settings |
 | `wishlist` | Saved products |
@@ -105,3 +105,8 @@ The first migration did not finish. Re-run `/setup` while no admin exists, or ru
 - confirm the exact `DATABASE_URL` exists in Vercel
 - confirm it includes `sslmode=require`
 - redeploy after changing Vercel env vars
+
+### Product review counts look wrong
+- Review counts and average ratings are based on approved reviews only.
+- Admin-created reviews are approved by default.
+- Changing review status or deleting a review recalculates the product's approved-review rating and count.

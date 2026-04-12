@@ -31,7 +31,16 @@ Use `Admin > Products` to:
 - add up to 10 variant option rows, such as `Size: Large` or `Color: Black`
 - manage stock, price, tags, and featured status
 
-Variant rows can include a price adjustment, option-level stock, and a mapped image from the product image gallery. If a product has variants, customers choose the required option values on the product detail page before adding it to the cart, and the gallery switches to the mapped variant image when one is configured.
+Product images are the source for variant image mapping. Upload or paste product images first, then use each variant row's image dropdown to point a variant at one of those existing images.
+
+Variant rows can include:
+- option name, such as `Size` or `Color`
+- option value, such as `Large` or `Black`
+- price adjustment
+- option-level stock
+- mapped image from the product image gallery
+
+If a product has variants, customers must choose the required option values on the product detail page before adding it to the cart. When a selected variant has a mapped image, the storefront gallery switches to that image and the cart line uses it.
 
 ### Categories
 Use `Admin > Categories` to:
@@ -53,9 +62,19 @@ Use `Admin > Users` to:
 - activate, deactivate, lock, or unlock accounts
 - switch account types where appropriate
 
-### Reviews, Coupons, Contacts
+### Reviews
+Use `Admin > Reviews` to:
+- view reviews across all products
+- add a review for a selected product
+- enter first name, optional last name, rating, optional title, and review text
+- set a review date in the past or use the current date default
+- approve, reject, or move reviews back to pending
+- delete any review, whether it was created by an admin or a shopper
+
+Admin-created reviews are saved as approved reviews by default, so they appear on the matching product page like normal approved customer reviews. Review status changes and deletions recalculate the product's approved-review rating and review count.
+
+### Coupons and Contacts
 Dedicated admin sections exist for:
-- review moderation
 - coupon management
 - contact-message handling
 

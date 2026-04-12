@@ -82,3 +82,4 @@ If set, `/setup` first requires the matching secret.
 - Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser.
 - Store settings, email settings, and some Stripe settings can be managed in the admin panel and override env defaults.
 - Runtime store settings are now read uncached, so admin branding changes should apply without redeploy once the code is deployed.
+- Product catalog data, product variants, product images, and reviews are database or Blob-backed features and do not require new environment variables.

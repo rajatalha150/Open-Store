@@ -8,8 +8,8 @@ All API routes live under `/api` and return JSON.
 
 | Method | Endpoint | Notes |
 | --- | --- | --- |
-| GET | `/api/products` | Product list |
-| GET | `/api/products/[id]` | Product details |
+| GET | `/api/products` | Product list, including product images and variant data |
+| GET | `/api/products/[id]` | Product details, including image gallery and variants |
 | GET | `/api/categories` | Category list |
 | GET | `/api/search` | Product search |
 | GET | `/api/recommendations` | Related products |
@@ -32,9 +32,21 @@ All API routes live under `/api` and return JSON.
 | POST | `/api/contact` | Contact form submission |
 | POST | `/api/newsletter` | Newsletter signup |
 | GET | `/api/health` | Basic app health check |
-| GET | `/api/reviews` | Product reviews |
-| POST | `/api/reviews` | Submit product review |
+| GET | `/api/reviews?productId=123` | Approved reviews for one product |
+| GET | `/api/reviews?orderId=123` | Reviews connected to one order |
+| POST | `/api/reviews` | Submit product review; shopper reviews default to pending and admin-session reviews default to approved |
 | POST | `/api/coupons/validate` | Validate coupon |
+
+Example body for `POST /api/reviews`:
+
+```json
+{
+  "productId": 123,
+  "rating": 5,
+  "title": "Great quality",
+  "comment": "The product arrived quickly and worked as expected."
+}
+```
 
 ## Setup Endpoints
 
@@ -103,7 +115,7 @@ All admin endpoints require an authenticated admin session.
 
 | Method | Endpoint | Notes |
 | --- | --- | --- |
-| GET / POST | `/api/admin/products` | Product admin API |
+| GET / POST | `/api/admin/products` | Product admin API, including product images and up to 10 variants |
 | GET / POST / PUT / DELETE | `/api/admin/categories` | Category admin API |
 | POST | `/api/upload` | Upload image to Vercel Blob |
 
@@ -116,8 +128,28 @@ All admin endpoints require an authenticated admin session.
 | GET | `/api/admin/users` | Paginated user list |
 | GET / PUT | `/api/admin/users/[id]` | User details and update |
 | GET | `/api/admin/users/stats` | User stats |
-| GET / PUT | `/api/admin/reviews` | Review moderation |
+| GET / POST / PUT / DELETE | `/api/admin/reviews` | List, create, moderate, and delete product reviews |
 | GET | `/api/admin/contacts` | Contact messages |
+
+Example body for `POST /api/admin/reviews`:
+
+```json
+{
+  "productId": 123,
+  "firstName": "Jane",
+  "lastName": "Customer",
+  "rating": 5,
+  "reviewTitle": "Excellent",
+  "reviewText": "Exactly what I needed.",
+  "reviewDate": "2026-04-12"
+}
+```
+
+Notes:
+- `reviewDate` must be today or a past date in `YYYY-MM-DD` format.
+- Admin-created reviews are saved as `approved`.
+- `PUT /api/admin/reviews` accepts `{ "id": 1, "status": "approved" }`, where status is `pending`, `approved`, or `rejected`.
+- `DELETE /api/admin/reviews?id=1` removes a review and recalculates the product's approved-review rating and count.
 
 ### Settings and email
 

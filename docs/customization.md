@@ -80,7 +80,27 @@ Use them to change:
 
 The homepage is assembled from reusable storefront components. Edit `app/page.tsx` and related components to change section order, featured collections, or merchandising.
 
-## 7. Schema-Driven Customization
+## 7. Product Merchandising
+
+Product merchandising is mostly managed in `Admin > Products`.
+
+You can configure:
+- product image galleries
+- a primary image by reordering product images
+- up to 10 variants per product
+- variant price adjustments
+- variant-level stock
+- variant image mapping from the existing product image gallery
+
+When changing product variant behavior in code, check:
+- `app/admin/products/page.tsx`
+- `app/product/[id]/page.tsx`
+- `contexts/CartContext.tsx`
+- `lib/product-variants.ts`
+
+Product reviews are managed in `Admin > Reviews`. Admin-created reviews are stored as approved reviews, while shopper-created reviews normally flow through moderation before they appear on the storefront.
+
+## 8. Schema-Driven Customization
 
 When adding new product or settings fields:
 1. update `lib/schema.sql`
@@ -90,7 +110,13 @@ When adding new product or settings fields:
 5. update storefront rendering
 6. run `npm run db:setup` or re-run `/setup` before an admin exists
 
-## 8. Image and Asset Notes
+When adding new review fields, also update:
+- `app/api/reviews/route.ts`
+- `app/api/admin/reviews/route.ts`
+- `app/admin/reviews/page.tsx`
+- `components/ProductReviews.tsx`
+
+## 9. Image and Asset Notes
 
 Uploads for products, categories, and branding use Vercel Blob, not a local `public/` upload flow.
 

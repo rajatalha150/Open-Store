@@ -15,6 +15,8 @@ Open Store is a Next.js 14 ecommerce template built for Vercel. It uses Neon Pos
 
 ### Storefront
 - Product catalog, search, categories, filters, and recommendations
+- Product detail pages with multi-image galleries, approved customer reviews, and product variants
+- Variant-aware cart lines so customers can choose options such as size or color before checkout
 - Cart, checkout, coupon validation, and order tracking
 - Customer accounts, wishlist, profile, and order history
 - Static content pages that read live store settings
@@ -22,6 +24,8 @@ Open Store is a Next.js 14 ecommerce template built for Vercel. It uses Neon Pos
 ### Admin
 - First-run setup at `/setup`
 - Product, category, order, user, review, coupon, and contact management
+- Product variants with option-level stock, price adjustments, and image mapping from the product gallery
+- Review moderation plus admin-created reviews for specific products and past/current dates
 - Store settings, email settings, shipping, analytics, backups, and health pages
 - Image upload through Vercel Blob
 
@@ -96,6 +100,7 @@ See `docs/deployment.md` for the full dashboard and CLI flow.
 
 Store settings saved in `Admin > Settings` are database-backed. After the current code is deployed:
 - store name, email, logo, and similar settings should update without a redeploy
+- product catalog changes, product variants, uploaded product images, and reviews should update without a redeploy
 - already-open tabs refresh on focus or after the next request
 - favicon changes may still require a hard refresh because browsers cache icons aggressively
 

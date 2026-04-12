@@ -82,7 +82,15 @@ Primary admin pages:
 - `/admin/products`
 - `/admin/categories`
 - `/admin/orders`
+- `/admin/reviews`
 - `/admin/settings`
+
+Early admin setup usually includes:
+- creating categories
+- creating products and product image galleries
+- adding product variants when needed
+- configuring settings, email, and shipping
+- adding or moderating product reviews
 
 ## Optional CLI alternatives
 

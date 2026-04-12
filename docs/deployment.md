@@ -142,6 +142,8 @@ After this codebase is deployed, these admin changes should apply without redepl
 - store logo
 - public contact details
 - Stripe publishable key saved in admin settings
+- product catalog edits, including image galleries and variants
+- product review creation, moderation, and deletion
 
 A redeploy is still required when you change:
 - application code
@@ -158,5 +160,7 @@ A redeploy is still required when you change:
 - [ ] Blob store connected and `BLOB_READ_WRITE_TOKEN` refreshed
 - [ ] SMTP configured
 - [ ] `/setup` completed
+- [ ] Admin product create/edit tested, including product image upload if Blob is enabled
+- [ ] Admin review add/moderate/delete tested on one product
 - [ ] Stripe webhook configured
 - [ ] GitHub auto-deploy connected
