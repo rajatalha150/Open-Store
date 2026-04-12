@@ -7,6 +7,9 @@ import {
   getProductReviewsByOrder
 } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -14,9 +17,14 @@ export async function GET(request: NextRequest) {
     const orderId = searchParams.get('orderId');
 
     if (productId) {
+      const parsedProductId = Number(productId);
+      if (!Number.isInteger(parsedProductId) || parsedProductId <= 0) {
+        return NextResponse.json({ error: 'Invalid productId' }, { status: 400 });
+      }
+
       const reviews = await sql`
         SELECT * FROM reviews
-        WHERE product_id = ${parseInt(productId)} AND status = 'approved'
+        WHERE product_id = ${parsedProductId} AND status = 'approved'
         ORDER BY created_at DESC`;
 
       const formattedReviews = reviews.map((r: any) => ({
@@ -43,7 +51,12 @@ export async function GET(request: NextRequest) {
     // For admin panel - return all reviews
     const session = await getServerSession(authOptions);
     if (session?.user?.isAdmin) {
-      const allReviews = await sql`SELECT * FROM reviews ORDER BY created_at DESC`;
+      const allReviews = await sql`
+        SELECT r.*, p.name as product_name
+        FROM reviews r
+        LEFT JOIN products p ON r.product_id = p.id
+        ORDER BY r.created_at DESC
+      `;
       return NextResponse.json({ reviews: allReviews });
     }
 

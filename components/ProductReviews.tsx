@@ -34,12 +34,16 @@ export default function ProductReviews({ productId, userId }: ProductReviewsProp
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch(`/api/reviews?productId=${productId}`);
+      const response = await fetch(`/api/reviews?productId=${productId}`, { cache: 'no-store' });
       const data = await response.json();
       setReviews(data.reviews || []);
     } catch (error) {
       console.error('Failed to fetch reviews:', error);
     }
+  };
+
+  const getReviewerName = (review: Review) => {
+    return review.last_name ? `${review.first_name} ${review.last_name.charAt(0)}.` : review.first_name;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -159,10 +163,10 @@ export default function ProductReviews({ productId, userId }: ProductReviewsProp
                     </span>
                   )}
                 </div>
-                <h4 className="font-medium text-secondary-50">{review.title}</h4>
+                {review.title && <h4 className="font-medium text-secondary-50">{review.title}</h4>}
               </div>
               <div className="text-sm text-secondary-400">
-                {review.first_name} {review.last_name?.charAt(0)}.
+                {getReviewerName(review)}
               </div>
             </div>
             <p className="text-secondary-300 mb-2">{review.comment}</p>

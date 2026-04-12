@@ -317,13 +317,42 @@ export async function updateOrderStatus(orderId: string | number, status: string
 }
 
 // Review Helpers
+async function recalculateProductReviewStats(productId: string | number) {
+  const numId = typeof productId === 'number' ? productId : parseInt(productId);
+
+  if (!Number.isFinite(numId)) {
+    return;
+  }
+
+  await sql`
+    UPDATE products
+    SET
+      rating = COALESCE((
+        SELECT ROUND(AVG(r.rating)::numeric, 2)
+        FROM reviews r
+        WHERE r.product_id = ${numId} AND r.status = 'approved'
+      ), 0),
+      reviews_count = (
+        SELECT COUNT(*)::int
+        FROM reviews r
+        WHERE r.product_id = ${numId} AND r.status = 'approved'
+      ),
+      updated_at = NOW()
+    WHERE id = ${numId}
+  `;
+}
+
 export async function createProductReview(review: any) {
   try {
+    const createdAt = review.created_at || new Date();
     const rows = await sql`
       INSERT INTO reviews (product_id, order_id, user_id, customer_name, customer_email, rating, review_title, review_text, verified_purchase, status, created_at, updated_at)
-      VALUES (${review.product_id}, ${review.order_id || null}, ${review.user_id || null}, ${review.customer_name}, ${review.customer_email || null}, ${review.rating}, ${review.review_title || null}, ${review.review_text || null}, ${review.verified_purchase || false}, ${review.status || 'pending'}, NOW(), NOW())
+      VALUES (${review.product_id}, ${review.order_id || null}, ${review.user_id || null}, ${review.customer_name}, ${review.customer_email || null}, ${review.rating}, ${review.review_title || null}, ${review.review_text || null}, ${review.verified_purchase || false}, ${review.status || 'pending'}, ${createdAt}, NOW())
       RETURNING *
     `;
+    if (rows[0]?.status === 'approved') {
+      await recalculateProductReviewStats(rows[0].product_id);
+    }
     return { success: true, review: rows[0] };
   } catch (error) {
     console.error('Error creating review:', error);
@@ -631,11 +660,37 @@ export async function deleteProduct(id: string | number) {
 export async function updateReviewStatus(reviewId: string | number, status: string) {
   try {
     const numId = typeof reviewId === 'number' ? reviewId : parseInt(reviewId);
-    await sql`
+    const rows = await sql`
       UPDATE reviews SET status = ${status}, updated_at = NOW()
       WHERE id = ${numId}
+      RETURNING *
     `;
-    return { success: true, review: { id: numId, status } };
+    if (rows.length === 0) {
+      return { success: false, error: 'Review not found' };
+    }
+
+    await recalculateProductReviewStats(rows[0].product_id);
+    return { success: true, review: rows[0] };
+  } catch (error) {
+    return { success: false, error };
+  }
+}
+
+export async function deleteProductReview(reviewId: string | number) {
+  try {
+    const numId = typeof reviewId === 'number' ? reviewId : parseInt(reviewId);
+    const rows = await sql`
+      DELETE FROM reviews
+      WHERE id = ${numId}
+      RETURNING *
+    `;
+
+    if (rows.length === 0) {
+      return { success: false, error: 'Review not found' };
+    }
+
+    await recalculateProductReviewStats(rows[0].product_id);
+    return { success: true, review: rows[0] };
   } catch (error) {
     return { success: false, error };
   }
