@@ -1,5 +1,6 @@
 import { sql } from '@/lib/db-pool';
 import { getPrimaryProductImage, normalizeProductImages } from '@/lib/product-images';
+import { ProductVariant, normalizeProductVariants } from '@/lib/product-variants';
 
 export interface Product {
   id: number
@@ -20,6 +21,7 @@ export interface Product {
   weight?: number
   dimensions?: string
   tags?: string[]
+  variants?: ProductVariant[]
   featured?: boolean
 }
 
@@ -86,6 +88,7 @@ export async function createTables() {
 }
 
 let ensureProductImagesColumnPromise: Promise<void> | null = null;
+let ensureProductVariantsColumnPromise: Promise<void> | null = null;
 
 async function ensureProductImagesColumn() {
   if (!ensureProductImagesColumnPromise) {
@@ -100,13 +103,28 @@ async function ensureProductImagesColumn() {
   await ensureProductImagesColumnPromise;
 }
 
+async function ensureProductVariantsColumn() {
+  if (!ensureProductVariantsColumnPromise) {
+    ensureProductVariantsColumnPromise = (async () => {
+      await sql`ALTER TABLE products ADD COLUMN IF NOT EXISTS variants JSONB DEFAULT '[]'::jsonb`;
+    })().catch((error) => {
+      ensureProductVariantsColumnPromise = null;
+      throw error;
+    });
+  }
+
+  await ensureProductVariantsColumnPromise;
+}
+
 function normalizeProductRecord(product: any) {
   const images = normalizeProductImages(product?.images, product?.image_url);
+  const variants = normalizeProductVariants(product?.variants);
 
   return {
     ...product,
     image_url: getPrimaryProductImage(images, product?.image_url),
     images,
+    variants,
   };
 }
 
@@ -517,11 +535,13 @@ export async function getOrders(limit: number = 50) {
 export async function createProduct(data: any) {
   try {
     await ensureProductImagesColumn();
+    await ensureProductVariantsColumn();
     const images = normalizeProductImages(data.images, data.image_url);
     const imageUrl = getPrimaryProductImage(images, data.image_url);
+    const variants = normalizeProductVariants(data.variants);
 
     const rows = await sql`
-      INSERT INTO products (name, description, price, original_price, category_id, image_url, images, rating, reviews_count, in_stock, stock_quantity, sku, weight, dimensions, tags, featured, created_at, updated_at)
+      INSERT INTO products (name, description, price, original_price, category_id, image_url, images, variants, rating, reviews_count, in_stock, stock_quantity, sku, weight, dimensions, tags, featured, created_at, updated_at)
       VALUES (
         ${data.name},
         ${data.description || null},
@@ -530,6 +550,7 @@ export async function createProduct(data: any) {
         ${data.category_id || null},
         ${imageUrl},
         ${images.length > 0 ? images : null},
+        ${JSON.stringify(variants)}::jsonb,
         ${data.rating || 0},
         ${data.reviews_count || 0},
         ${data.in_stock !== undefined ? data.in_stock : true},
@@ -552,9 +573,11 @@ export async function createProduct(data: any) {
 export async function updateProduct(id: string | number, data: any) {
   try {
     await ensureProductImagesColumn();
+    await ensureProductVariantsColumn();
     const numId = typeof id === 'number' ? id : parseInt(id);
     const images = normalizeProductImages(data.images, data.image_url);
     const imageUrl = getPrimaryProductImage(images, data.image_url);
+    const variants = normalizeProductVariants(data.variants);
     const rows = await sql`
       UPDATE products SET
         name = COALESCE(${data.name}, name),
@@ -572,6 +595,10 @@ export async function updateProduct(id: string | number, data: any) {
         images = CASE
           WHEN ${data.images !== undefined || data.image_url !== undefined} THEN ${images.length > 0 ? images : null}
           ELSE images
+        END,
+        variants = CASE
+          WHEN ${data.variants !== undefined} THEN ${JSON.stringify(variants)}::jsonb
+          ELSE variants
         END,
         in_stock = COALESCE(${data.in_stock}, in_stock),
         stock_quantity = COALESCE(${data.stock_quantity !== undefined ? parseInt(data.stock_quantity) : null}, stock_quantity),
@@ -638,16 +665,60 @@ export async function deleteCarrier(id: string) {
   }
 }
 
-export async function decrementStock(productId: string | number, quantity: number) {
+export async function decrementStock(productId: string | number, quantity: number, variantDetails?: any) {
   try {
     const numId = typeof productId === 'number' ? productId : parseInt(productId);
-    await sql`
-      UPDATE products
-      SET stock_quantity = GREATEST(0, stock_quantity - ${quantity}),
-          in_stock = (stock_quantity - ${quantity}) > 0,
-          updated_at = NOW()
-      WHERE id = ${numId}
-    `;
+
+    const selectedVariants = normalizeProductVariants(variantDetails?.selected_variants);
+
+    if (selectedVariants.length > 0) {
+      await ensureProductVariantsColumn();
+      const products = await sql`
+        SELECT stock_quantity, variants FROM products WHERE id = ${numId} LIMIT 1
+      `;
+
+      if (products.length === 0) {
+        return { success: false, error: 'Product not found' };
+      }
+
+      const currentProduct = products[0];
+      const currentVariants = normalizeProductVariants(currentProduct.variants);
+      const selectedKeys = new Set(
+        selectedVariants.map((variant) => `${variant.name.toLowerCase()}::${variant.value.toLowerCase()}`)
+      );
+
+      const updatedVariants = currentVariants.map((variant) => {
+        const key = `${variant.name.toLowerCase()}::${variant.value.toLowerCase()}`;
+        if (!selectedKeys.has(key)) {
+          return variant;
+        }
+
+        return {
+          ...variant,
+          stock_quantity: Math.max(0, variant.stock_quantity - quantity),
+        };
+      });
+
+      const updatedStockQuantity = Math.max(0, parseInt(currentProduct.stock_quantity || '0') - quantity);
+      const hasVariantStock = updatedVariants.length === 0 || updatedVariants.some((variant) => variant.stock_quantity > 0);
+
+      await sql`
+        UPDATE products
+        SET stock_quantity = ${updatedStockQuantity},
+            variants = ${JSON.stringify(updatedVariants)}::jsonb,
+            in_stock = ${updatedStockQuantity > 0 && hasVariantStock},
+            updated_at = NOW()
+        WHERE id = ${numId}
+      `;
+    } else {
+      await sql`
+        UPDATE products
+        SET stock_quantity = GREATEST(0, stock_quantity - ${quantity}),
+            in_stock = (stock_quantity - ${quantity}) > 0,
+            updated_at = NOW()
+        WHERE id = ${numId}
+      `;
+    }
     return { success: true };
   } catch (error) {
     console.error(`Error decrementing stock for product ${productId}:`, error);

@@ -2,6 +2,25 @@ import { sql } from '@/lib/db-pool';
 import { NextRequest, NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 
+let ensureOrderItemVariantDetailsColumnPromise: Promise<void> | null = null;
+
+async function ensureOrderItemVariantDetailsColumn() {
+  if (!ensureOrderItemVariantDetailsColumnPromise) {
+    ensureOrderItemVariantDetailsColumnPromise = sql`
+      ALTER TABLE order_items ADD COLUMN IF NOT EXISTS variant_details JSONB
+    `.then(() => undefined).catch((error) => {
+      ensureOrderItemVariantDetailsColumnPromise = null;
+      throw error;
+    });
+  }
+
+  await ensureOrderItemVariantDetailsColumnPromise;
+}
+
+function formatProductNameWithVariant(productName: string, variantDetails: any) {
+  return variantDetails?.label ? `${productName} (${variantDetails.label})` : productName;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -29,6 +48,7 @@ export async function GET(request: NextRequest) {
     const orderData = rows[0];
 
     // Get order items
+    await ensureOrderItemVariantDetailsColumn();
     const items = await sql`
       SELECT oi.*, p.name, p.image_url FROM order_items oi
       LEFT JOIN products p ON oi.product_id = p.id
@@ -48,7 +68,8 @@ export async function GET(request: NextRequest) {
       delivered_at: orderData.delivered_at,
       shipping_address: orderData.shipping_address || {},
       items: items.map((item: any) => ({
-        name: item.name,
+        name: formatProductNameWithVariant(item.name, item.variant_details),
+        product_name: formatProductNameWithVariant(item.name, item.variant_details),
         quantity: item.quantity,
         price: item.price,
         image_url: item.image_url

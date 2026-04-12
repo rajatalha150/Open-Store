@@ -54,12 +54,14 @@ export const schemaStatements: string[] = [
   weight DECIMAL(10,2),
   dimensions VARCHAR(100),
   tags TEXT[],
+  variants JSONB DEFAULT '[]'::jsonb,
   featured BOOLEAN DEFAULT false,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 )`,
 
   `ALTER TABLE products ADD COLUMN IF NOT EXISTS images TEXT[]`,
+  `ALTER TABLE products ADD COLUMN IF NOT EXISTS variants JSONB DEFAULT '[]'::jsonb`,
 
   `CREATE TABLE IF NOT EXISTS orders (
   id SERIAL PRIMARY KEY,
@@ -95,8 +97,11 @@ export const schemaStatements: string[] = [
   order_id INT REFERENCES orders(id) ON DELETE CASCADE,
   product_id INT REFERENCES products(id),
   quantity INT NOT NULL,
-  price DECIMAL(10,2) NOT NULL
+  price DECIMAL(10,2) NOT NULL,
+  variant_details JSONB
 )`,
+
+  `ALTER TABLE order_items ADD COLUMN IF NOT EXISTS variant_details JSONB`,
 
   `CREATE TABLE IF NOT EXISTS reviews (
   id SERIAL PRIMARY KEY,

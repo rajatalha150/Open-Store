@@ -28,7 +28,10 @@ Once an admin already exists, `/setup` is no longer available for creating anoth
 Use `Admin > Products` to:
 - create products
 - upload product images to Vercel Blob
+- add up to 10 variant option rows, such as `Size: Large` or `Color: Black`
 - manage stock, price, tags, and featured status
+
+Variant rows can include a price adjustment and option-level stock. If a product has variants, customers choose the required option values on the product detail page before adding it to the cart.
 
 ### Categories
 Use `Admin > Categories` to:

@@ -4,6 +4,7 @@ import { Star, ShoppingCart, Heart, Check } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
+import type { ProductVariant } from '@/lib/product-variants'
 
 interface Product {
   id: number;
@@ -21,6 +22,7 @@ interface Product {
   dimensions?: string;
   tags?: string[];
   featured?: boolean;
+  variants?: ProductVariant[];
 }
 
 function ProductActions({ product }: { product: Product }) {
@@ -29,8 +31,14 @@ function ProductActions({ product }: { product: Product }) {
   const [isInWishlist, setIsInWishlist] = useState(false)
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
+  const hasVariants = Boolean(product.variants?.length)
 
   const handleAddToCart = () => {
+    if (hasVariants) {
+      window.location.href = `/product/${product.id}`
+      return
+    }
+
     dispatch({
       type: 'ADD_ITEM',
       payload: {
@@ -84,8 +92,8 @@ function ProductActions({ product }: { product: Product }) {
         className="flex-1 bg-primary-500 hover:bg-primary-400 text-secondary-950 font-bold uppercase tracking-wider text-xs sm:text-sm shadow-lg shadow-primary-500/20 py-2 px-2 sm:px-4 rounded-lg transition-colors flex items-center justify-center space-x-1 sm:space-x-2"
       >
         <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4" />
-        <span className="hidden xs:inline sm:inline">Add to Cart</span>
-        <span className="inline xs:hidden sm:hidden">Add</span>
+        <span className="hidden xs:inline sm:inline">{hasVariants ? 'Choose Options' : 'Add to Cart'}</span>
+        <span className="inline xs:hidden sm:hidden">{hasVariants ? 'Choose' : 'Add'}</span>
       </button>
       <button
         onClick={handleWishlistToggle}

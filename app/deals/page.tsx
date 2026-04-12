@@ -77,6 +77,11 @@ export default function DealsPage() {
   }, []);
 
   const handleAddToCart = (deal: any) => {
+    if (deal.variants?.length) {
+      window.location.href = `/product/${deal.id}`
+      return
+    }
+
     const price = typeof deal.price === 'string' ? parseFloat(deal.price) : deal.price
     dispatch({
       type: 'ADD_ITEM',
@@ -215,7 +220,7 @@ export default function DealsPage() {
                       className="w-full bg-primary-500 hover:bg-primary-600 text-white py-2 sm:py-3 px-2 sm:px-4 rounded-lg font-medium transition-colors flex items-center justify-center space-x-1 sm:space-x-2 shadow-lg shadow-primary-500/20 text-xs sm:text-base"
                     >
                       <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span>Grab Deal</span>
+                      <span>{deal.variants?.length ? 'Choose Options' : 'Grab Deal'}</span>
                     </button>
                   </div>
                 </div>

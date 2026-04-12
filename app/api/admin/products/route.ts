@@ -4,6 +4,7 @@ import { validateAdminAccess, createAdminResponse, createErrorResponse } from '@
 import { ensureDatabaseInitialized } from '@/lib/db-init'
 import { z } from 'zod'
 import { isValidProductImageUrl, MAX_PRODUCT_IMAGES, normalizeProductImages } from '@/lib/product-images'
+import { MAX_PRODUCT_VARIANTS, normalizeProductVariants } from '@/lib/product-variants'
 
 const imageUrlSchema = z.string().trim().min(1).max(500).refine(isValidProductImageUrl, {
   message: 'Each image must be a valid URL or root-relative path',
@@ -22,6 +23,14 @@ const optionalPositiveNumberSchema = z.preprocess((value) => {
   return value
 }, z.number().positive().nullable())
 
+const variantPayloadSchema = z.object({
+  id: z.coerce.number().int().positive().optional(),
+  name: z.string().trim().min(1).max(50),
+  value: z.string().trim().min(1).max(80),
+  price_modifier: z.coerce.number().min(-999999).max(999999).default(0),
+  stock_quantity: z.coerce.number().int().min(0).default(0),
+})
+
 const productPayloadSchema = z.object({
   id: z.coerce.number().int().positive().optional(),
   name: z.string().trim().min(1).max(255),
@@ -32,6 +41,7 @@ const productPayloadSchema = z.object({
   category_id: z.coerce.number().int().positive(),
   image_url: imageUrlSchema.nullable().optional(),
   images: z.array(imageUrlSchema).max(MAX_PRODUCT_IMAGES).optional(),
+  variants: z.array(variantPayloadSchema).max(MAX_PRODUCT_VARIANTS).optional(),
   in_stock: z.boolean().optional(),
   sku: z.string().max(100).optional().nullable(),
   weight: optionalPositiveNumberSchema.optional(),
@@ -53,6 +63,7 @@ function buildProductPayload(body: unknown) {
 
   const product = parsed.data
   const normalizedImages = normalizeProductImages(product.images, product.image_url)
+  const normalizedVariants = normalizeProductVariants(product.variants)
 
   return {
     success: true as const,
@@ -60,6 +71,7 @@ function buildProductPayload(body: unknown) {
       ...product,
       image_url: normalizedImages[0] || product.image_url || null,
       images: normalizedImages,
+      variants: normalizedVariants,
       in_stock: product.in_stock ?? true,
       description: product.description || null,
       sku: product.sku || null,

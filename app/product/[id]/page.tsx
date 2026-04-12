@@ -7,8 +7,9 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductReviews from '@/components/ProductReviews'
 import ProductRecommendations from '@/components/ProductRecommendations'
-import { useCart } from '@/contexts/CartContext'
+import { buildCartItemKey, useCart } from '@/contexts/CartContext'
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed'
+import { ProductVariant, getVariantSelectionLabel } from '@/lib/product-variants'
 import { Star, ShoppingCart, Heart, ArrowLeft, Plus, Minus, Package, Truck, Shield, Check } from 'lucide-react'
 
 interface Product {
@@ -30,13 +31,7 @@ interface Product {
     image_url: string
     alt_text: string
   }>
-  variants: Array<{
-    id: number
-    name: string
-    value: string
-    price_modifier: number
-    stock_quantity: number
-  }>
+  variants: ProductVariant[]
 }
 
 export default function ProductDetailPage() {
@@ -114,19 +109,31 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (!product) return
 
-    for (let i = 0; i < quantity; i++) {
-      dispatch({
-        type: 'ADD_ITEM',
-        payload: {
-          id: product.id,
-          name: product.name,
-          price: getCurrentPrice(),
-          image_url: product.images[0]?.image_url || '',
-          stock_quantity: product.stock_quantity
-        }
-      })
+    const selectedVariantList = getSelectedVariantList()
+    if (product.variants.length > 0 && !hasSelectedAllVariantGroups()) {
+      setToastMessage('Please select a variant before adding this product to your cart')
+      setShowToast(true)
+      setTimeout(() => setShowToast(false), 3000)
+      return
     }
-    setToastMessage(`Added ${quantity} ${product.name} to cart`)
+
+    const variantLabel = selectedVariantList.length > 0 ? getVariantSelectionLabel(selectedVariantList) : undefined
+
+    dispatch({
+      type: 'ADD_ITEM',
+      payload: {
+        id: product.id,
+        name: product.name,
+        price: getCurrentPrice(),
+        image_url: product.images[0]?.image_url || '',
+        stock_quantity: getAvailableStock(),
+        quantity,
+        selectedVariants: selectedVariantList,
+        variantLabel,
+        cartKey: buildCartItemKey(product.id, selectedVariantList)
+      }
+    })
+    setToastMessage(`Added ${quantity} ${product.name}${variantLabel ? ` (${variantLabel})` : ''} to cart`)
     setShowToast(true)
     setTimeout(() => setShowToast(false), 3000)
   }
@@ -165,17 +172,41 @@ export default function ProductDetailPage() {
   const getCurrentPrice = () => {
     if (!product) return 0
     let price = product.price
-    Object.entries(selectedVariants).forEach(([variantName, variantValue]) => {
-      const variant = product.variants.find(v => v.name === variantName && v.value === variantValue)
-      if (variant) {
-        price += variant.price_modifier
-      }
+    getSelectedVariantList().forEach((variant) => {
+      price += variant.price_modifier
     })
     return price
   }
 
+  const getSelectedVariantList = () => {
+    if (!product) return []
+
+    return Object.entries(selectedVariants)
+      .map(([variantName, variantValue]) => product.variants.find(v => v.name === variantName && v.value === variantValue))
+      .filter((variant): variant is ProductVariant => Boolean(variant))
+  }
+
+  const getVariantGroupCount = () => {
+    if (!product) return 0
+    return new Set(product.variants.map((variant) => variant.name)).size
+  }
+
+  const hasSelectedAllVariantGroups = () => {
+    return getSelectedVariantList().length >= getVariantGroupCount()
+  }
+
   const getAvailableStock = () => {
     if (!product) return 0
+    const selectedVariantList = getSelectedVariantList()
+
+    if (product.variants.length > 0) {
+      if (!hasSelectedAllVariantGroups()) {
+        return product.stock_quantity
+      }
+
+      return Math.min(product.stock_quantity, ...selectedVariantList.map((variant) => variant.stock_quantity))
+    }
+
     return product.stock_quantity
   }
 
@@ -215,6 +246,8 @@ export default function ProductDetailPage() {
     acc[variant.name].push(variant)
     return acc
   }, {} as Record<string, typeof product.variants>)
+  const needsVariantSelection = product.variants.length > 0 && !hasSelectedAllVariantGroups()
+  const availableStock = getAvailableStock()
 
   return (
     <>
@@ -306,13 +339,16 @@ export default function ProductDetailPage() {
                       {variants.map((variant) => (
                         <button
                           key={variant.id}
+                          disabled={variant.stock_quantity <= 0}
                           onClick={() => setSelectedVariants(prev => ({
                             ...prev,
                             [variantName]: variant.value
                           }))}
                           className={`px-4 py-2 border rounded-md text-sm font-medium ${selectedVariants[variantName] === variant.value
                             ? 'border-primary-500 bg-primary-500 text-secondary-50'
-                            : 'border-secondary-600 bg-secondary-800 text-secondary-300 hover:border-gray-500'
+                            : variant.stock_quantity <= 0
+                              ? 'border-secondary-800 bg-secondary-900 text-secondary-600 cursor-not-allowed'
+                              : 'border-secondary-600 bg-secondary-800 text-secondary-300 hover:border-gray-500'
                             }`}
                         >
                           {variant.value}
@@ -320,6 +356,9 @@ export default function ProductDetailPage() {
                             <span className="ml-1">
                               ({typeof variant.price_modifier === 'number' && variant.price_modifier > 0 ? '+' : ''}${typeof variant.price_modifier === 'number' ? variant.price_modifier.toFixed(2) : parseFloat(String(variant.price_modifier || '0')).toFixed(2)})
                             </span>
+                          )}
+                          {variant.stock_quantity <= 0 && (
+                            <span className="ml-1 text-xs">(Out of stock)</span>
                           )}
                         </button>
                       ))}
@@ -345,7 +384,7 @@ export default function ProductDetailPage() {
                     <button
                       onClick={() => setQuantity(Math.min(getAvailableStock(), quantity + 1))}
                       className="p-2 border border-secondary-600 rounded-md hover:bg-secondary-800 bg-secondary-900 text-secondary-50"
-                      disabled={quantity >= getAvailableStock()}
+                      disabled={quantity >= availableStock || availableStock === 0}
                     >
                       <Plus className="h-4 w-4" />
                     </button>
@@ -359,11 +398,11 @@ export default function ProductDetailPage() {
                 <div className="flex space-x-4 mb-6">
                   <button
                     onClick={handleAddToCart}
-                    disabled={getAvailableStock() === 0}
+                    disabled={availableStock === 0}
                     className="flex-1 bg-primary-500 text-secondary-50 py-3 px-6 rounded-md hover:bg-primary-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
                     <ShoppingCart className="h-5 w-5" />
-                    <span>{getAvailableStock() === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
+                    <span>{availableStock === 0 ? 'Out of Stock' : needsVariantSelection ? 'Select Variant' : 'Add to Cart'}</span>
                   </button>
                   <button
                     onClick={handleWishlistToggle}

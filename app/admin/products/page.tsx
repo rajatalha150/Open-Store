@@ -5,6 +5,8 @@ import AdminLayout from '@/components/AdminLayout'
 import { GripVertical, Plus, Edit, Trash2, X } from 'lucide-react'
 import { getUploadErrorMessage, uploadImageFile } from '@/lib/upload-client'
 import { isValidProductImageUrl, MAX_PRODUCT_IMAGES } from '@/lib/product-images'
+import { MAX_PRODUCT_VARIANTS } from '@/lib/product-variants'
+import type { ProductVariant } from '@/lib/product-variants'
 
 type Product = {
   id: string;
@@ -16,6 +18,7 @@ type Product = {
   category_id: string;
   image_url?: string;
   images?: string[];
+  variants?: ProductVariant[];
   in_stock: boolean;
   category_name?: string;
 };
@@ -38,6 +41,7 @@ export default function AdminProducts() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [productImages, setProductImages] = useState<string[]>([])
+  const [productVariants, setProductVariants] = useState<ProductVariant[]>([])
   const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(null)
   const [dragOverImageIndex, setDragOverImageIndex] = useState<number | null>(null)
 
@@ -58,9 +62,23 @@ export default function AdminProducts() {
     } else {
       setProductImages([])
     }
+    setProductVariants(normalizeEditableVariants(editingProduct?.variants || []))
     setDraggedImageIndex(null)
     setDragOverImageIndex(null)
   }, [editingProduct])
+
+  function normalizeEditableVariants(variants: ProductVariant[]) {
+    return variants
+      .filter((variant) => variant.name && variant.value)
+      .slice(0, MAX_PRODUCT_VARIANTS)
+      .map((variant, index) => ({
+        id: variant.id || index + 1,
+        name: variant.name,
+        value: variant.value,
+        price_modifier: Number(variant.price_modifier || 0),
+        stock_quantity: Math.max(0, Number(variant.stock_quantity || 0)),
+      }))
+  }
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -194,12 +212,92 @@ export default function AdminProducts() {
     reorderProductImages(index, 0)
   }
 
+  const handleAddVariant = () => {
+    if (productVariants.length >= MAX_PRODUCT_VARIANTS) {
+      setError(`Maximum ${MAX_PRODUCT_VARIANTS} variants allowed`)
+      return
+    }
+
+    setError('')
+    setProductVariants(prev => [
+      ...prev,
+      {
+        id: Date.now(),
+        name: '',
+        value: '',
+        price_modifier: 0,
+        stock_quantity: editingProduct?.stock_quantity ?? 0,
+      },
+    ])
+  }
+
+  const handleVariantChange = (
+    index: number,
+    field: 'name' | 'value' | 'price_modifier' | 'stock_quantity',
+    value: string
+  ) => {
+    setProductVariants(prev => prev.map((variant, variantIndex) => {
+      if (variantIndex !== index) return variant
+
+      if (field === 'price_modifier') {
+        const parsedValue = Number(value)
+        return { ...variant, price_modifier: value === '' || !Number.isFinite(parsedValue) ? 0 : parsedValue }
+      }
+
+      if (field === 'stock_quantity') {
+        const parsedValue = Number(value)
+        return { ...variant, stock_quantity: value === '' || !Number.isFinite(parsedValue) ? 0 : Math.max(0, parsedValue) }
+      }
+
+      return { ...variant, [field]: value }
+    }))
+  }
+
+  const handleRemoveVariant = (index: number) => {
+    setProductVariants(prev => prev.filter((_, variantIndex) => variantIndex !== index))
+  }
+
+  const getCleanProductVariants = () => {
+    const variantsWithAnyData = productVariants.filter((variant) =>
+      variant.name.trim() ||
+      variant.value.trim() ||
+      Number(variant.price_modifier) !== 0 ||
+      Number(variant.stock_quantity) !== 0
+    )
+
+    const hasIncompleteVariant = variantsWithAnyData.some((variant) =>
+      !variant.name.trim() || !variant.value.trim()
+    )
+
+    if (hasIncompleteVariant) {
+      return { success: false as const, error: 'Each variant needs both an option name and option value.' }
+    }
+
+    return {
+      success: true as const,
+      variants: variantsWithAnyData.slice(0, MAX_PRODUCT_VARIANTS).map((variant, index) => ({
+        id: variant.id || index + 1,
+        name: variant.name.trim(),
+        value: variant.value.trim(),
+        price_modifier: Number(variant.price_modifier || 0),
+        stock_quantity: Math.max(0, Math.floor(Number(variant.stock_quantity || 0))),
+      })),
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setSaving(true)
 
     const formData = new FormData(e.target as HTMLFormElement)
+    const variantsResult = getCleanProductVariants()
+
+    if (!variantsResult.success) {
+      setError(variantsResult.error)
+      setSaving(false)
+      return
+    }
 
     const productData = {
       name: formData.get('name'),
@@ -210,6 +308,7 @@ export default function AdminProducts() {
       category_id: formData.get('category_id') as string, // Keep as string for Firestore
       image_url: productImages.length > 0 ? productImages[0] : (imageUrl || formData.get('image_url')),
       images: productImages,
+      variants: variantsResult.variants,
       in_stock: formData.get('in_stock') === 'on'
     }
 
@@ -261,7 +360,7 @@ export default function AdminProducts() {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-white">Products</h1>
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => { setEditingProduct(null); setShowModal(true) }}
             className="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 flex items-center space-x-2"
           >
             <Plus className="h-4 w-4" />
@@ -289,6 +388,9 @@ export default function AdminProducts() {
                       <div className="ml-4">
                         <div className="text-sm font-medium text-white">{product.name}</div>
                         <div className="text-sm text-secondary-400">{product.description?.substring(0, 50)}...</div>
+                        {product.variants?.length > 0 && (
+                          <div className="text-xs text-primary-300 mt-1">{product.variants.length} variant{product.variants.length === 1 ? '' : 's'}</div>
+                        )}
                       </div>
                     </div>
                   </td>
@@ -321,7 +423,7 @@ export default function AdminProducts() {
 
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div className="bg-secondary-900 rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+            <div className="bg-secondary-900 rounded-lg max-w-3xl w-full p-6 max-h-[90vh] overflow-y-auto">
               <h2 className="text-lg font-semibold text-secondary-100 mb-4">
                 {editingProduct ? 'Edit Product' : 'Add New Product'}
               </h2>
@@ -483,6 +585,88 @@ export default function AdminProducts() {
                   <p className="text-xs text-secondary-500">
                     Drag thumbnails to reorder them. The first image is used as the primary storefront image.
                   </p>
+                </div>
+                <div className="space-y-3 rounded-lg border border-secondary-800 bg-secondary-950 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <label className="block text-sm font-medium text-secondary-200">
+                        Product Variants ({productVariants.length}/{MAX_PRODUCT_VARIANTS})
+                      </label>
+                      <p className="mt-1 text-xs text-secondary-500">
+                        Add options like Size: Large or Color: Black. Customers must choose one value from each option group.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleAddVariant}
+                      disabled={productVariants.length >= MAX_PRODUCT_VARIANTS}
+                      className="shrink-0 rounded bg-primary-500 px-3 py-2 text-sm font-medium text-white hover:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      Add Variant
+                    </button>
+                  </div>
+
+                  {productVariants.length === 0 ? (
+                    <p className="rounded border border-dashed border-secondary-800 p-3 text-sm text-secondary-500">
+                      No variants yet. Leave this empty for a single-option product.
+                    </p>
+                  ) : (
+                    <div className="space-y-3">
+                      {productVariants.map((variant, index) => (
+                        <div key={variant.id || index} className="grid grid-cols-1 gap-2 rounded border border-secondary-800 bg-secondary-900 p-3 md:grid-cols-[1fr_1fr_0.8fr_0.8fr_auto] md:items-end">
+                          <label className="text-xs text-secondary-400">
+                            Option Name
+                            <input
+                              type="text"
+                              value={variant.name}
+                              onChange={(e) => handleVariantChange(index, 'name', e.target.value)}
+                              placeholder="Size"
+                              className="mt-1 w-full rounded border border-secondary-700 bg-secondary-800 p-2 text-sm text-secondary-100 placeholder-secondary-500"
+                            />
+                          </label>
+                          <label className="text-xs text-secondary-400">
+                            Option Value
+                            <input
+                              type="text"
+                              value={variant.value}
+                              onChange={(e) => handleVariantChange(index, 'value', e.target.value)}
+                              placeholder="Large"
+                              className="mt-1 w-full rounded border border-secondary-700 bg-secondary-800 p-2 text-sm text-secondary-100 placeholder-secondary-500"
+                            />
+                          </label>
+                          <label className="text-xs text-secondary-400">
+                            Price Adjustment
+                            <input
+                              type="number"
+                              step="0.01"
+                              value={variant.price_modifier}
+                              onChange={(e) => handleVariantChange(index, 'price_modifier', e.target.value)}
+                              placeholder="0.00"
+                              className="mt-1 w-full rounded border border-secondary-700 bg-secondary-800 p-2 text-sm text-secondary-100 placeholder-secondary-500"
+                            />
+                          </label>
+                          <label className="text-xs text-secondary-400">
+                            Variant Stock
+                            <input
+                              type="number"
+                              min="0"
+                              value={variant.stock_quantity}
+                              onChange={(e) => handleVariantChange(index, 'stock_quantity', e.target.value)}
+                              placeholder="0"
+                              className="mt-1 w-full rounded border border-secondary-700 bg-secondary-800 p-2 text-sm text-secondary-100 placeholder-secondary-500"
+                            />
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveVariant(index)}
+                            className="rounded bg-red-500/20 px-3 py-2 text-sm text-red-200 hover:bg-red-500/30"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <label className="flex items-center">
                   <input

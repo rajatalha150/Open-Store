@@ -7,6 +7,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { useCart } from '@/contexts/CartContext'
 import { Heart, ArrowLeft, ShoppingCart, Star, Trash2 } from 'lucide-react'
+import type { ProductVariant } from '@/lib/product-variants'
 
 interface WishlistItem {
   id: number
@@ -17,6 +18,7 @@ interface WishlistItem {
   rating: number
   reviews_count: number
   stock_quantity?: number
+  variants?: ProductVariant[]
   created_at: string
 }
 
@@ -64,6 +66,11 @@ export default function WishlistPage() {
   }
 
   const addToCart = (item: WishlistItem) => {
+    if (item.variants?.length) {
+      router.push(`/product/${item.product_id}`)
+      return
+    }
+
     dispatch({
       type: 'ADD_ITEM',
       payload: {
@@ -162,7 +169,7 @@ export default function WishlistPage() {
                       className="w-full bg-primary-500 hover:bg-primary-600 text-white py-2 px-2 sm:px-4 rounded-lg font-medium transition-colors flex items-center justify-center space-x-1 sm:space-x-2 shadow-lg shadow-primary-500/20 text-xs sm:text-base"
                     >
                       <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span>Add to Cart</span>
+                      <span>{item.variants?.length ? 'Choose Options' : 'Add to Cart'}</span>
                     </button>
                   </div>
                 </div>

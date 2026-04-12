@@ -17,12 +17,12 @@ export default function Cart({ isOpen, onClose }: CartProps) {
   const [isApplying, setIsApplying] = useState(false)
   const [isApplied, setIsApplied] = useState(false)
 
-  const updateQuantity = (id: number, quantity: number) => {
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } })
+  const updateQuantity = (cartKey: string, quantity: number) => {
+    dispatch({ type: 'UPDATE_QUANTITY', payload: { cartKey, quantity } })
   }
 
-  const removeItem = (id: number) => {
-    dispatch({ type: 'REMOVE_ITEM', payload: id })
+  const removeItem = (cartKey: string) => {
+    dispatch({ type: 'REMOVE_ITEM', payload: cartKey })
   }
 
   const applyCoupon = async () => {
@@ -93,7 +93,7 @@ export default function Cart({ isOpen, onClose }: CartProps) {
             ) : (
               <div className="space-y-6">
                 {state.items.map((item) => (
-                  <div key={item.id} className="flex items-center space-x-4 border-b border-secondary-800 pb-6 group">
+                  <div key={item.cartKey} className="flex items-center space-x-4 border-b border-secondary-800 pb-6 group">
                     <img
                       src={item.image_url}
                       alt={item.name}
@@ -101,26 +101,29 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                     />
                     <div className="flex-1 min-w-0">
                       <h3 className="text-base font-medium text-white truncate pr-4">{item.name}</h3>
+                      {item.variantLabel && (
+                        <p className="text-xs text-secondary-400 mb-1">{item.variantLabel}</p>
+                      )}
                       <p className="text-sm text-primary-400 mb-2">${typeof item.price === 'number' ? item.price.toFixed(2) : parseFloat(item.price).toFixed(2)}</p>
 
                       <div className="flex items-center space-x-3">
                         <div className="flex items-center bg-secondary-900 rounded-lg border border-secondary-800">
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.cartKey, item.quantity - 1)}
                             className="p-1.5 text-secondary-400 hover:text-white transition-colors"
                           >
                             <Minus className="h-3 w-3" />
                           </button>
                           <span className="px-2 text-sm text-white font-medium min-w-[1.5rem] text-center">{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.cartKey, item.quantity + 1)}
                             className="p-1.5 text-secondary-400 hover:text-white transition-colors"
                           >
                             <Plus className="h-3 w-3" />
                           </button>
                         </div>
                         <button
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => removeItem(item.cartKey)}
                           className="text-xs text-red-500 hover:text-red-400 underline decoration-red-500/30 hover:decoration-red-400 transition-colors"
                         >
                           Remove

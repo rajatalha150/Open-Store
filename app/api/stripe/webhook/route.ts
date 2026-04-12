@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
             // Update Inventory
             for (const item of orderItems) {
               if (item.product_id) {
-                await decrementStock(item.product_id, item.quantity);
+                await decrementStock(item.product_id, item.quantity, item.variant_details);
               }
             }
 

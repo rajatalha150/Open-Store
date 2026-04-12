@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useCart } from '@/contexts/CartContext'
 import { useComparison } from '@/contexts/ComparisonContext'
 import { Star, ShoppingCart, Heart, Eye, MinusCircle, PlusCircle, Check } from 'lucide-react'
+import type { ProductVariant } from '@/lib/product-variants'
 
 interface Product {
   id: number
@@ -17,6 +18,7 @@ interface Product {
   image_url: string
   stock_quantity: number
   in_stock?: boolean
+  variants?: ProductVariant[]
 }
 
 interface ProductCardProps {
@@ -33,9 +35,16 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const isInComparison = comparisonState.items.some(item => item.id === product.id)
   const isOutOfStock = (product.stock_quantity === 0) || (product.in_stock === false)
+  const hasVariants = Boolean(product.variants?.length)
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
+
+    if (hasVariants) {
+      window.location.href = `/product/${product.id}`
+      return
+    }
+
     dispatch({
       type: 'ADD_ITEM',
       payload: {
@@ -216,7 +225,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             className="flex-1 bg-primary-500 text-secondary-950 hover:bg-primary-400 active:bg-primary-600 shadow-lg shadow-primary-500/20 uppercase tracking-wide font-bold py-2 px-2 sm:px-4 rounded-lg text-xs sm:text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-1 sm:space-x-2 touch-manipulation"
           >
             <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="truncate">{isOutOfStock ? 'Out of Stock' : 'Add to Cart'}</span>
+            <span className="truncate">{isOutOfStock ? 'Out of Stock' : hasVariants ? 'Choose Options' : 'Add to Cart'}</span>
           </button>
           <button
             onClick={handleCompareToggle}

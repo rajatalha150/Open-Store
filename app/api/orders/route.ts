@@ -1,6 +1,40 @@
 import { sql } from '@/lib/db-pool';
 import { NextRequest, NextResponse } from 'next/server'
 import { emailService } from '@/lib/email';
+import { getVariantSelectionLabel, normalizeProductVariants } from '@/lib/product-variants';
+
+let ensureOrderItemVariantDetailsColumnPromise: Promise<void> | null = null;
+
+async function ensureOrderItemVariantDetailsColumn() {
+  if (!ensureOrderItemVariantDetailsColumnPromise) {
+    ensureOrderItemVariantDetailsColumnPromise = sql`
+      ALTER TABLE order_items ADD COLUMN IF NOT EXISTS variant_details JSONB
+    `.then(() => undefined).catch((error) => {
+      ensureOrderItemVariantDetailsColumnPromise = null;
+      throw error;
+    });
+  }
+
+  await ensureOrderItemVariantDetailsColumnPromise;
+}
+
+function getOrderItemVariantDetails(item: any) {
+  const selectedVariants = normalizeProductVariants(item.selectedVariants || item.variant_details?.selected_variants);
+
+  if (selectedVariants.length === 0) {
+    return null;
+  }
+
+  return {
+    label: item.variantLabel || item.variant_details?.label || getVariantSelectionLabel(selectedVariants),
+    selected_variants: selectedVariants,
+  };
+}
+
+function getOrderItemDisplayName(item: any) {
+  const variantDetails = getOrderItemVariantDetails(item);
+  return variantDetails?.label ? `${item.name} (${variantDetails.label})` : item.name;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,6 +44,8 @@ export async function POST(request: NextRequest) {
     if (!customer_name || !customer_email || !items || !total_amount) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
+
+    await ensureOrderItemVariantDetailsColumn();
 
     const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
 
@@ -23,9 +59,10 @@ export async function POST(request: NextRequest) {
 
     // Insert order items
     for (const item of items) {
+      const variantDetails = getOrderItemVariantDetails(item);
       await sql`
-        INSERT INTO order_items (order_id, product_id, quantity, price)
-        VALUES (${orderId}, ${item.id}, ${item.quantity}, ${item.price})
+        INSERT INTO order_items (order_id, product_id, quantity, price, variant_details)
+        VALUES (${orderId}, ${item.id}, ${item.quantity}, ${item.price}, ${variantDetails ? JSON.stringify(variantDetails) : null}::jsonb)
       `;
     }
 
@@ -39,7 +76,7 @@ export async function POST(request: NextRequest) {
       discountAmount: discount_amount,
       couponCode: coupon_code,
       items: items.map((item: any) => ({
-        name: item.name,
+        name: getOrderItemDisplayName(item),
         quantity: item.quantity,
         price: item.price
       })),
@@ -52,7 +89,10 @@ export async function POST(request: NextRequest) {
       order_number: orderNumber,
       customer_name,
       customer_email,
-      items,
+      items: items.map((item: any) => ({
+        ...item,
+        name: getOrderItemDisplayName(item),
+      })),
       subtotal,
       total_amount,
       discount_amount,

@@ -3,6 +3,21 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
+let ensureProductVariantsColumnPromise: Promise<void> | null = null;
+
+async function ensureProductVariantsColumn() {
+  if (!ensureProductVariantsColumnPromise) {
+    ensureProductVariantsColumnPromise = sql`
+      ALTER TABLE products ADD COLUMN IF NOT EXISTS variants JSONB DEFAULT '[]'::jsonb
+    `.then(() => undefined).catch((error) => {
+      ensureProductVariantsColumnPromise = null;
+      throw error;
+    });
+  }
+
+  await ensureProductVariantsColumnPromise;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
@@ -11,9 +26,10 @@ export async function GET(request: NextRequest) {
     }
 
     const userId = parseInt(session.user.id);
+    await ensureProductVariantsColumn();
 
     const items = await sql`
-      SELECT w.id, w.product_id, w.added_at as created_at, p.name, p.price, p.image_url, p.rating, p.reviews_count
+      SELECT w.id, w.product_id, w.added_at as created_at, p.name, p.price, p.image_url, p.rating, p.reviews_count, p.stock_quantity, p.variants
       FROM wishlist w
       LEFT JOIN products p ON w.product_id = p.id
       WHERE w.user_id = ${userId}

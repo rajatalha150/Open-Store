@@ -524,7 +524,7 @@ export default function CheckoutPage() {
 
                 <div className="space-y-4 mb-6">
                   {state.items.map((item) => (
-                    <div key={item.id} className="flex items-center space-x-4">
+                    <div key={item.cartKey} className="flex items-center space-x-4">
                       <div className="relative">
                         <img
                           src={item.image_url}
@@ -537,6 +537,9 @@ export default function CheckoutPage() {
                       </div>
                       <div className="flex-1">
                         <h3 className="text-sm font-medium text-white line-clamp-2">{item.name}</h3>
+                        {item.variantLabel && (
+                          <p className="text-xs text-secondary-500 mt-1">{item.variantLabel}</p>
+                        )}
                         <p className="text-xs text-secondary-400 mt-1">${typeof item.price === 'number' ? item.price.toFixed(2) : parseFloat(item.price).toFixed(2)} each</p>
                       </div>
                       <div className="text-sm font-medium text-white">
